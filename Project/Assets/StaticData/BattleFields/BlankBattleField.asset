@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b86fbd8169ec04e87d1d6ad0812a73, type: 3}
+  m_Name: BlankBattleField
+  m_EditorClassIdentifier: 
+  Id: 0
+  Prefab: {fileID: 4900008572539539474, guid: a292088e88dfb38499e0e7b3932a22a3, type: 3}
