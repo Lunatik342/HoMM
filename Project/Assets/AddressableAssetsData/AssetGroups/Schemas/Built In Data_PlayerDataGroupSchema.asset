@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b86fbd8169ec04e87d1d6ad0812a73, type: 3}
-  m_Name: BlankBattleField
+  m_Script: {fileID: 11500000, guid: b1487f5d688e4f94f828f879d599dbdc, type: 3}
+  m_Name: Built In Data_PlayerDataGroupSchema
   m_EditorClassIdentifier: 
-  _id: 0
-  _viewGameObjectReference:
-    m_AssetGUID: 95fa829a22681794e9c6323eac995b6b
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  _size: 0
+  m_Group: {fileID: 11400000, guid: 0ce5bc167bad9824da3ba36de1c37367, type: 2}
+  m_IncludeResourcesFolders: 1
+  m_IncludeBuildSettingsScenes: 1
