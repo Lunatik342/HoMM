@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RogueSharp.MapCreation;
 
 namespace RogueSharp
 {
@@ -26,46 +25,6 @@ namespace RogueSharp
       public Map( int width, int height )
       : base( width, height )
       {
-      }
-
-      /// <summary>
-      /// Static factory method which creates a new Map using the specified IMapCreationStrategy
-      /// </summary>
-      /// <remarks>
-      /// Several classes implementing IMapCreationStrategy are included with RogueSharp but they are very basic
-      /// It recommended that you create your own class implementing this interface to create more interesting Maps
-      /// </remarks>
-      /// <param name="mapCreationStrategy">A class that implements IMapCreationStrategy and has CreateMap method which defines algorithms for creating interesting Maps</param>
-      /// <returns>Map created by calling CreateMap from the specified IMapCreationStrategy</returns>
-      /// <exception cref="ArgumentNullException">Thrown on null map creation strategy</exception>
-      public static TMap Create<TMap>( IMapCreationStrategy<TMap> mapCreationStrategy ) where TMap : IMap<Cell>
-      {
-         if ( mapCreationStrategy == null )
-         {
-            throw new ArgumentNullException( nameof( mapCreationStrategy ), "Map creation strategy cannot be null" );
-         }
-
-         return mapCreationStrategy.CreateMap();
-      }
-
-      /// <summary>
-      /// Static factory method which creates a new Map using the specified IMapCreationStrategy
-      /// </summary>
-      /// <remarks>
-      /// Several classes implementing IMapCreationStrategy are included with RogueSharp but they are very basic
-      /// It recommended that you create your own class implementing this interface to create more interesting Maps
-      /// </remarks>
-      /// <param name="mapCreationStrategy">A class that implements IMapCreationStrategy and has CreateMap method which defines algorithms for creating interesting Maps</param>
-      /// <returns>Map created by calling CreateMap from the specified IMapCreationStrategy</returns>
-      /// <exception cref="ArgumentNullException">Thrown on null map creation strategy</exception>
-      public static TMap Create<TMap, TCell>( IMapCreationStrategy<TMap, TCell> mapCreationStrategy ) where TMap : IMap<TCell> where TCell : ICell
-      {
-         if ( mapCreationStrategy == null )
-         {
-            throw new ArgumentNullException( nameof( mapCreationStrategy ), "Map creation strategy cannot be null" );
-         }
-
-         return mapCreationStrategy.CreateMap();
       }
    }
 
