@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RogueSharp
 {
    /// <summary>
-   /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability, transparency and so on
+   /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability and so on
    /// The upper left corner of the Map is Cell (0,0) and the X value increases to the right, as the Y value increases downward
    /// </summary>
    public interface IMap : IMap<Cell>
@@ -12,7 +12,7 @@ namespace RogueSharp
    }
 
    /// <summary>
-   /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability, transparency and so on
+   /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability and so on
    /// The upper left corner of the Map is Cell (0,0) and the X value increases to the right, as the Y value increases downward
    /// </summary>
    public interface IMap<TCell> where TCell : ICell
@@ -60,24 +60,10 @@ namespace RogueSharp
       void Initialize( int width, int height );
 
       /// <summary>
-      /// Get the transparency of the Cell i.e. if line of sight would be blocked by this Cell
-      /// </summary>
-      /// <example>
-      /// A Cell representing an empty stone floor would be transparent
-      /// A Cell representing a glass wall could be transparent (even though it may not be walkable)
-      /// A Cell representing a solid stone wall would not be transparent
-      /// </example>
-      /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
-      /// <param name="y">Y location of the Cell to check, starting with 0 as the top</param>
-      /// <returns>True if line-of-sight is not blocked by this Cell, false otherwise</returns>
-      bool IsTransparent( int x, int y );
-
-      /// <summary>
       /// Get the walkability of the Cell i.e. if a character could normally move across the Cell without difficulty
       /// </summary>
       /// <example>
       /// A Cell representing an empty stone floor would be walkable
-      /// A Cell representing a glass wall may not be walkable (even though it could be transparent)
       /// A Cell representing a solid stone wall would not be walkable
       /// </example>
       /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
@@ -93,21 +79,19 @@ namespace RogueSharp
       /// </remarks>
       /// <param name="x">X location of the Cell to set properties on, starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell to set properties on, starting with 0 as the top</param>
-      /// <param name="isTransparent">True if line-of-sight is not blocked by this Cell. False otherwise</param>
       /// <param name="isWalkable">True if a character could walk across the Cell normally. False otherwise</param>
-      void SetCellProperties( int x, int y, bool isTransparent, bool isWalkable );
+      void SetCellProperties( int x, int y, bool isWalkable );
 
       /// <summary>
-      /// Sets the properties of all Cells in the Map to be transparent and walkable
+      /// Sets the properties of all Cells in the Map to be walkable
       /// </summary>
       void Clear();
 
       /// <summary>
       /// Sets the properties of all Cells in the Map to the specified values
       /// </summary>
-      /// <param name="isTransparent">Optional parameter defaults to false if not provided. True if line-of-sight is not blocked by this Cell. False otherwise</param>
       /// <param name="isWalkable">Optional parameter defaults to false if not provided. True if a character could walk across the Cell normally. False otherwise</param>
-      void Clear( bool isTransparent, bool isWalkable );
+      void Clear( bool isWalkable );
 
       /// <summary>
       /// Create and return a deep copy of an existing Map
@@ -254,10 +238,8 @@ namespace RogueSharp
 
       /// <summary>
       /// Provides a simple visual representation of the map using the following symbols:
-      /// - `.`: `Cell` is transparent and walkable
-      /// - `s`: `Cell` is walkable (but not transparent)
-      /// - `o`: `Cell` is transparent (but not walkable)
-      /// - `#`: `Cell` is not transparent or walkable
+      /// - `s`: `Cell` is walkable
+      /// - `#`: `Cell` is not walkable
       /// </summary>
       /// <returns>A string representation of the map using special symbols to denote Cell properties</returns>
       string ToString();
@@ -317,11 +299,7 @@ namespace RogueSharp
          /// <summary>
          /// A character could normally walk across the Cell without difficulty
          /// </summary>
-         Walkable = 1,
-         /// <summary>
-         /// There is a clear line-of-sight through this Cell
-         /// </summary>
-         Transparent = 2
+         Walkable = 1
       }
 
       /// <summary>

@@ -5,7 +5,7 @@ using System.Text;
 namespace RogueSharp
 {
    /// <summary>
-   /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability, transparency and so on
+   /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability and so on
    /// The upper left corner of the Map is Cell (0,0) and the X value increases to the right, as the Y value increases downward
    /// </summary>
    public class Map : Map<Cell>, IMap
@@ -119,27 +119,10 @@ namespace RogueSharp
       }
 
       /// <summary>
-      /// Get the transparency of the Cell i.e. if line of sight would be blocked by this Cell
-      /// </summary>
-      /// <example>      
-      /// A Cell representing an empty stone floor would be transparent 
-      /// A Cell representing a glass wall could be transparent (even though it may not be walkable)
-      /// A Cell representing a solid stone wall would not be transparent
-      /// </example>
-      /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
-      /// <param name="y">Y location of the Cell to check, starting with 0 as the top</param>
-      /// <returns>True if line-of-sight is not blocked by this Cell, false otherwise</returns>
-      public bool IsTransparent( int x, int y )
-      {
-         return _cells[x, y].IsTransparent;
-      }
-
-      /// <summary>
       /// Get the walkability of the Cell i.e. if a character could normally move across the Cell without difficulty
       /// </summary>
       /// <example>      
       /// A Cell representing an empty stone floor would be walkable
-      /// A Cell representing a glass wall may not be walkable (even though it could be transparent)
       /// A Cell representing a solid stone wall would not be walkable
       /// </example>
       /// <param name="x">X location of the Cell to check starting with 0 as the farthest left</param>
@@ -155,32 +138,29 @@ namespace RogueSharp
       /// </summary>
       /// <param name="x">X location of the Cell to set properties on, starting with 0 as the farthest left</param>
       /// <param name="y">Y location of the Cell to set properties on, starting with 0 as the top</param>
-      /// <param name="isTransparent">True if line-of-sight is not blocked by this Cell. False otherwise</param>
       /// <param name="isWalkable">True if a character could walk across the Cell normally. False otherwise</param>
-      public virtual void SetCellProperties( int x, int y, bool isTransparent, bool isWalkable )
+      public virtual void SetCellProperties( int x, int y, bool isWalkable )
       {
-         _cells[x, y].IsTransparent = isTransparent;
          _cells[x, y].IsWalkable = isWalkable;
       }
 
       /// <summary>
-      /// Sets the properties of all Cells in the Map to be transparent and walkable
+      /// Sets the properties of all Cells in the Map to be walkable
       /// </summary>
       public virtual void Clear()
       {
-         Clear( true, true );
+         Clear( true );
       }
 
       /// <summary>
       /// Sets the properties of all Cells in the Map to the specified values
       /// </summary>
-      /// <param name="isTransparent">Optional parameter defaults to true if not provided. True if line-of-sight is not blocked by this Cell. False otherwise</param>
       /// <param name="isWalkable">Optional parameter defaults to true if not provided. True if a character could walk across the Cell normally. False otherwise</param>
-      public virtual void Clear( bool isTransparent, bool isWalkable )
+      public virtual void Clear(bool isWalkable )
       {
          foreach ( TCell cell in GetAllCells() )
          {
-            SetCellProperties( cell.X, cell.Y, isTransparent, isWalkable );
+            SetCellProperties( cell.X, cell.Y, isWalkable );
          }
       }
 
@@ -193,11 +173,11 @@ namespace RogueSharp
       {
          var map = new TMap();
          map.Initialize( Width, Height );
-         map.Clear( true, true );
+         map.Clear( true );
 
          foreach ( TCell cell in GetAllCells() )
          {
-            map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable );
+            map.SetCellProperties( cell.X, cell.Y, cell.IsWalkable );
          }
          return map;
       }
@@ -236,7 +216,7 @@ namespace RogueSharp
          }
          foreach ( TCell cell in sourceMap.GetAllCells() )
          {
-            SetCellProperties( cell.X + left, cell.Y + top, cell.IsTransparent, cell.IsWalkable );
+            SetCellProperties( cell.X + left, cell.Y + top, cell.IsWalkable );
          }
       }
 
@@ -715,10 +695,8 @@ namespace RogueSharp
 
       /// <summary>
       /// Provides a simple visual representation of the map using the following symbols:
-      /// - `.`: `Cell` is transparent and walkable
-      /// - `s`: `Cell` is walkable (but not transparent)
-      /// - `o`: `Cell` is transparent (but not walkable)
-      /// - `#`: `Cell` is not transparent or walkable
+      /// - `s`: `Cell` is walkable
+      /// - `#`: `Cell` is not walkable
       /// </summary>
       /// <returns>A string representation of the map using special symbols to denote Cell properties</returns>
       public override string ToString()
@@ -754,10 +732,6 @@ namespace RogueSharp
          foreach ( TCell cell in GetAllCells() )
          {
             MapState.CellProperties cellProperties = MapState.CellProperties.None;
-            if ( cell.IsTransparent )
-            {
-               cellProperties |= MapState.CellProperties.Transparent;
-            }
             if ( cell.IsWalkable )
             {
                cellProperties |= MapState.CellProperties.Walkable;
@@ -784,7 +758,6 @@ namespace RogueSharp
          {
             MapState.CellProperties cellProperties = state.Cells[( cell.Y * Width ) + cell.X];
 
-            _cells[cell.X, cell.Y].IsTransparent = cellProperties.HasFlag( MapState.CellProperties.Transparent );
             _cells[cell.X, cell.Y].IsWalkable = cellProperties.HasFlag( MapState.CellProperties.Walkable );
          }
       }
