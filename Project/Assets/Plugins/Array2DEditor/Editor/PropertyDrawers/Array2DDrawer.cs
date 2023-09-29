@@ -237,11 +237,7 @@ namespace Array2DEditor
             {
                 for (var x = 0; x < gridSizeProperty.vector2IntValue.x; x++)
                 {
-                    var pos = new Rect(cellRect)
-                    {
-                        x = cellRect.x + (cellRect.width + cellSpacing.x) * x,
-                        y = cellRect.y + (cellRect.height + cellSpacing.y) * y
-                    };
+                    var pos = GetDisplayPosition(cellRect, x, y);
 
                     var property = GetRowAt(y).GetArrayElementAtIndex(x);
 
@@ -260,7 +256,17 @@ namespace Array2DEditor
                 }
             }
         }
-        
+
+        protected virtual Rect GetDisplayPosition(Rect cellRect, int x, int y)
+        {
+            var pos = new Rect(cellRect)
+            {
+                x = cellRect.x + (cellRect.width + cellSpacing.x) * x,
+                y = cellRect.y + (cellRect.height + cellSpacing.y) * y
+            };
+            return pos;
+        }
+
         private SerializedProperty GetRowAt(int idx)
         {
             return cellsProperty.GetArrayElementAtIndex(idx).FindPropertyRelative("row");

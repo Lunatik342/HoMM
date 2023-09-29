@@ -1,6 +1,6 @@
-using Battle.BattleField;
-using Battle.BattleField.Cells;
-using Battle.BattleField.Pathfinding;
+using Battle.BattleArena;
+using Battle.BattleArena.Pathfinding;
+using Battle.BattleArena.StaticData;
 using UnityEditor.VersionControl;
 using Zenject;
 using Task = System.Threading.Tasks.Task;
@@ -32,7 +32,7 @@ namespace Battle
 
         private async Task StartBattle()
         {
-            var targetBattleFieldId = BattleFieldId.Blank;
+            var targetBattleFieldId = BattleArenaId.Blank;
             
             await _battleFieldFactory.SpawnBattleField(targetBattleFieldId);
             _pathfindingMapFactory.CreatePathfindingGrid(targetBattleFieldId);

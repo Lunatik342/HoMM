@@ -500,8 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: cc9cf3e7d5abfe74ca364005d5e212ad, type: 2}
+  _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 130976995}
   - {fileID: 1183555570}
@@ -583,6 +582,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6653c9e264cfd0446bc5540c098c5c00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _battleArenasStaticData:
+  - {fileID: 11400000, guid: 134e1c43dadf37148b488a7403b8b025, type: 2}
+  _obstaclesStaticData:
+  - {fileID: 11400000, guid: 4c73764d4ec6ec9458dfc2b62ed6673b, type: 2}
+  - {fileID: 11400000, guid: 69c4880face93b4459190791922a695c, type: 2}
+  - {fileID: 11400000, guid: 1d0b0d6c3c02be949be12f5fcd16a009, type: 2}
+  _cellView: {fileID: -1993129912916753401, guid: 687d5d408459b0a4bb0e2488fcf303a7,
+    type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
