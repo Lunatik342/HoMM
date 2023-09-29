@@ -1,5 +1,6 @@
 using Battle.BattleField;
 using Battle.BattleField.Cells;
+using Battle.BattleField.Pathfinding;
 using UnityEditor.VersionControl;
 using Zenject;
 using Task = System.Threading.Tasks.Task;
@@ -9,12 +10,19 @@ namespace Battle
     public class BattleStarter: IInitializable
     {
         private readonly BattleFieldFactory _battleFieldFactory;
-        private readonly BattleFieldStaticDataService _staticDataService;
+        private readonly PathfindingMapFactory _pathfindingMapFactory;
+        private readonly RandomObstaclesFactory _randomObstaclesFactory;
+        private readonly PathfindingService _pathfindingService;
 
-        public BattleStarter(BattleFieldFactory battleFieldFactory, BattleFieldStaticDataService staticDataService)
+        public BattleStarter(BattleFieldFactory battleFieldFactory, 
+            PathfindingMapFactory pathfindingMapFactory,
+            RandomObstaclesFactory randomObstaclesFactory,
+            PathfindingService pathfindingService)
         {
             _battleFieldFactory = battleFieldFactory;
-            _staticDataService = staticDataService;
+            _pathfindingMapFactory = pathfindingMapFactory;
+            _randomObstaclesFactory = randomObstaclesFactory;
+            _pathfindingService = pathfindingService;
         }
 
         public async void Initialize()
@@ -27,6 +35,9 @@ namespace Battle
             var targetBattleFieldId = BattleFieldId.Blank;
             
             await _battleFieldFactory.SpawnBattleField(targetBattleFieldId);
+            _pathfindingMapFactory.CreatePathfindingGrid(targetBattleFieldId);
+            _randomObstaclesFactory.SpawnRandomObstacles();
+            _pathfindingService.Test();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Battle.BattleField
         private readonly BattleFieldCellView _cellViewPrefab;
 
         private GameObject _battleFieldView;
-        private BattleFieldCellView[,] _cellViews;
+        public BattleFieldCellView[,] CellViews { get; private set; }
 
         public BattleFieldFactory(BattleFieldStaticDataService staticDataService, AssetsLoadingService assetsLoadingService, 
             BattleFieldCellView cellViewPrefab)
@@ -42,7 +42,7 @@ namespace Battle.BattleField
             var size = battleFieldStaticData.Size;
             var cellsParent = new GameObject("CellViews");
             
-            _cellViews = new BattleFieldCellView[size.x, size.y];
+            CellViews = new BattleFieldCellView[size.x, size.y];
 
             for (int i = 0; i < size.x; i++)
             {
@@ -50,7 +50,7 @@ namespace Battle.BattleField
                 {
                     var heightAboveGround = 0.05f;
                     var createdCell = Object.Instantiate(_cellViewPrefab, new Vector3(i, heightAboveGround, j), Quaternion.identity, cellsParent.transform);
-                    _cellViews[i, j] = createdCell;
+                    CellViews[i, j] = createdCell;
                 }
             }
         }

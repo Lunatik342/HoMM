@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 namespace Battle.BattleField
 {
-    [CreateAssetMenu(fileName = "BattleFieldStaticData", menuName = "StaticData/BattleFieldView")]
+    [CreateAssetMenu(fileName = "BattleFieldStaticData", menuName = "StaticData/BattleField")]
     public class BattleFieldStaticData : ScriptableObject
     {
         [SerializeField] private BattleFieldId _id;
