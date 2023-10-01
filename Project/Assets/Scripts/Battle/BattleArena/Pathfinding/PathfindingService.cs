@@ -5,10 +5,10 @@ namespace Battle.BattleArena.Pathfinding
 {
     public class PathfindingService
     {
-        private readonly BattleFieldCellsDisplayService _cellsDisplayService;
+        private readonly BattleArenaCellsDisplayService _cellsDisplayService;
         private readonly PathfindingMapFactory _pathfindingMapFactory;
 
-        public PathfindingService(PathfindingMapFactory pathfindingMapFactory,BattleFieldCellsDisplayService cellsDisplayService)
+        public PathfindingService(PathfindingMapFactory pathfindingMapFactory,BattleArenaCellsDisplayService cellsDisplayService)
         {
             _pathfindingMapFactory = pathfindingMapFactory;
             _cellsDisplayService = cellsDisplayService;

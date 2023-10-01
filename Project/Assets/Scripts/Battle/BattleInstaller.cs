@@ -1,4 +1,4 @@
-using Infrastructure.AssetManagement;
+using Battle.BattleArena.StaticData;
 using Zenject;
 
 namespace Battle
@@ -7,8 +7,10 @@ namespace Battle
     {
         public override void InstallBindings()
         {
+            var testBattleStartParameters = new BattleStartParameters(BattleArenaId.Blank);
+            
+            Container.Bind<BattleStartParameters>().FromInstance(testBattleStartParameters).AsSingle();
             Container.BindInterfacesAndSelfTo<BattleStarter>().AsSingle().NonLazy();
-            Container.BindInterfacesAndSelfTo<AssetsLoadingService>().AsSingle().NonLazy();
         }
     }
 }

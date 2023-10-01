@@ -1,8 +1,9 @@
 using UnityEngine;
+using Zenject;
 
 namespace Battle.BattleArena.Cells
 {
-    public class BattleFieldCellView: MonoBehaviour
+    public class BattleArenaCellView: MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _ornament;
         [SerializeField] private SpriteRenderer _background;
@@ -23,6 +24,12 @@ namespace Battle.BattleArena.Cells
         {
             gameObject.SetActive(true);
             _background.color = new Color(1, 0, 0, 0.5f);
+        }
+        
+        
+        public class Factory: PlaceholderFactory<BattleArenaCellView>
+        {
+            
         }
     }
 }

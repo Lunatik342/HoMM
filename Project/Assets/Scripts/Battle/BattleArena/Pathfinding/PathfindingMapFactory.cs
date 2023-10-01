@@ -5,20 +5,20 @@ namespace Battle.BattleArena.Pathfinding
 {
     public class PathfindingMapFactory
     {
-        private readonly BattleArenaStaticDataService _battleArenaStaticDataService;
+        private readonly BattleArenaStaticDataProvider _battleArenaStaticDataProvider;
         
         private Map _pathfindingMap;
 
         public Map PathfindingMap => _pathfindingMap;
 
-        public PathfindingMapFactory(BattleArenaStaticDataService battleArenaStaticDataService)
+        public PathfindingMapFactory(BattleArenaStaticDataProvider battleArenaStaticDataProvider)
         {
-            _battleArenaStaticDataService = battleArenaStaticDataService;
+            _battleArenaStaticDataProvider = battleArenaStaticDataProvider;
         }
 
         public void CreatePathfindingGrid(BattleArenaId battleArenaId)
         {
-            var staticData = _battleArenaStaticDataService.ForBattleArena(battleArenaId);
+            var staticData = _battleArenaStaticDataProvider.ForBattleArena(battleArenaId);
             
             _pathfindingMap = new Map(staticData.Size.x, staticData.Size.y);
 

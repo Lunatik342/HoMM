@@ -9,17 +9,17 @@ namespace Battle
 {
     public class BattleStarter: IInitializable
     {
-        private readonly BattleFieldFactory _battleFieldFactory;
+        private readonly BattleFieldViewSpawner _battleFieldViewSpawner;
         private readonly PathfindingMapFactory _pathfindingMapFactory;
         private readonly RandomObstaclesFactory _randomObstaclesFactory;
         private readonly PathfindingService _pathfindingService;
 
-        public BattleStarter(BattleFieldFactory battleFieldFactory, 
+        public BattleStarter(BattleFieldViewSpawner battleFieldViewSpawner, 
             PathfindingMapFactory pathfindingMapFactory,
             RandomObstaclesFactory randomObstaclesFactory,
             PathfindingService pathfindingService)
         {
-            _battleFieldFactory = battleFieldFactory;
+            _battleFieldViewSpawner = battleFieldViewSpawner;
             _pathfindingMapFactory = pathfindingMapFactory;
             _randomObstaclesFactory = randomObstaclesFactory;
             _pathfindingService = pathfindingService;
@@ -34,10 +34,11 @@ namespace Battle
         {
             var targetBattleFieldId = BattleArenaId.Blank;
             
-            await _battleFieldFactory.SpawnBattleField(targetBattleFieldId);
             _pathfindingMapFactory.CreatePathfindingGrid(targetBattleFieldId);
             _randomObstaclesFactory.SpawnRandomObstacles();
             _pathfindingService.Test();
+            
+            await _battleFieldViewSpawner.SpawnBattleField();
         }
     }
 }

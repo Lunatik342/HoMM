@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace Battle.BattleArena.StaticData
 {
-    public class BattleArenaStaticDataService
+    public class BattleArenaStaticDataProvider
     {
         private readonly Dictionary<BattleArenaId, BattleArenaStaticData> _battleArenasData;
         private readonly Dictionary<ObstacleId, ObstacleStaticData> _obstaclesData;
 
-        public BattleArenaStaticDataService(BattleArenaStaticData[] battleArenas, ObstacleStaticData[] obstacles)
+        public BattleArenaStaticDataProvider(BattleArenaStaticData[] battleArenas, ObstacleStaticData[] obstacles)
         {
             _battleArenasData = battleArenas.ToDictionary(s => s.Id);
             _obstaclesData = obstacles.ToDictionary(s => s.Id);

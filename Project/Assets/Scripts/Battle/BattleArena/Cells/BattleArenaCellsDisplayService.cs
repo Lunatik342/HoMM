@@ -2,19 +2,17 @@ using RogueSharp;
 
 namespace Battle.BattleArena.Cells
 {
-    public class BattleFieldCellsDisplayService
+    public class BattleArenaCellsDisplayService
     {
-        private readonly BattleFieldFactory _battleFieldFactory;
+        private readonly BattleArenaCellView[,] _cellsViews;
 
-        public BattleFieldCellsDisplayService(BattleFieldFactory battleFieldFactory)
+        public BattleArenaCellsDisplayService(BattleArenaCellView[,] cellsViews)
         {
-            _battleFieldFactory = battleFieldFactory;
+            _cellsViews = cellsViews;
         }
 
         public void DisplayBattleField(Map map)
         {
-            var cellsViews = _battleFieldFactory.CellViews;
-            
             for (int i = 0; i < map.Width; i++)
             {
                 for (int j = 0; j < map.Height; j++)
@@ -23,11 +21,11 @@ namespace Battle.BattleArena.Cells
 
                     if (cell.IsWalkable)
                     {
-                        cellsViews[i, j].SetReachable();
+                        _cellsViews[i, j].SetReachable();
                     }
                     else
                     {
-                        cellsViews[i, j].SetUnreachable();
+                        _cellsViews[i, j].SetUnreachable();
                     }
                 }
             }
@@ -35,11 +33,9 @@ namespace Battle.BattleArena.Cells
         
         public void DisplayPath(Path path)
         {
-            var cellsViews = _battleFieldFactory.CellViews;
-
             foreach (var cell in path.Steps)
             {
-                cellsViews[cell.X, cell.Y].SetPath();
+                _cellsViews[cell.X, cell.Y].SetPath();
             }
         }
     }
