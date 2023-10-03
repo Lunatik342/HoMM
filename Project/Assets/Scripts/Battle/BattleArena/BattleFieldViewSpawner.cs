@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Battle.BattleArena.Cells;
 using Battle.BattleArena.StaticData;
 using Infrastructure.AssetManagement;
 using Unity.Mathematics;

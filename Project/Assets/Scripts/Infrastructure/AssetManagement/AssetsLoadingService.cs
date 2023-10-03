@@ -7,7 +7,7 @@ namespace Infrastructure.AssetManagement
 {
     public class AssetsLoadingService
     {
-        public async Task<T> InstantiateAsync<T>(AssetReferenceGameObject assetReference, Vector3 position, Quaternion rotation, Transform parent) 
+        public async UniTask<T> InstantiateAsync<T>(AssetReferenceGameObject assetReference, Vector3 position, Quaternion rotation, Transform parent) 
             where T: Component
         {
             var gameObject = await Addressables.InstantiateAsync(assetReference, position, rotation, parent).ToUniTask();

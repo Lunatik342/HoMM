@@ -7,9 +7,15 @@ namespace Battle.BattleArena.StaticData
     {
         private readonly Dictionary<BattleArenaId, BattleArenaStaticData> _battleArenasData;
         private readonly Dictionary<ObstacleId, ObstacleStaticData> _obstaclesData;
+        
+        public ObstaclesGenerationStaticData ObstaclesGenerationRules { get; private set; }
 
-        public BattleArenaStaticDataProvider(BattleArenaStaticData[] battleArenas, ObstacleStaticData[] obstacles)
+        public BattleArenaStaticDataProvider(
+            BattleArenaStaticData[] battleArenas, 
+            ObstacleStaticData[] obstacles, 
+            ObstaclesGenerationStaticData obstaclesGenerationRules)
         {
+            ObstaclesGenerationRules = obstaclesGenerationRules;
             _battleArenasData = battleArenas.ToDictionary(s => s.Id);
             _obstaclesData = obstacles.ToDictionary(s => s.Id);
         }

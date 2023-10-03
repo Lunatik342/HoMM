@@ -1,4 +1,4 @@
-using Battle.BattleArena.Cells;
+using Battle.BattleArena.CellsViews;
 using RogueSharp;
 
 namespace Battle.BattleArena.Pathfinding
@@ -6,20 +6,20 @@ namespace Battle.BattleArena.Pathfinding
     public class PathfindingService
     {
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
-        private readonly PathfindingMapFactory _pathfindingMapFactory;
+        private readonly Map _pathfindingMap;
 
-        public PathfindingService(PathfindingMapFactory pathfindingMapFactory,BattleArenaCellsDisplayService cellsDisplayService)
+        public PathfindingService(BattleArenaCellsDisplayService cellsDisplayService, Map pathfindingMap)
         {
-            _pathfindingMapFactory = pathfindingMapFactory;
             _cellsDisplayService = cellsDisplayService;
+            _pathfindingMap = pathfindingMap;
         }
 
         public void Test()
         {
-            DijkstraPathFinder pathFinder = new DijkstraPathFinder(_pathfindingMapFactory.PathfindingMap, 1.41f);
-            _cellsDisplayService.DisplayBattleField(_pathfindingMapFactory.PathfindingMap);
+            DijkstraPathFinder pathFinder = new DijkstraPathFinder(_pathfindingMap, 1.41f, null);
+            _cellsDisplayService.DisplayBattleField(_pathfindingMap);
 
-            var path = pathFinder.TryFindShortestPath(_pathfindingMapFactory.PathfindingMap[0, 0], _pathfindingMapFactory.PathfindingMap[11, 0]);
+            var path = pathFinder.TryFindShortestPath(_pathfindingMap[0, 0], _pathfindingMap[11, 9]);
             
             if (path != null)
             {
