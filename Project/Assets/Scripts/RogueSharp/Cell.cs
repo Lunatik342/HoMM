@@ -8,12 +8,13 @@ namespace RogueSharp
       public int X { get; set; }
       public int Y { get; set; }
       public bool IsFunctioning { get; set; }
-      public bool IsOccupied => PlacedEntity != null;
-      public IBattleGridPlaceable PlacedEntity { get; private set; }
+      public bool IsOccupiedByObstacle { get; set; }
+      public bool IsOccupiedByEntity => PlacedEntity != null;
+      public BattleMapPlaceable PlacedEntity { get; private set; }
 
-      public bool IsWalkableByEntity(IBattleGridPlaceable placeableEntity)
+      public bool IsWalkableByEntity(BattleMapPlaceable placeableEntity)
       {
-         if (!IsFunctioning)
+         if (!IsFunctioning || IsOccupiedByObstacle)
          {
             return false;
          }
@@ -26,12 +27,12 @@ namespace RogueSharp
          return true;
       }
 
-      public bool CanPlaceEntity(IBattleGridPlaceable placeableEntity)
+      public bool CanPlaceEntity(BattleMapPlaceable placeableEntity)
       {
          return IsWalkableByEntity(placeableEntity);
       }
 
-      public void PlaceEntity(IBattleGridPlaceable placeableEntity)
+      public void PlaceEntity(BattleMapPlaceable placeableEntity)
       {
          if (!CanPlaceEntity(placeableEntity))
          {
@@ -41,19 +42,32 @@ namespace RogueSharp
          PlacedEntity = placeableEntity;
       }
 
+      public void RemoveEntity(BattleMapPlaceable placeableEntity)
+      {
+         if (PlacedEntity == placeableEntity)
+         {
+            PlacedEntity = null;
+         }
+      }
+
       public override string ToString()
       {
          if (!IsFunctioning)
          {
             return " ";
          }
-
-         if (IsOccupied)
+         
+         if (!IsOccupiedByObstacle)
          {
-            return "X";
+            return "■";
+         }
+
+         if (IsOccupiedByEntity)
+         {
+            return "▣";
          }
          
-         return "O";
+         return "□";
       }
    }
 }

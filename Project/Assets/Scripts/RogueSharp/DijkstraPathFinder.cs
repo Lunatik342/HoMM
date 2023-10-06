@@ -18,7 +18,7 @@ namespace RogueSharp
       /// <param name="map">The Map that this PathFinder instance will run shortest path algorithms on</param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<Cell> map , IBattleGridPlaceable pathingAgent )
+      public DijkstraPathFinder( IMap<Cell> map , BattleMapPlaceable pathingAgent )
          : base( map, pathingAgent )
       {
       }
@@ -34,7 +34,7 @@ namespace RogueSharp
       /// </param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<Cell> map, double diagonalCost, IBattleGridPlaceable pathingAgent )
+      public DijkstraPathFinder( IMap<Cell> map, double diagonalCost, BattleMapPlaceable pathingAgent )
          : base( map, diagonalCost, pathingAgent )
       {
       }
@@ -57,7 +57,7 @@ namespace RogueSharp
       /// <param name="map">The Map that this PathFinder instance will run shortest path algorithms on</param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<TCell> map, IBattleGridPlaceable pathingAgent)
+      public DijkstraPathFinder( IMap<TCell> map, BattleMapPlaceable pathingAgent)
       {
          _map = map ?? throw new ArgumentNullException( nameof( map ), "Map cannot be null" );
          _graph = new EdgeWeightedDigraph( _map.Width * _map.Height );
@@ -90,7 +90,7 @@ namespace RogueSharp
       /// </param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<TCell> map, double diagonalCost, IBattleGridPlaceable pathingAgent )
+      public DijkstraPathFinder( IMap<TCell> map, double diagonalCost, BattleMapPlaceable pathingAgent )
       {
          _map = map ?? throw new ArgumentNullException( nameof( map ), "Map cannot be null" );
          _graph = new EdgeWeightedDigraph( _map.Width * _map.Height );

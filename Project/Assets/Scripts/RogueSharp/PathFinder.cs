@@ -79,7 +79,7 @@ namespace RogueSharp
       /// <exception cref="ArgumentNullException">Thrown when source or destination is null</exception>
       /// <exception cref="PathNotFoundException">Thrown when there is not a path from the source to the destination</exception>
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell</returns>
-      public Path ShortestPath( ICell source, ICell destination , IBattleGridPlaceable pathingAgent )
+      public Path ShortestPath( ICell source, ICell destination , BattleMapPlaceable pathingAgent )
       {
          Path shortestPath = TryFindShortestPath( source, destination, pathingAgent );
 
@@ -99,7 +99,7 @@ namespace RogueSharp
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when source or destination is null</exception>
       /// <returns>Returns a shortest Path containing a list of Cells from a specified source Cell to a destination Cell. If no path is found null will be returned</returns>
-      public Path TryFindShortestPath( ICell source, ICell destination , IBattleGridPlaceable pathingAgent )
+      public Path TryFindShortestPath( ICell source, ICell destination , BattleMapPlaceable pathingAgent )
       {
          if ( source == null )
          {

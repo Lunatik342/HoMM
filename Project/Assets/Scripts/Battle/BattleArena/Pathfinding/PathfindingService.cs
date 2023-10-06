@@ -1,5 +1,6 @@
 using Battle.BattleArena.CellsViews;
 using RogueSharp;
+using UnityEngine;
 
 namespace Battle.BattleArena.Pathfinding
 {
@@ -14,17 +15,15 @@ namespace Battle.BattleArena.Pathfinding
             _pathfindingMap = pathfindingMap;
         }
 
-        public void Test()
+        public Path FindPath(Vector2Int targetPosition, BattleMapPlaceable targetEntity)
         {
-            DijkstraPathFinder pathFinder = new DijkstraPathFinder(_pathfindingMap, 1.41f, null);
+            DijkstraPathFinder pathFinder = new DijkstraPathFinder(_pathfindingMap, 1.41f, targetEntity);
             _cellsDisplayService.DisplayBattleField(_pathfindingMap);
 
-            var path = pathFinder.TryFindShortestPath(_pathfindingMap[0, 0], _pathfindingMap[11, 9]);
-            
-            if (path != null)
-            {
-                _cellsDisplayService.DisplayPath(path);
-            }
+            var path = pathFinder.TryFindShortestPath(targetEntity.OccupiedCells[0], _pathfindingMap[targetPosition.x, targetPosition.y]);
+            _cellsDisplayService.DisplayPath(path);
+
+            return path;
         }
     }
 }

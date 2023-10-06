@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Battle.BattleArena.Obstacles;
-using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using RogueSharp;
-using RogueSharp.Factories;
 using UnityEngine;
 using Utilities;
 
@@ -18,6 +16,8 @@ namespace Battle.BattleArena
         private readonly AssetsLoadingService _assetsLoadingService;
         private readonly IObstaclesGenerationStrategy _obstaclesGenerationStrategy;
         private readonly BattleArenaStaticDataProvider _staticDataProvider;
+
+        private List<GameObject> _spawnedObstacles = new();
 
         public ObstaclesSpawner(
             Map pathfindingMap,
@@ -31,7 +31,7 @@ namespace Battle.BattleArena
             _staticDataProvider = staticDataProvider;
         }
 
-        public async UniTask SpawnRandomObstacles()
+        public async UniTask SpawnObstacles()
         {
             var generatedObstaclesData = _obstaclesGenerationStrategy.GetObstacles();
 
@@ -45,10 +45,11 @@ namespace Battle.BattleArena
             await UniTask.WhenAll(obstaclesCreationTasks);
         }
 
-        private UniTask GenerateObstacle(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle)
+        private async UniTask GenerateObstacle(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle)
         {
             var rotatedObstacleLayout = RotateObstacle(rotationAngle, obstacleStaticData);
 
+            //Tries to place an obstacle n times, gives up if not successful (good enough for random generation)
             for (int i = 0; i < _staticDataProvider.ObstaclesGenerationRules.MaxTriesToPlaceObstacleBeforeGivingUp; i++)
             {
                 var gridPosition = _obstaclesGenerationStrategy.GetPositionForObstacle(i, rotatedObstacleLayout);
@@ -56,14 +57,15 @@ namespace Battle.BattleArena
 
                 if (placed)
                 {
-                    return InstantiateView(obstacleStaticData, rotationAngle, gridPosition, rotatedObstacleLayout);
+                    _spawnedObstacles.Add((await InstantiateView(obstacleStaticData, rotationAngle, gridPosition, rotatedObstacleLayout)).gameObject);
+                    break;
                 }
             }
 
-            return UniTask.CompletedTask;
+            await UniTask.CompletedTask;
         }
 
-        private UniTask InstantiateView(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle,
+        private UniTask<Transform> InstantiateView(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle,
             Vector2Int gridPosition, bool[,] rotatedObstacleLayout)
         {
             var obstacleCenter = new Vector2(
@@ -78,7 +80,6 @@ namespace Battle.BattleArena
 
         private bool TryPlacingObstacle(bool[,] obstacleLayout, Vector2Int gridPosition)
         {
-            var testPlaceable = new ObstacleGridPlaceable();
             bool hasEnoughSpaceOnPosition = true;
             
             for (int i = 0; i < obstacleLayout.GetLength(0); i++)
@@ -93,7 +94,7 @@ namespace Battle.BattleArena
                     }
 
                     var gridCell = _pathfindingMap[gridPosition.x + i, gridPosition.y + j];
-                    hasEnoughSpaceOnPosition &= gridCell.CanPlaceEntity(testPlaceable);
+                    hasEnoughSpaceOnPosition &= (gridCell.IsFunctioning && !gridCell.IsOccupiedByObstacle && !gridCell.IsOccupiedByEntity);
                 }
             }
 
@@ -111,7 +112,7 @@ namespace Battle.BattleArena
                         }
 
                         var gridCell = _pathfindingMap[gridPosition.x + i, gridPosition.y + j];
-                        gridCell.PlaceEntity(testPlaceable);
+                        gridCell.IsOccupiedByObstacle = true;
                     }
                 }
             }

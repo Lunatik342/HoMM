@@ -18,6 +18,6 @@ namespace RogueSharp
       /// </summary>
       int Y { get; set; }
 
-      bool IsWalkableByEntity(IBattleGridPlaceable placeableEntity);
+      bool IsWalkableByEntity(BattleMapPlaceable placeableEntity);
    }
 }

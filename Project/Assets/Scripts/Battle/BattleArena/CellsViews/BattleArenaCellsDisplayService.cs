@@ -25,7 +25,7 @@ namespace Battle.BattleArena.CellsViews
                         continue;
                     }
 
-                    if (cell.IsOccupied)
+                    if (cell.IsOccupiedByEntity)
                     {
                         _cellsViews[i, j].SetObstacle();
                         continue;

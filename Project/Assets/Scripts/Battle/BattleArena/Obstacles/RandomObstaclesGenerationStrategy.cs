@@ -108,7 +108,8 @@ namespace Battle.BattleArena.Obstacles
                 else
                 {
                     Debug.LogError($"No obstacle weight in static data for size: {sameSizeObstaclePair.Value}");
-                    obstaclesWeightPool.Add(sameSizeObstaclePair.Value, 5);
+                    var fallbackWeight = 5;
+                    obstaclesWeightPool.Add(sameSizeObstaclePair.Value, fallbackWeight);
                 }
             }
 
@@ -135,7 +136,7 @@ namespace Battle.BattleArena.Obstacles
             {
                 takenRandomObstacles.Add(obstaclesWeightPool.Choose().GetRandomItem(randomGenerator));
             }
-
+            
             return takenRandomObstacles;
         }
     }

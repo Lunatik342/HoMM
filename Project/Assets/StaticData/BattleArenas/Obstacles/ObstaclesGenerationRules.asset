@@ -17,6 +17,6 @@ MonoBehaviour:
     m_values: 0a0000000a0000000a0000000a0000000a0000000500000004000000
   <ObstaclesSizeWeights>k__BackingField:
     m_keys: 010000000200000003000000040000000500000006000000
-    m_values: 0a0000000700000007000000060000000300000003000000
+    m_values: 0a0000000500000005000000060000000300000003000000
   <MaximumOccupiedSpaceByObstacles>k__BackingField: 15
   <MaxTriesToPlaceObstacleBeforeGivingUp>k__BackingField: 20
