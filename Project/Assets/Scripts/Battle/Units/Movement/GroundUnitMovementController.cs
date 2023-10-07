@@ -8,15 +8,18 @@ namespace Battle.Units.Movement
     public class GroundUnitMovementController: IUnitMovementController
     {
         private readonly GameObject _gameObject;
+        private readonly RotationController _rotationController;
 
-        public GroundUnitMovementController(GameObject gameObject)
+        public GroundUnitMovementController(GameObject gameObject, RotationController rotationController)
         {
             _gameObject = gameObject;
+            _rotationController = rotationController;
         }
         
         public async UniTask MoveToPosition(Vector2Int mapPosition)
         {
-            await _gameObject.transform.DOMove(mapPosition.ToBattleArenaWorldPosition(), 0.5f).ToUniTask();
+            _rotationController.SmoothLookAt(mapPosition.ToBattleArenaWorldPosition()).Forget();
+            await _gameObject.transform.DOMove(mapPosition.ToBattleArenaWorldPosition(), 0.25f).SetEase(Ease.Linear).ToUniTask();
         }
     }
 }

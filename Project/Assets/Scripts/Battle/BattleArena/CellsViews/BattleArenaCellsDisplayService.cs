@@ -1,4 +1,5 @@
 using RogueSharp;
+using UnityEngine;
 
 namespace Battle.BattleArena.CellsViews
 {
@@ -42,6 +43,16 @@ namespace Battle.BattleArena.CellsViews
             {
                 _cellsViews[cell.X, cell.Y].SetPath();
             }
+        }
+
+        public void SetHover(Vector2Int pos)
+        {
+            _cellsViews[pos.x, pos.y].SetHover();
+        }
+
+        public void DisplayPrevious(Vector2Int pos)
+        {
+            _cellsViews[pos.x, pos.y].RestorePrevState();
         }
     }
 }

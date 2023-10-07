@@ -8,6 +8,7 @@ namespace Battle.BattleArena.Pathfinding
     {
         public MovementType MovementType { get; set; }
         public IUnitMovementController MovementController { get; set; }
+        public RotationController RotationController { get; set; }
         public BattleMapPlaceable BattleMapPlaceable { get; set; }
         public GameObject GameObject { get; set; }
     }

@@ -16,6 +16,8 @@ namespace Battle.BattleArena.Pathfinding
         private readonly IInstantiator _instantiator;
         private readonly Map _map;
 
+        public List<Unit> CreatedUnits = new List<Unit>();
+
         public UnitsFactory(UnitsStaticDataProvider unitsStaticDataProvider, 
             AssetsLoadingService assetsLoadingService,
             IInstantiator instantiator,
@@ -41,10 +43,13 @@ namespace Battle.BattleArena.Pathfinding
                 position.ToBattleArenaWorldPosition(), Quaternion.identity, null);
 
             unit.GameObject = view.gameObject;
-            unit.MovementController = new GroundUnitMovementController(unit.GameObject);
-            
+            unit.RotationController = new RotationController(view, 180f);
+            unit.MovementController = new GroundUnitMovementController(unit.GameObject, unit.RotationController);
+
+            unit.RotationController.LookAt(unit.GameObject.transform.position + Vector3.right);
             placeable.Relocate(new List<Cell>{_map[position.x, position.y]});
             
+            CreatedUnits.Add(unit);
             return unit;
         }
     }

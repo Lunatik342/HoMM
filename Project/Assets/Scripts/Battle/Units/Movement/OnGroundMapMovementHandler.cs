@@ -19,11 +19,19 @@ namespace Battle.BattleArena.Pathfinding.Movement
         public async UniTask MoveToPosition(Vector2Int targetPosition, Unit unit)
         {
             var path = _pathfindingService.FindPath(targetPosition, unit.BattleMapPlaceable);
+            
+            var cell = path.TryStepForward();
 
-            foreach (var step in path.Steps)
+            if (cell != null)
             {
-                await unit.MovementController.MoveToPosition(new Vector2Int(step.X, step.Y));
-                unit.BattleMapPlaceable.Relocate(new List<Cell> {_map[step.X, step.Y]});
+                await unit.RotationController.SmoothLookAt((new Vector2Int(cell.X, cell.Y)).ToBattleArenaWorldPosition());
+            }
+            
+            while (cell != null)
+            {
+                await unit.MovementController.MoveToPosition(new Vector2Int(cell.X, cell.Y));
+                unit.BattleMapPlaceable.Relocate(new List<Cell> {_map[cell.X, cell.Y]});
+                cell = path.TryStepForward();
             }
         }
     }
