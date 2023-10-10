@@ -1,23 +1,21 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Battle.BattleArena.Pathfinding;
+using UnityEngine;
 
 namespace RogueSharp
 {
    /// <summary>
-   /// A class that defines a square on a Map with all of its associated properties
+   /// A interface ONLY for pathfinding, solves the task of finding the path for units of different sizes
    /// </summary>
    public interface ICell
    {
-      /// <summary>
-      /// Gets the X location of the Cell starting with 0 as the farthest left
-      /// </summary>
       int X { get; set; }
-
-      /// <summary>
-      /// Y location of the Cell starting with 0 as the top
-      /// </summary>
       int Y { get; set; }
 
       bool IsWalkableByEntity(BattleMapPlaceable placeableEntity);
+
+      Vector3 GetWorldPosition();
+
+      Cell[] GetLogicalCells();
    }
 }

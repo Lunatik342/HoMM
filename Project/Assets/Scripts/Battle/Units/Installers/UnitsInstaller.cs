@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Battle.BattleArena.Pathfinding.StaticData;
+using Battle.Units;
 using Battle.Units.Movement;
 using UnityEngine;
 using Zenject;
@@ -13,10 +14,9 @@ namespace Battle.BattleArena.Pathfinding.Installers
         public override void InstallBindings()
         {
             Container.Bind<UnitsStaticDataProvider>().AsSingle();
-            Container.BindInstance(_unitStaticData);
-
             Container.Bind<UnitsFactory>().AsSingle();
-            Container.Bind<UnitsMoveCommandHandler>().AsSingle();
+            Container.BindFactory<UnitId, GameObject, MovementType, Unit, Unit.Factory>().FromSubContainerResolve().ByInstaller<UnitInstaller>();
+            Container.BindInstance(_unitStaticData);
         }
     }
 }

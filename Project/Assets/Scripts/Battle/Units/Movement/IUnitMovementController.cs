@@ -5,6 +5,6 @@ namespace Battle.Units.Movement
 {
     public interface IUnitMovementController
     {
-        UniTask MoveToPosition(Vector2Int mapPosition);
+        UniTask MoveToPosition(Vector2Int targetPosition);
     }
 }

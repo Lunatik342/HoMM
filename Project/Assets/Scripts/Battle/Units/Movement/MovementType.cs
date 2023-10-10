@@ -4,6 +4,7 @@ namespace Battle.Units.Movement
     {
         None,
         OnGround,
-        Flying
+        Flying,
+        Teleporting
     }
 }

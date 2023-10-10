@@ -1,6 +1,7 @@
 using Battle.BattleArena;
 using Battle.BattleArena.CellsViews;
 using Battle.BattleArena.Pathfinding;
+using Battle.Units;
 using Battle.Units.Movement;
 using RogueSharp;
 using UnityEngine;
@@ -73,19 +74,11 @@ namespace Battle.BattleFlow
                 Vector3 hitPoint = ray.GetPoint(enter);
                 gridPosition = hitPoint.ToMapCellCoordinates();
 
-                if (gridPosition.x > 0 && gridPosition.y > 0 &&
+                if (gridPosition.x >= 0 && gridPosition.y >= 0 &&
                     _map.Width > gridPosition.x && _map.Height > gridPosition.y)
                 {
                     return true;
                 }
-                else
-                {
-                    Debug.LogError($"Outside of array {gridPosition}"); 
-                }
-            }
-            else
-            {
-                Debug.LogError("Raycast false");
             }
 
             gridPosition = Vector2Int.zero;

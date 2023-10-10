@@ -1,56 +1,48 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Battle.BattleArena;
+using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units.Movement;
+using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using RogueSharp;
 using UnityEngine;
-using Zenject;
 
-namespace Battle.BattleArena.Pathfinding
+namespace Battle.Units
 {
     public class UnitsFactory
     {
+        private readonly Unit.Factory _factory;
         private readonly UnitsStaticDataProvider _unitsStaticDataProvider;
         private readonly AssetsLoadingService _assetsLoadingService;
-        private readonly IInstantiator _instantiator;
         private readonly Map _map;
 
-        public List<Unit> CreatedUnits = new List<Unit>();
+        public List<Unit> CreatedUnits = new();
 
-        public UnitsFactory(UnitsStaticDataProvider unitsStaticDataProvider, 
+        public UnitsFactory(Unit.Factory factory, 
+            UnitsStaticDataProvider unitsStaticDataProvider, 
             AssetsLoadingService assetsLoadingService,
-            IInstantiator instantiator,
             Map map)
         {
+            _factory = factory;
             _unitsStaticDataProvider = unitsStaticDataProvider;
             _assetsLoadingService = assetsLoadingService;
-            _instantiator = instantiator;
             _map = map;
         }
-
-        public async Task<Unit> Create(UnitId unitId, Vector2Int position)
+        
+        public async UniTask Create(UnitId unitId, Vector2Int position)
         {
-            var unit = new Unit();
+            var unitStaticData = _unitsStaticDataProvider.ForUnit(unitId);
             
-            var placeable = _instantiator.Instantiate<BattleMapPlaceable>(new object[] {1});
-            unit.BattleMapPlaceable = placeable;
-
-            unit.MovementType = MovementType.OnGround;
-            
-            var staticData = _unitsStaticDataProvider.ForUnit(unitId); 
-            var view = await _assetsLoadingService.InstantiateAsync<Transform>(staticData.GameObjectAssetReference, 
+            var gameObject = await _assetsLoadingService.InstantiateAsync(unitStaticData.GameObjectAssetReference, 
                 position.ToBattleArenaWorldPosition(), Quaternion.identity, null);
-
-            unit.GameObject = view.gameObject;
-            unit.RotationController = new RotationController(view, 180f);
-            unit.MovementController = new GroundUnitMovementController(unit.GameObject, unit.RotationController);
-
-            unit.RotationController.LookAt(unit.GameObject.transform.position + Vector3.right);
-            placeable.Relocate(new List<Cell>{_map[position.x, position.y]});
             
-            CreatedUnits.Add(unit);
-            return unit;
+            var createdUnit = _factory.Create(unitId, gameObject.gameObject, MovementType.OnGround);
+            createdUnit.GameObject.transform.position = position.ToBattleArenaWorldPosition();
+            createdUnit.RotationController.LookAt(createdUnit.GameObject.transform.position + Vector3.right);
+            createdUnit.BattleMapPlaceable.RelocateTo(new []{_map[position.x, position.y]});
+            
+            CreatedUnits.Add(createdUnit);
         }
     }
 }

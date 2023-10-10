@@ -1,5 +1,7 @@
 ﻿using System;
+using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding;
+using UnityEngine;
 
 namespace RogueSharp
 {
@@ -11,7 +13,7 @@ namespace RogueSharp
       public bool IsOccupiedByObstacle { get; set; }
       public bool IsOccupiedByEntity => PlacedEntity != null;
       public BattleMapPlaceable PlacedEntity { get; private set; }
-
+      
       public bool IsWalkableByEntity(BattleMapPlaceable placeableEntity)
       {
          if (!IsFunctioning || IsOccupiedByObstacle)
@@ -25,6 +27,16 @@ namespace RogueSharp
          }
          
          return true;
+      }
+
+      public Vector3 GetWorldPosition()
+      {
+         return this.ToBattleArenaWorldPosition();
+      }
+
+      public Cell[] GetLogicalCells()
+      {
+         return new[] { this };
       }
 
       public bool CanPlaceEntity(BattleMapPlaceable placeableEntity)

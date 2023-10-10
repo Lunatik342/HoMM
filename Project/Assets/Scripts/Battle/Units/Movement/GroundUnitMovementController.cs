@@ -1,25 +1,76 @@
-using Battle.BattleArena;
+using System.Collections.Generic;
+using System.Linq;
+using Battle.BattleArena.Pathfinding;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using RogueSharp;
 using UnityEngine;
 
 namespace Battle.Units.Movement
 {
-    public class GroundUnitMovementController: IUnitMovementController
+    public class GroundUnitMovementController: IUnitMovementController, IDeathEventReceiver
     {
-        private readonly GameObject _gameObject;
+        private readonly Transform _transform;
+        private readonly float _movementSpeed;
+        private readonly BattleMapPlaceable _mapPlaceable;
         private readonly RotationController _rotationController;
+        private readonly PathfindingService _pathfindingService;
 
-        public GroundUnitMovementController(GameObject gameObject, RotationController rotationController)
+        private Tweener _moveTween;
+
+        public GroundUnitMovementController(Transform transform, 
+            float movementSpeed, 
+            BattleMapPlaceable mapPlaceable, 
+            RotationController rotationController,
+            PathfindingService pathfindingService)
         {
-            _gameObject = gameObject;
+            _transform = transform;
+            _movementSpeed = movementSpeed;
+            _mapPlaceable = mapPlaceable;
             _rotationController = rotationController;
+            _pathfindingService = pathfindingService;
         }
-        
-        public async UniTask MoveToPosition(Vector2Int mapPosition)
+
+        public async UniTask MoveToPosition(Vector2Int targetPosition)
         {
-            _rotationController.SmoothLookAt(mapPosition.ToBattleArenaWorldPosition()).Forget();
-            await _gameObject.transform.DOMove(mapPosition.ToBattleArenaWorldPosition(), 0.25f).SetEase(Ease.Linear).ToUniTask();
+            var path = GetPath(targetPosition);
+            await MoveToPosition(path);
+        }
+
+        private List<ICell> GetPath(Vector2Int targetPosition)
+        {
+            var path = _pathfindingService.FindPath(targetPosition, _mapPlaceable).Steps.ToList();
+            path.RemoveAt(0);
+            return path;
+        }
+
+        private async UniTask MoveToPosition(List<ICell> path)
+        {
+            var pathPositions = path.Select(p => p.GetWorldPosition()).ToArray();
+            await _rotationController.SmoothLookAt(pathPositions[0]);
+
+            var pathTween = _transform
+                .DOPath(pathPositions, _movementSpeed, PathType.CatmullRom).SetLookAt(.05f)
+                .SetEase(Ease.Linear).SetSpeedBased(true);
+
+            pathTween.onWaypointChange += index =>
+            {
+                var cellsToOccupy = path[index].GetLogicalCells();
+                _mapPlaceable.RelocateTo(cellsToOccupy);
+            };
+
+            _moveTween = pathTween;
+            await pathTween.ToUniTask();
+        }
+
+        public void OnDeath()
+        {
+            StopMovement();
+        }
+
+        private void StopMovement()
+        {
+            _moveTween?.Kill();
         }
     }
 }

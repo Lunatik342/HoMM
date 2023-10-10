@@ -1,19 +1,15 @@
-using System.Collections.Generic;
+using System;
+using Battle.Units.Movement;
+using Infrastructure.AssetManagement;
 using RogueSharp;
 
 namespace Battle.BattleArena.Pathfinding
 {
-    public class BattleMapPlaceable
+    public class BattleMapPlaceable: IDeathEventReceiver
     {
-        public int Size { get; private set; }
-        public List<Cell> OccupiedCells { get; private set; } = new List<Cell>();
+        public Cell[] OccupiedCells { get; private set; } = Array.Empty<Cell>();
 
-        public BattleMapPlaceable(int size)
-        {
-            Size = size;
-        }
-
-        public void Relocate(List<Cell> targetCells)
+        public void RelocateTo(Cell[] targetCells)
         {
             RemoveFromCurrentPosition();
             
@@ -25,7 +21,12 @@ namespace Battle.BattleArena.Pathfinding
             OccupiedCells = targetCells;
         }
 
-        public void RemoveFromCurrentPosition()
+        public void OnDeath()
+        {
+            RemoveFromCurrentPosition();
+        }
+
+        private void RemoveFromCurrentPosition()
         {
             foreach (var occupiedCell in OccupiedCells)
             {

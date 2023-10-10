@@ -1,3 +1,4 @@
+using Battle.Units.Movement;
 using Zenject;
 
 namespace Battle.BattleFlow.Installers
@@ -8,6 +9,8 @@ namespace Battle.BattleFlow.Installers
         {
             Container.Bind<BattleInputService>().AsSingle();
             Container.BindInterfacesAndSelfTo<BattleCommandsDispatcher>().AsSingle();
+            
+            Container.Bind<UnitsMoveCommandHandler>().AsSingle();
         }
     }
 }

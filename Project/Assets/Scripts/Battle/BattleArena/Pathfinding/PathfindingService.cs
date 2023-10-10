@@ -25,5 +25,11 @@ namespace Battle.BattleArena.Pathfinding
 
             return path;
         }
+
+        public ICell FindPathForFlyingUnit(Vector2Int targetPosition)
+        {
+            _cellsDisplayService.DisplayBattleField(_pathfindingMap);
+            return _pathfindingMap[targetPosition.x, targetPosition.y];
+        }
     }
 }
