@@ -13,10 +13,10 @@ namespace Battle.BattleArena.Pathfinding.Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<UnitsStaticDataProvider>().AsSingle();
-            Container.Bind<UnitsFactory>().AsSingle();
-            Container.BindFactory<UnitId, GameObject, MovementType, Unit, Unit.Factory>().FromSubContainerResolve().ByInstaller<UnitInstaller>();
             Container.BindInstance(_unitStaticData);
+            Container.Bind<UnitsStaticDataProvider>().AsSingle();
+            Container.Bind<UnitsSpawner>().AsSingle();
+            Container.BindFactory<GameObject, Team, UnitStaticData, Unit, Unit.Factory>().FromSubContainerResolve().ByInstaller<UnitComponentsInstaller>();
         }
     }
 }

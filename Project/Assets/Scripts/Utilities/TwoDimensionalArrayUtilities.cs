@@ -1,7 +1,19 @@
+using Battle.BattleArena;
+using UnityEngine;
+
 namespace Utilities
 {
     public static class TwoDimensionalArrayUtilities 
     {
+        public static Vector3 GetWorldPositionFor(Vector2 gridPosition, int xSize, int ySize)
+        {
+            var centerPosition = new Vector2(
+                (2 * gridPosition.x + xSize - 1) / 2f,
+                (2 * gridPosition.y + ySize - 1) / 2f);
+
+            return centerPosition.ToBattleArenaWorldPosition();
+        }
+        
         public static T[,] TurnBy90Degrees<T>(this T[,] source)
         {
             return source.ReverseEachRow().Transpose();
@@ -18,7 +30,7 @@ namespace Utilities
             return source.Transpose().ReverseEachRow();
         }
 
-        public static T[,] Transpose<T>(this T[,] source)
+        private static T[,] Transpose<T>(this T[,] source)
         {
             var xLenght = source.GetLength(0);
             var yLenght = source.GetLength(1);
@@ -37,7 +49,7 @@ namespace Utilities
         }
 
         //Not optimal but good enough
-        public static T[,] ReverseEachRow<T>(this T[,] source)
+        private static T[,] ReverseEachRow<T>(this T[,] source)
         {
             var xLenght = source.GetLength(0);
             var yLenght = source.GetLength(1);

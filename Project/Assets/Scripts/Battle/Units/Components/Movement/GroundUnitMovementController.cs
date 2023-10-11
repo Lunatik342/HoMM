@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Battle.BattleArena.Pathfinding;
+using Battle.BattleArena.Pathfinding.StaticData;
+using Battle.Units.Movement.StaticData;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using RogueSharp;
@@ -11,24 +13,24 @@ namespace Battle.Units.Movement
     public class GroundUnitMovementController: IUnitMovementController, IDeathEventReceiver
     {
         private readonly Transform _transform;
-        private readonly float _movementSpeed;
         private readonly BattleMapPlaceable _mapPlaceable;
         private readonly RotationController _rotationController;
         private readonly PathfindingService _pathfindingService;
+        private readonly GroundUnitMovementStaticData _staticData;
 
         private Tweener _moveTween;
 
-        public GroundUnitMovementController(Transform transform, 
-            float movementSpeed, 
+        public GroundUnitMovementController(Transform transform,
             BattleMapPlaceable mapPlaceable, 
             RotationController rotationController,
-            PathfindingService pathfindingService)
+            PathfindingService pathfindingService,
+            GroundUnitMovementStaticData staticData)
         {
             _transform = transform;
-            _movementSpeed = movementSpeed;
             _mapPlaceable = mapPlaceable;
             _rotationController = rotationController;
             _pathfindingService = pathfindingService;
+            _staticData = staticData;
         }
 
         public async UniTask MoveToPosition(Vector2Int targetPosition)
@@ -50,7 +52,7 @@ namespace Battle.Units.Movement
             await _rotationController.SmoothLookAt(pathPositions[0]);
 
             var pathTween = _transform
-                .DOPath(pathPositions, _movementSpeed, PathType.CatmullRom).SetLookAt(.05f)
+                .DOPath(pathPositions, _staticData.MovementSpeed, PathType.CatmullRom).SetLookAt(.05f)
                 .SetEase(Ease.Linear).SetSpeedBased(true);
 
             pathTween.onWaypointChange += index =>

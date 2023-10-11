@@ -68,13 +68,12 @@ namespace Battle.BattleArena
         private UniTask<Transform> InstantiateView(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle,
             Vector2Int gridPosition, bool[,] rotatedObstacleLayout)
         {
-            var obstacleCenter = new Vector2(
-                (2 * gridPosition.x + rotatedObstacleLayout.GetLength(0) - 1) / 2f,
-                (2 * gridPosition.y + rotatedObstacleLayout.GetLength(1) - 1) / 2f);
+            var obstacleCenterPosition = TwoDimensionalArrayUtilities.GetWorldPositionFor(gridPosition,
+                rotatedObstacleLayout.GetLength(0), rotatedObstacleLayout.GetLength(1));
 
             return _assetsLoadingService.InstantiateAsync<Transform>(
                 obstacleStaticData.ViewPrefabReference,
-                obstacleCenter.ToBattleArenaWorldPosition(),
+                obstacleCenterPosition,
                 Quaternion.Euler(0, (int)rotationAngle, 0), null);
         }
 

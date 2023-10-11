@@ -1,3 +1,4 @@
+using Battle.BattleArena.Pathfinding.StaticData;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -7,16 +8,16 @@ namespace Battle.Units.Movement
     public class RotationController: IDeathEventReceiver
     {
         private readonly Transform _transform;
-        private readonly float _rotationSpeed;
+        private readonly UnitRotationStaticData _staticData;
         private readonly Vector3 _enemySideOfFieldDirection;
 
         private Tween _rotationTween;
 
-        public RotationController(Transform transform, float rotationSpeed, Vector3 enemySideOfFieldDirection)
+        public RotationController(Transform transform, UnitRotationStaticData staticData, Team team)
         {
             _transform = transform;
-            _rotationSpeed = rotationSpeed;
-            _enemySideOfFieldDirection = enemySideOfFieldDirection;
+            _staticData = staticData;
+            _enemySideOfFieldDirection = team.GetRotationDirection();
         }
 
         public async UniTask SmoothLookAtEnemySide()
@@ -27,18 +28,13 @@ namespace Battle.Units.Movement
         public async UniTask SmoothLookAt(Vector3 position)
         {
             StopRotation();
-            _rotationTween = _transform.DOLookAt(position, _rotationSpeed, AxisConstraint.Y).SetSpeedBased(true);
+            _rotationTween = _transform.DOLookAt(position, _staticData.RotationSpeed, AxisConstraint.Y).SetSpeedBased(true);
             await _rotationTween.ToUniTask();
         }
 
         public void LookAtEnemySide()
         {
-            LookAt(GetEnemySideLookAtPosition());
-        }
-        
-        public void LookAt(Vector3 position)
-        {
-            _transform.LookAt(position);
+            _transform.rotation = Quaternion.Euler(_enemySideOfFieldDirection);
         }
 
         public void OnDeath()

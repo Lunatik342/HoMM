@@ -14,7 +14,7 @@ namespace Battle.BattleFlow
         private readonly BattleInputService _inputService;
         private readonly Map _map;
         private readonly UnitsMoveCommandHandler _unitsMoveCommandHandler;
-        private readonly UnitsFactory _unitsFactory;
+        private readonly UnitsSpawner _unitsSpawner;
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
         private readonly Plane _plane;
 
@@ -25,13 +25,13 @@ namespace Battle.BattleFlow
         public BattleCommandsDispatcher(BattleInputService inputService, 
             Map map, 
             UnitsMoveCommandHandler unitsMoveCommandHandler, 
-            UnitsFactory unitsFactory,
+            UnitsSpawner unitsSpawner,
             BattleArenaCellsDisplayService cellsDisplayService)
         {
             _inputService = inputService;
             _map = map;
             _unitsMoveCommandHandler = unitsMoveCommandHandler;
-            _unitsFactory = unitsFactory;
+            _unitsSpawner = unitsSpawner;
             _cellsDisplayService = cellsDisplayService;
             IsEnabled = false;
             
@@ -55,7 +55,7 @@ namespace Battle.BattleFlow
             {
                 if (TryGetGridPosition(out var gridPosition))
                 {
-                    var targetUnit = _unitsFactory.CreatedUnits[0];
+                    var targetUnit = _unitsSpawner.CreatedUnits[0];
                         
                     if(_map[gridPosition.x, gridPosition.y].CanPlaceEntity(targetUnit.BattleMapPlaceable));
                     {

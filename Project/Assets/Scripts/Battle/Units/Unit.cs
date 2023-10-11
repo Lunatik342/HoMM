@@ -9,14 +9,20 @@ namespace Battle.BattleArena.Pathfinding
     {
         [Inject]
         public IUnitMovementController MovementController { get; set; }
+        
         [Inject]
         public RotationController RotationController { get; set; }
+        
         [Inject]
         public BattleMapPlaceable BattleMapPlaceable { get; set; }
+        
         [Inject]
         public GameObject GameObject { get; set; }
         
-        public class Factory : PlaceholderFactory<UnitId, GameObject, MovementType, Unit>
+        [Inject]
+        public Team Team { get; set; }
+        
+        public class Factory : PlaceholderFactory<GameObject, Team, UnitStaticData, Unit>
         {
             
         }

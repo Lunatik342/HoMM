@@ -15,7 +15,6 @@ namespace RogueSharp
       bool IsWalkableByEntity(BattleMapPlaceable placeableEntity);
 
       Vector3 GetWorldPosition();
-
-      Cell[] GetLogicalCells();
+      List<Cell> GetLogicalCells();
    }
 }

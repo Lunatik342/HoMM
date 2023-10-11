@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding;
 using UnityEngine;
@@ -29,16 +30,6 @@ namespace RogueSharp
          return true;
       }
 
-      public Vector3 GetWorldPosition()
-      {
-         return this.ToBattleArenaWorldPosition();
-      }
-
-      public Cell[] GetLogicalCells()
-      {
-         return new[] { this };
-      }
-
       public bool CanPlaceEntity(BattleMapPlaceable placeableEntity)
       {
          return IsWalkableByEntity(placeableEntity);
@@ -60,6 +51,16 @@ namespace RogueSharp
          {
             PlacedEntity = null;
          }
+      }
+      
+      Vector3 ICell.GetWorldPosition()
+      {
+         return this.ToBattleArenaWorldPosition();
+      }
+
+      List<Cell> ICell.GetLogicalCells()
+      {
+         return new List<Cell> { this };
       }
 
       public override string ToString()

@@ -12,9 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f991f8e234984d50a50ec881a56ac88a, type: 3}
   m_Name: Unit2
   m_EditorClassIdentifier: 
-  <UnitId>k__BackingField: 0
+  <UnitId>k__BackingField: 1
   <GameObjectAssetReference>k__BackingField:
     m_AssetGUID: 2048e9be082453a469eeb561b16c2c67
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
+  <UnitRotationStaticData>k__BackingField:
+    <RotationSpeed>k__BackingField: 360
+  <UnitMovementStaticData>k__BackingField:
+    <MovementType>k__BackingField: 1
+    <MovementSpeed>k__BackingField: 5
+  <UnitGridPlaceableStaticData>k__BackingField:
+    <Size>k__BackingField: 1

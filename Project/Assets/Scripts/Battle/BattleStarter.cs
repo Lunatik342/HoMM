@@ -15,17 +15,17 @@ namespace Battle
         private readonly BattleFieldViewSpawner _battleFieldViewSpawner;
         private readonly ObstaclesSpawner _obstaclesSpawner;
         private readonly BattleCommandsDispatcher _battleCommandsDispatcher;
-        private readonly UnitsFactory _unitsFactory;
+        private readonly UnitsSpawner _unitsSpawner;
 
         public BattleStarter(BattleFieldViewSpawner battleFieldViewSpawner,
             ObstaclesSpawner obstaclesSpawner,
             BattleCommandsDispatcher battleCommandsDispatcher,
-            UnitsFactory unitsFactory)
+            UnitsSpawner unitsSpawner)
         {
             _battleFieldViewSpawner = battleFieldViewSpawner;
             _obstaclesSpawner = obstaclesSpawner;
             _battleCommandsDispatcher = battleCommandsDispatcher;
-            _unitsFactory = unitsFactory;
+            _unitsSpawner = unitsSpawner;
         }
 
         public async void Initialize()
@@ -36,7 +36,7 @@ namespace Battle
         private async Task StartBattle()
         {
             await _obstaclesSpawner.SpawnObstacles();
-            await _unitsFactory.Create(UnitId.Blank, new Vector2Int(0, 2));
+            await _unitsSpawner.Create(UnitId.Blank, new Vector2Int(0, 2), Team.TeamLeft);
             await _battleFieldViewSpawner.SpawnBattleField();
             
             _battleCommandsDispatcher.IsEnabled = true;
