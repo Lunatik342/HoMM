@@ -16,7 +16,7 @@ namespace Battle
             {
                 IsRandom = true,
                 RandomSeed = Random.Range(0, Int32.MaxValue),
-                DeterminedObstacleParameters = new List<DeterminedObstacleParameters>()
+                DeterminedObstacleParameters = new List<ObstacleCreationParameters>()
                 {
                     new(ObstacleId.Blank1, ObstaclesSpawner.ObstacleRotationAngle.Degrees0, new Vector2Int(5, 5))
                 }

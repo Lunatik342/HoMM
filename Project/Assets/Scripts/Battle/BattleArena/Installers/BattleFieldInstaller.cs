@@ -17,40 +17,56 @@ namespace Battle.BattleArena.Installers
 
         public override void InstallBindings()
         {
+            InstallStaticData();
+            InstallBattleMap();
+            InstallBattleFieldViewSpawner();
+            InstallCellsViews();
+            InstallObstaclesGeneration();
+            InstallPathfinding();
+        }
+
+        private void InstallStaticData()
+        {
             Container.Bind<BattleArenaStaticDataProvider>()
-                .FromSubContainerResolve()
-                .ByMethod(InstallBattleArenaStaticData)
-                .AsSingle();
+                .AsSingle()
+                .WithArguments(_battleArenasStaticData, _obstaclesStaticData, _obstaclesGenerationStaticData);
+        }
 
-            Container.Bind<Map>().FromFactory<BattleMapFactory>().AsSingle();
+        private void InstallBattleMap()
+        {
+            Container.Bind<BattleMapFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BattleMapCreator>().AsSingle();
+        }
+
+        private void InstallBattleFieldViewSpawner()
+        {
             Container.Bind<BattleFieldViewSpawner>().AsSingle();
-            
-            Container.Bind<BattleArenaCellsDisplayService>()
-                .FromSubContainerResolve()
-                .ByMethod(InstallCellsViewService)
-                .AsSingle();
-            
-            Container.Bind<IObstaclesGenerationStrategy>().FromFactory<ObstacleGenerationStrategyFactory>().AsSingle();
-            Container.Bind<ObstaclesSpawner>().AsSingle();
-            
-            Container.Bind<PathfindingService>().AsSingle();
         }
 
-        private void InstallBattleArenaStaticData(DiContainer container)
+        private void InstallCellsViews()
         {
-            container.BindInstance(_battleArenasStaticData).AsSingle();
-            container.BindInstance(_obstaclesStaticData).AsSingle();
-            container.BindInstance(_obstaclesGenerationStaticData).AsSingle();
-            container.Bind<BattleArenaStaticDataProvider>().AsSingle();
-        }
-
-        private void InstallCellsViewService(DiContainer container)
-        {
-            container.BindFactory<BattleArenaCellView, BattleArenaCellView.Factory>()
+            Container.BindFactory<BattleArenaCellView, BattleArenaCellView.Factory>()
                 .FromComponentInNewPrefab(_cellView)
                 .UnderTransformGroup("CellViews");
-            container.Bind<BattleArenaCellView[,]>().FromFactory<BattleArenaCellsViewsFactory>();
-            container.Bind<BattleArenaCellsDisplayService>().AsSingle();
+
+            Container.BindFactory<BattleArenaId, BattleArenaCellView[,], CellsViewsArrayFactory>()
+                .FromFactory<BattleArenaCellsViewsFactory>();
+
+            Container.BindInterfacesAndSelfTo<BattleArenaCellsViewsSpawner>().AsSingle();
+            Container.Bind<BattleArenaCellsDisplayService>().AsSingle();
+        }
+
+        private void InstallObstaclesGeneration()
+        {
+            Container
+                .BindFactory<ObstacleGenerationParameters, BattleArenaId, IObstaclesGenerationStrategy, IObstaclesGenerationStrategy.Factory>()
+                .FromFactory<ObstacleGenerationStrategyFactory>();
+            Container.Bind<ObstaclesSpawner>().AsSingle();
+        }
+
+        private void InstallPathfinding()
+        {
+            Container.Bind<PathfindingService>().AsSingle();
         }
     }
 }

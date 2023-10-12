@@ -4,22 +4,20 @@ using Zenject;
 
 namespace Battle.BattleArena.Pathfinding
 {
-    public class BattleMapFactory: IFactory<Map>
+    public class BattleMapFactory: IFactory<BattleArenaId, Map>
     {
         private readonly BattleArenaStaticDataProvider _battleArenaStaticDataProvider;
-        private readonly BattleStartParameters _battleStartParameters;
 
         private Map _pathfindingMap;
 
-        public BattleMapFactory(BattleArenaStaticDataProvider battleArenaStaticDataProvider, BattleStartParameters battleStartParameters)
+        public BattleMapFactory(BattleArenaStaticDataProvider battleArenaStaticDataProvider)
         {
             _battleArenaStaticDataProvider = battleArenaStaticDataProvider;
-            _battleStartParameters = battleStartParameters;
         }
 
-        public Map Create()
+        public Map Create(BattleArenaId battleArenaId)
         {
-            var staticData = _battleArenaStaticDataProvider.ForBattleArena(_battleStartParameters.BattleArenaId);
+            var staticData = _battleArenaStaticDataProvider.ForBattleArena(battleArenaId);
             
             _pathfindingMap = new Map(staticData.Size.x, staticData.Size.y);
 

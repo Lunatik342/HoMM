@@ -12,7 +12,7 @@ namespace Battle.BattleFlow
     public class BattleCommandsDispatcher: ITickable
     {
         private readonly BattleInputService _inputService;
-        private readonly Map _map;
+        private readonly IMapHolder _mapHolder;
         private readonly UnitsMoveCommandHandler _unitsMoveCommandHandler;
         private readonly UnitsSpawner _unitsSpawner;
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
@@ -23,13 +23,13 @@ namespace Battle.BattleFlow
         public bool IsEnabled { get; set; }
 
         public BattleCommandsDispatcher(BattleInputService inputService, 
-            Map map, 
+            IMapHolder mapHolder, 
             UnitsMoveCommandHandler unitsMoveCommandHandler, 
             UnitsSpawner unitsSpawner,
             BattleArenaCellsDisplayService cellsDisplayService)
         {
             _inputService = inputService;
-            _map = map;
+            _mapHolder = mapHolder;
             _unitsMoveCommandHandler = unitsMoveCommandHandler;
             _unitsSpawner = unitsSpawner;
             _cellsDisplayService = cellsDisplayService;
@@ -57,7 +57,7 @@ namespace Battle.BattleFlow
                 {
                     var targetUnit = _unitsSpawner.CreatedUnits[0];
                         
-                    if(_map[gridPosition.x, gridPosition.y].CanPlaceEntity(targetUnit.BattleMapPlaceable));
+                    if(_mapHolder.Map[gridPosition.x, gridPosition.y].CanPlaceEntity(targetUnit.BattleMapPlaceable));
                     {
                         DispatchMoveCommand(targetUnit, gridPosition);
                     }
@@ -75,7 +75,7 @@ namespace Battle.BattleFlow
                 gridPosition = hitPoint.ToMapCellCoordinates();
 
                 if (gridPosition.x >= 0 && gridPosition.y >= 0 &&
-                    _map.Width > gridPosition.x && _map.Height > gridPosition.y)
+                    _mapHolder.Map.Width > gridPosition.x && _mapHolder.Map.Height > gridPosition.y)
                 {
                     return true;
                 }

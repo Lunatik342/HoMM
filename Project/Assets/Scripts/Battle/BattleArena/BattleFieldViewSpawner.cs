@@ -10,23 +10,20 @@ namespace Battle.BattleArena
     {
         private readonly BattleArenaStaticDataProvider _staticDataProvider;
         private readonly AssetsLoadingService _assetsLoadingService;
-        private readonly BattleStartParameters _battleStartParameters;
 
         private Transform _battleFieldView;
 
         public BattleFieldViewSpawner(
             BattleArenaStaticDataProvider staticDataProvider, 
-            AssetsLoadingService assetsLoadingService, 
-            BattleStartParameters battleStartParameters)
+            AssetsLoadingService assetsLoadingService)
         {
             _staticDataProvider = staticDataProvider;
             _assetsLoadingService = assetsLoadingService;
-            _battleStartParameters = battleStartParameters;
         }
 
-        public async Task SpawnBattleField()
+        public async Task Spawn(BattleArenaId battleArenaId)
         {
-            var battleFieldStaticData = _staticDataProvider.ForBattleArena(_battleStartParameters.BattleArenaId);
+            var battleFieldStaticData = _staticDataProvider.ForBattleArena(battleArenaId);
             await SpawnBattleFieldView(battleFieldStaticData);
         }
 

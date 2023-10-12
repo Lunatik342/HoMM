@@ -4,27 +4,24 @@ using Zenject;
 
 namespace Battle.BattleArena.CellsViews
 {
-    public class BattleArenaCellsViewsFactory: IFactory<BattleArenaCellView[,]>
+    public class BattleArenaCellsViewsFactory: IFactory<BattleArenaId, BattleArenaCellView[,]>
     {
         private const float CellsViewHeightAboveGround = 0.05f;
         
         private readonly BattleArenaCellView.Factory _cellViewFactory;
-        private readonly BattleStartParameters _battleStartParameters;
         private readonly BattleArenaStaticDataProvider _staticDataProvider;
 
         public BattleArenaCellsViewsFactory(
-            BattleArenaCellView.Factory cellViewFactory, 
-            BattleStartParameters battleStartParameters, 
+            BattleArenaCellView.Factory cellViewFactory,
             BattleArenaStaticDataProvider staticDataProvider)
         {
             _cellViewFactory = cellViewFactory;
-            _battleStartParameters = battleStartParameters;
             _staticDataProvider = staticDataProvider;
         }
         
-        public BattleArenaCellView[,] Create()
+        public BattleArenaCellView[,] Create(BattleArenaId battleArenaId)
         {
-            var arenaSize = _staticDataProvider.ForBattleArena(_battleStartParameters.BattleArenaId).Size;
+            var arenaSize = _staticDataProvider.ForBattleArena(battleArenaId).Size;
             var cellViews = new BattleArenaCellView[arenaSize.x, arenaSize.y];
 
             for (int i = 0; i < arenaSize.x; i++)
@@ -41,5 +38,10 @@ namespace Battle.BattleArena.CellsViews
 
             return cellViews;
         }
+    }
+
+    public class CellsViewsArrayFactory : PlaceholderFactory<BattleArenaId, BattleArenaCellView[,]>
+    {
+        
     }
 }

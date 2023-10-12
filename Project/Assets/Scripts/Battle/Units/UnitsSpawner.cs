@@ -12,22 +12,22 @@ namespace Battle.Units
 {
     public class UnitsSpawner
     {
-        private readonly Unit.Factory _factory;
+        private readonly Unit.Factory _unitsFactory;
         private readonly UnitsStaticDataProvider _unitsStaticDataProvider;
         private readonly AssetsLoadingService _assetsLoadingService;
-        private readonly Map _map;
+        private readonly IMapHolder _mapHolder;
 
         public List<Unit> CreatedUnits = new();
 
-        public UnitsSpawner(Unit.Factory factory, 
+        public UnitsSpawner(Unit.Factory unitsFactory, 
             UnitsStaticDataProvider unitsStaticDataProvider, 
             AssetsLoadingService assetsLoadingService,
-            Map map)
+            IMapHolder mapHolder)
         {
-            _factory = factory;
+            _unitsFactory = unitsFactory;
             _unitsStaticDataProvider = unitsStaticDataProvider;
             _assetsLoadingService = assetsLoadingService;
-            _map = map;
+            _mapHolder = mapHolder;
         }
         
         public async UniTask Create(UnitId unitId, Vector2Int position, Team team)
@@ -37,13 +37,13 @@ namespace Battle.Units
             var gameObject = await _assetsLoadingService.InstantiateAsync(unitStaticData.GameObjectAssetReference, 
                 position.ToBattleArenaWorldPosition(), Quaternion.identity, null);
             
-            var createdUnit = _factory.Create(gameObject.gameObject, team, unitStaticData);
+            var createdUnit = _unitsFactory.Create(gameObject.gameObject, team, unitStaticData);
             
             var size = createdUnit.BattleMapPlaceable.Size;
             createdUnit.GameObject.transform.position = TwoDimensionalArrayUtilities.GetWorldPositionFor(position, size, size);
             
             createdUnit.RotationController.LookAtEnemySide();
-            createdUnit.BattleMapPlaceable.RelocateTo(_map[position.x, position.y], _map);
+            createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map[position.x, position.y], _mapHolder.Map);
             
             CreatedUnits.Add(createdUnit);
         }

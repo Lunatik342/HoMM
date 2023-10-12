@@ -1,27 +1,26 @@
+using Battle.BattleArena.StaticData;
 using Zenject;
 
 namespace Battle.BattleArena.Obstacles
 {
-    public class ObstacleGenerationStrategyFactory: IFactory<IObstaclesGenerationStrategy>
+    public class ObstacleGenerationStrategyFactory: IFactory<ObstacleGenerationParameters, BattleArenaId, IObstaclesGenerationStrategy>
     {
-        private readonly BattleStartParameters _battleStartParameters;
         private readonly IInstantiator _instantiator;
 
-        public ObstacleGenerationStrategyFactory(BattleStartParameters battleStartParameters, IInstantiator instantiator)
+        public ObstacleGenerationStrategyFactory(IInstantiator instantiator)
         {
-            _battleStartParameters = battleStartParameters;
             _instantiator = instantiator;
         }
 
-        public IObstaclesGenerationStrategy Create()
+        public IObstaclesGenerationStrategy Create(ObstacleGenerationParameters generationParameters, BattleArenaId battleArenaId)
         {
-            if (_battleStartParameters.ObstacleGenerationParameters.IsRandom)
+            if (generationParameters.IsRandom)
             {
-                return _instantiator.Instantiate<RandomObstaclesGenerationStrategy>();
+                return _instantiator.Instantiate<RandomObstaclesGenerationStrategy>(new object[] { generationParameters, battleArenaId});
             }
             else
             {
-                return _instantiator.Instantiate<PredefinedObstaclesGenerationStrategy>();
+                return _instantiator.Instantiate<PredefinedObstaclesGenerationStrategy>(new[] { generationParameters });
             }
         }
     }

@@ -21,16 +21,16 @@ namespace Battle
     {
         public bool IsRandom { get; set; }
         public int RandomSeed { get; set; }
-        public List<DeterminedObstacleParameters> DeterminedObstacleParameters { get; set; }
+        public List<ObstacleCreationParameters> DeterminedObstacleParameters { get; set; }
     }
 
-    public class DeterminedObstacleParameters
+    public class ObstacleCreationParameters
     {
         public ObstacleId ObstacleId { get; private set; }
         public ObstaclesSpawner.ObstacleRotationAngle Rotation { get; private set; }
         public Vector2Int Position { get; private set; }
 
-        public DeterminedObstacleParameters(ObstacleId obstacleId, ObstaclesSpawner.ObstacleRotationAngle rotation, Vector2Int position)
+        public ObstacleCreationParameters(ObstacleId obstacleId, ObstaclesSpawner.ObstacleRotationAngle rotation, Vector2Int position)
         {
             ObstacleId = obstacleId;
             Rotation = rotation;

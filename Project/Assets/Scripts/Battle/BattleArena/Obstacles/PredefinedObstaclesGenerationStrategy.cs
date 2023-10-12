@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Battle.BattleArena.StaticData;
 using UnityEngine;
 using Zenject;
 
@@ -8,24 +7,17 @@ namespace Battle.BattleArena.Obstacles
 {
     public class PredefinedObstaclesGenerationStrategy: IObstaclesGenerationStrategy
     {
-        private readonly BattleStartParameters _battleStartParameters;
-        private readonly BattleArenaStaticDataProvider _staticDataProvider;
+        private readonly ObstacleGenerationParameters _generationParameters;
 
-        public PredefinedObstaclesGenerationStrategy(BattleStartParameters battleStartParameters, BattleArenaStaticDataProvider staticDataProvider)
+        public PredefinedObstaclesGenerationStrategy(ObstacleGenerationParameters generationParameters)
         {
-            _battleStartParameters = battleStartParameters;
-            _staticDataProvider = staticDataProvider;
+            _generationParameters = generationParameters;
         }
         
-        public IEnumerable<(ObstacleStaticData, ObstaclesSpawner.ObstacleRotationAngle)> GetObstacles()
+        public IEnumerable<ObstacleCreationParameters> GetObstacles()
         {
-            return _battleStartParameters.ObstacleGenerationParameters.DeterminedObstacleParameters
-                .Select(t => (_staticDataProvider.ForObstacle(t.ObstacleId), t.Rotation));
+            return _generationParameters.DeterminedObstacleParameters;
         }
 
-        public Vector2Int GetPositionForObstacle(int obstacleIndex, bool[,] layout)
-        {
-            return _battleStartParameters.ObstacleGenerationParameters.DeterminedObstacleParameters[obstacleIndex].Position;
-        }
     }
 }

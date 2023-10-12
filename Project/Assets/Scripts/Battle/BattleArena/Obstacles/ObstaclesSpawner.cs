@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Battle.BattleArena.Obstacles;
+using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
@@ -12,57 +13,44 @@ namespace Battle.BattleArena
 {
     public class ObstaclesSpawner
     {
-        private readonly Map _pathfindingMap;
         private readonly AssetsLoadingService _assetsLoadingService;
-        private readonly IObstaclesGenerationStrategy _obstaclesGenerationStrategy;
         private readonly BattleArenaStaticDataProvider _staticDataProvider;
+        private readonly IMapHolder _mapHolder;
 
         private List<GameObject> _spawnedObstacles = new();
 
-        public ObstaclesSpawner(
-            Map pathfindingMap,
-            AssetsLoadingService assetsLoadingService,
-            IObstaclesGenerationStrategy obstaclesGenerationStrategy,
-            BattleArenaStaticDataProvider staticDataProvider)
+        public ObstaclesSpawner(AssetsLoadingService assetsLoadingService,
+            BattleArenaStaticDataProvider staticDataProvider,
+            IMapHolder mapHolder)
         {
-            _pathfindingMap = pathfindingMap;
             _assetsLoadingService = assetsLoadingService;
-            _obstaclesGenerationStrategy = obstaclesGenerationStrategy;
             _staticDataProvider = staticDataProvider;
+            _mapHolder = mapHolder;
         }
 
-        public async UniTask SpawnObstacles()
+        public async UniTask Spawn(IObstaclesGenerationStrategy generationStrategy)
         {
-            var generatedObstaclesData = _obstaclesGenerationStrategy.GetObstacles();
+            var generatedObstaclesData = generationStrategy.GetObstacles();
 
             List<UniTask> obstaclesCreationTasks = new List<UniTask>();
 
-            foreach ((ObstacleStaticData staticData, ObstacleRotationAngle angle) generatedObstacle in generatedObstaclesData)
+            foreach (var obstacleParameters in generatedObstaclesData)
             {
-                obstaclesCreationTasks.Add(GenerateObstacle(generatedObstacle.staticData, generatedObstacle.angle));
+                obstaclesCreationTasks.Add(GenerateObstacle(obstacleParameters));
             }
 
             await UniTask.WhenAll(obstaclesCreationTasks);
         }
 
-        private async UniTask GenerateObstacle(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle)
+        private async UniTask GenerateObstacle(ObstacleCreationParameters obstacleParameters)
         {
-            var rotatedObstacleLayout = RotateObstacle(rotationAngle, obstacleStaticData);
-
-            //Tries to place an obstacle n times, gives up if not successful (good enough for random generation)
-            for (int i = 0; i < _staticDataProvider.ObstaclesGenerationRules.MaxTriesToPlaceObstacleBeforeGivingUp; i++)
-            {
-                var gridPosition = _obstaclesGenerationStrategy.GetPositionForObstacle(i, rotatedObstacleLayout);
-                var placed = TryPlacingObstacle(rotatedObstacleLayout, gridPosition);
-
-                if (placed)
-                {
-                    _spawnedObstacles.Add((await InstantiateView(obstacleStaticData, rotationAngle, gridPosition, rotatedObstacleLayout)).gameObject);
-                    break;
-                }
-            }
-
-            await UniTask.CompletedTask;
+            var obstacleStaticData = _staticDataProvider.ForObstacle(obstacleParameters.ObstacleId);
+            var rotatedObstacleLayout = ObstaclesHelper.RotateObstacle(obstacleParameters.Rotation, obstacleStaticData);
+            
+            PlaceObstacle(rotatedObstacleLayout, obstacleParameters.Position);
+            
+            _spawnedObstacles.Add((await InstantiateView(obstacleStaticData, 
+                obstacleParameters.Rotation, obstacleParameters.Position, rotatedObstacleLayout)).gameObject);
         }
 
         private UniTask<Transform> InstantiateView(ObstacleStaticData obstacleStaticData, ObstacleRotationAngle rotationAngle,
@@ -71,78 +59,27 @@ namespace Battle.BattleArena
             var obstacleCenterPosition = TwoDimensionalArrayUtilities.GetWorldPositionFor(gridPosition,
                 rotatedObstacleLayout.GetLength(0), rotatedObstacleLayout.GetLength(1));
 
-            return _assetsLoadingService.InstantiateAsync<Transform>(
-                obstacleStaticData.ViewPrefabReference,
-                obstacleCenterPosition,
-                Quaternion.Euler(0, (int)rotationAngle, 0), null);
+            return _assetsLoadingService.InstantiateAsync<Transform>(obstacleStaticData.ViewPrefabReference,
+                obstacleCenterPosition, Quaternion.Euler(0, (int)rotationAngle, 0), null);
         }
 
-        private bool TryPlacingObstacle(bool[,] obstacleLayout, Vector2Int gridPosition)
+        private void PlaceObstacle(bool[,] obstacleLayout, Vector2Int gridPosition)
         {
-            bool hasEnoughSpaceOnPosition = true;
-            
             for (int i = 0; i < obstacleLayout.GetLength(0); i++)
             {
                 for (int j = 0; j < obstacleLayout.GetLength(1); j++)
                 {
                     var occupiesCell = obstacleLayout[i, j];
-                    
+
                     if (!occupiesCell)
                     {
                         continue;
                     }
 
-                    var gridCell = _pathfindingMap[gridPosition.x + i, gridPosition.y + j];
-                    hasEnoughSpaceOnPosition &= (gridCell.IsFunctioning && !gridCell.IsOccupiedByObstacle && !gridCell.IsOccupiedByEntity);
+                    var gridCell = _mapHolder.Map[gridPosition.x + i, gridPosition.y + j];
+                    gridCell.IsOccupiedByObstacle = true;
                 }
             }
-
-            if (hasEnoughSpaceOnPosition)
-            {
-                for (int i = 0; i < obstacleLayout.GetLength(0); i++)
-                {
-                    for (int j = 0; j < obstacleLayout.GetLength(1); j++)
-                    {
-                        var occupiesCell = obstacleLayout[i, j];
-                    
-                        if (!occupiesCell)
-                        {
-                            continue;
-                        }
-
-                        var gridCell = _pathfindingMap[gridPosition.x + i, gridPosition.y + j];
-                        gridCell.IsOccupiedByObstacle = true;
-                    }
-                }
-            }
-            
-            return hasEnoughSpaceOnPosition;
-        }
-
-        private bool[,] RotateObstacle(ObstacleRotationAngle rotationAngle, ObstacleStaticData obstacleStaticData)
-        {
-            var sourceLayout = obstacleStaticData.GetLayout();
-            bool[,] rotatedLayout;
-            
-            switch (rotationAngle)
-            {
-                case ObstacleRotationAngle.Degrees0:
-                    rotatedLayout = sourceLayout;
-                    break;
-                case ObstacleRotationAngle.Degrees90:
-                    rotatedLayout = sourceLayout.TurnBy90Degrees();
-                    break;
-                case ObstacleRotationAngle.Degrees180:
-                    rotatedLayout = sourceLayout.TurnBy180Degrees();
-                    break;
-                case ObstacleRotationAngle.Degrees270:
-                    rotatedLayout = sourceLayout.TurnBy270Degrees();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(rotationAngle), rotationAngle, null);
-            }
-
-            return rotatedLayout;
         }
 
         public enum ObstacleRotationAngle

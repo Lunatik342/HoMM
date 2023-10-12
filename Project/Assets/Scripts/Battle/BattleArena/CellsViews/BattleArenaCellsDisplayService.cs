@@ -5,11 +5,11 @@ namespace Battle.BattleArena.CellsViews
 {
     public class BattleArenaCellsDisplayService
     {
-        private readonly BattleArenaCellView[,] _cellsViews;
+        private readonly IBattleArenaCellsViewsHolder _cellsViewsHolder;
 
-        public BattleArenaCellsDisplayService(BattleArenaCellView[,] cellsViews)
+        public BattleArenaCellsDisplayService(IBattleArenaCellsViewsHolder cellsViewsHolder)
         {
-            _cellsViews = cellsViews;
+            _cellsViewsHolder = cellsViewsHolder;
         }
 
         public void DisplayBattleField(Map map)
@@ -22,17 +22,17 @@ namespace Battle.BattleArena.CellsViews
 
                     if (!cell.IsFunctioning)
                     {
-                        _cellsViews[i, j].SetUnreachable();
+                        _cellsViewsHolder.CellsViews[i, j].SetUnreachable();
                         continue;
                     }
 
                     if (cell.IsOccupiedByEntity)
                     {
-                        _cellsViews[i, j].SetObstacle();
+                        _cellsViewsHolder.CellsViews[i, j].SetObstacle();
                         continue;
                     }
                     
-                    _cellsViews[i, j].SetReachable();
+                    _cellsViewsHolder.CellsViews[i, j].SetReachable();
                 }
             }
         }
@@ -41,18 +41,18 @@ namespace Battle.BattleArena.CellsViews
         {
             foreach (var cell in path.Steps)
             {
-                _cellsViews[cell.X, cell.Y].SetPath();
+                _cellsViewsHolder.CellsViews[cell.X, cell.Y].SetPath();
             }
         }
 
         public void SetHover(Vector2Int pos)
         {
-            _cellsViews[pos.x, pos.y].SetHover();
+            _cellsViewsHolder.CellsViews[pos.x, pos.y].SetHover();
         }
 
         public void DisplayPrevious(Vector2Int pos)
         {
-            _cellsViews[pos.x, pos.y].RestorePrevState();
+            _cellsViewsHolder.CellsViews[pos.x, pos.y].RestorePrevState();
         }
     }
 }

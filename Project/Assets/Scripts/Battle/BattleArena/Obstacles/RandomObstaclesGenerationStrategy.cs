@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.StaticData;
 using RogueSharp;
-using RogueSharp.Factories;
 using RogueSharp.Random;
 using UnityEngine;
 using Utilities;
@@ -11,26 +11,26 @@ namespace Battle.BattleArena.Obstacles
 {
     public class RandomObstaclesGenerationStrategy: IObstaclesGenerationStrategy
     {
-        private readonly Map _pathfindingMap;
-        private readonly BattleStartParameters _battleStartParameters;
+        private readonly IMapHolder _mapHolder;
         private readonly BattleArenaStaticDataProvider _staticDataProvider;
+        private readonly BattleArenaId _battleArenaId;
         private readonly IRandom _randomGenerator;
         
         public RandomObstaclesGenerationStrategy(
-            Map pathfindingMap, 
-            BattleStartParameters battleStartParameters, 
+            IMapHolder mapHolder,
             BattleArenaStaticDataProvider staticDataProvider,
-            RandomNumGeneratorFactory randomNumGeneratorFactory)
+            ObstacleGenerationParameters generationParameters,
+            BattleArenaId battleArenaId)
         {
-            _pathfindingMap = pathfindingMap;
-            _battleStartParameters = battleStartParameters;
+            _mapHolder = mapHolder;
             _staticDataProvider = staticDataProvider;
-            _randomGenerator = randomNumGeneratorFactory.Create(_battleStartParameters.ObstacleGenerationParameters.RandomSeed);
+            _battleArenaId = battleArenaId;
+            _randomGenerator = new DotNetRandom(generationParameters.RandomSeed);
         }
         
-        public IEnumerable<(ObstacleStaticData, ObstaclesSpawner.ObstacleRotationAngle)> GetObstacles()
+        public IEnumerable<ObstacleCreationParameters> GetObstacles()
         {
-            var obstacles = _staticDataProvider.GetObstaclesForBattleArena(_battleStartParameters.BattleArenaId).ToList();
+            var obstacles = _staticDataProvider.GetObstaclesForBattleArena(_battleArenaId).ToList();
 
             if (obstacles.Count == 0)
             {
@@ -38,37 +38,44 @@ namespace Battle.BattleArena.Obstacles
             }
             
             var generationRules = _staticDataProvider.ObstaclesGenerationRules;
-
             var obstaclesWeightPool = CreateWeightedPoolForObstacles(obstacles, _randomGenerator, generationRules);
             var countWeightPool = CreateWeightedPoolForCount(_randomGenerator, generationRules);
-
             var currentOccupiedCells = 0;
-
             var randomObstaclesCount = countWeightPool.Choose();
-            var randomObstacles = GetRandomObstacles(randomObstaclesCount, obstaclesWeightPool, _randomGenerator);
 
-            foreach (var randomObstacle in randomObstacles)
+            for (int i = 0; i < randomObstaclesCount; i++)
             {
+                var randomObstacle = GetRandomObstacle(obstaclesWeightPool, _randomGenerator);
                 var occupiedCellsByObstacle = randomObstacle.GetOccupiedCellsCount();
 
-                if (currentOccupiedCells + occupiedCellsByObstacle > generationRules.MaxTriesToPlaceObstacleBeforeGivingUp)
+                if (currentOccupiedCells + occupiedCellsByObstacle > generationRules.MaximumOccupiedSpaceByObstacles)
                 {
-                    break;
+                    yield break;
                 }
+                
+                var randomRotation = RandomUtilities.RandomEnumValue<ObstaclesSpawner.ObstacleRotationAngle>(_randomGenerator);
+                var rotatedObstacle = ObstaclesHelper.RotateObstacle(randomRotation, randomObstacle);
 
-                var randomTurn = RandomUtilities.RandomEnumValue<ObstaclesSpawner.ObstacleRotationAngle>(_randomGenerator);
-
-                yield return (randomObstacle, randomTurn);
+                //Tries to place an obstacle n times, gives up if not successful (good enough for random generation)
+                for (int j = 0; j < generationRules.MaxTriesToPlaceObstacleBeforeGivingUp; j++)
+                {
+                    var randomPosition = GetPositionForObstacle(rotatedObstacle);
+                    if (HasEnoughSpaceOnPosition(rotatedObstacle, randomPosition))
+                    {
+                        yield return new ObstacleCreationParameters(randomObstacle.Id, randomRotation, randomPosition);
+                        break;
+                    }
+                }
             }
         }
 
-        public Vector2Int GetPositionForObstacle(int obstacleIndex, bool[,] layout)
+        private Vector2Int GetPositionForObstacle(bool[,] layout)
         {
             var minXPosition = 0 + BattleArenaConstants.TroopsArrangementFieldWidth;
-            var maxXPosition = (_pathfindingMap.Width - 1) - (layout.GetLength(0) - 1) - BattleArenaConstants.TroopsArrangementFieldWidth;
+            var maxXPosition = (_mapHolder.Map.Width - 1) - (layout.GetLength(0) - 1) - BattleArenaConstants.TroopsArrangementFieldWidth;
 
             var minYPosition = 0;
-            var maxYPosition = (_pathfindingMap.Height - 1) - (layout.GetLength(1) - 1);
+            var maxYPosition = (_mapHolder.Map.Height - 1) - (layout.GetLength(1) - 1);
             
             return new Vector2Int(_randomGenerator.Next(minXPosition, maxXPosition), _randomGenerator.Next(minYPosition, maxYPosition));
         }
@@ -90,10 +97,7 @@ namespace Battle.BattleArena.Obstacles
                 }
                 else
                 {
-                    sameSizeObstacles[occupiedSpace] = new List<ObstacleStaticData>
-                    {
-                        obstacle
-                    };
+                    sameSizeObstacles[occupiedSpace] = new List<ObstacleStaticData> { obstacle };
                 }
             }
 
@@ -128,16 +132,32 @@ namespace Battle.BattleArena.Obstacles
             return countWeightPool;
         }
 
-        private static List<ObstacleStaticData> GetRandomObstacles(int randomObstaclesCount, IWeightedPool<List<ObstacleStaticData>> obstaclesWeightPool, IRandom randomGenerator)
+        private static ObstacleStaticData GetRandomObstacle(IWeightedPool<List<ObstacleStaticData>> obstaclesWeightPool, IRandom randomGenerator)
         {
-            var takenRandomObstacles = new List<ObstacleStaticData>();
+            return obstaclesWeightPool.Choose().GetRandomItem(randomGenerator);
+        }
+        
+        private bool HasEnoughSpaceOnPosition(bool[,] obstacleLayout, Vector2Int gridPosition)
+        {
+            bool hasEnoughSpaceOnPosition = true;
 
-            for (int i = 0; i < randomObstaclesCount; i++)
+            for (int i = 0; i < obstacleLayout.GetLength(0); i++)
             {
-                takenRandomObstacles.Add(obstaclesWeightPool.Choose().GetRandomItem(randomGenerator));
+                for (int j = 0; j < obstacleLayout.GetLength(1); j++)
+                {
+                    var occupiesCell = obstacleLayout[i, j];
+
+                    if (!occupiesCell)
+                    {
+                        continue;
+                    }
+
+                    var gridCell = _mapHolder.Map[gridPosition.x + i, gridPosition.y + j];
+                    hasEnoughSpaceOnPosition &= gridCell.IsFunctioning && !gridCell.IsOccupiedByObstacle && !gridCell.IsOccupiedByEntity;
+                }
             }
-            
-            return takenRandomObstacles;
+
+            return hasEnoughSpaceOnPosition;
         }
     }
 }
