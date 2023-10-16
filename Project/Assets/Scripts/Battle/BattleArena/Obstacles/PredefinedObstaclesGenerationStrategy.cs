@@ -14,7 +14,7 @@ namespace Battle.BattleArena.Obstacles
             _generationParameters = generationParameters;
         }
         
-        public IEnumerable<ObstacleCreationParameters> GetObstacles()
+        public IEnumerable<ObstacleOnGridParameters> GetObstacles()
         {
             return _generationParameters.DeterminedObstacleParameters;
         }

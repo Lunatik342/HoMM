@@ -13,6 +13,7 @@ namespace RogueSharp
       public bool IsFunctioning { get; set; }
       public bool IsOccupiedByObstacle { get; set; }
       public bool IsOccupiedByEntity => PlacedEntity != null;
+      public Vector2Int GridPosition => new Vector2Int(X, Y);
       public BattleMapPlaceable PlacedEntity { get; private set; }
       
       public bool IsWalkableByEntity(BattleMapPlaceable placeableEntity)

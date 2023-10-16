@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Battle.BattleArena;
+using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.BattleArena.StaticData;
 using UnityEngine;
 
@@ -9,11 +10,16 @@ namespace Battle
     {
         public BattleArenaId BattleArenaId { get; private set; }
         public ObstacleGenerationParameters ObstacleGenerationParameters { get; private set; }
+        
+        public Dictionary<Team, List<UnitCreationParameter>> StartingUnits { get; private set; }
 
-        public BattleStartParameters(BattleArenaId battleArenaId, ObstacleGenerationParameters obstacleGenerationParameters)
+        public BattleStartParameters(BattleArenaId battleArenaId, 
+            ObstacleGenerationParameters obstacleGenerationParameters,
+            Dictionary<Team, List<UnitCreationParameter>> startingUnits)
         {
             BattleArenaId = battleArenaId;
             ObstacleGenerationParameters = obstacleGenerationParameters;
+            StartingUnits = startingUnits;
         }
     }
 
@@ -21,20 +27,34 @@ namespace Battle
     {
         public bool IsRandom { get; set; }
         public int RandomSeed { get; set; }
-        public List<ObstacleCreationParameters> DeterminedObstacleParameters { get; set; }
+        public List<ObstacleOnGridParameters> DeterminedObstacleParameters { get; set; }
     }
 
-    public class ObstacleCreationParameters
+    public class ObstacleOnGridParameters
     {
         public ObstacleId ObstacleId { get; private set; }
         public ObstaclesSpawner.ObstacleRotationAngle Rotation { get; private set; }
         public Vector2Int Position { get; private set; }
 
-        public ObstacleCreationParameters(ObstacleId obstacleId, ObstaclesSpawner.ObstacleRotationAngle rotation, Vector2Int position)
+        public ObstacleOnGridParameters(ObstacleId obstacleId, ObstaclesSpawner.ObstacleRotationAngle rotation, Vector2Int position)
         {
             ObstacleId = obstacleId;
             Rotation = rotation;
             Position = position;
+        }
+    }
+
+    public class UnitCreationParameter
+    {
+        public UnitId UnitId { get; private set; }
+        public Vector2Int Position { get; private set; }
+        public int Count { get; private set;}
+
+        public UnitCreationParameter(Vector2Int position, UnitId unitId, int count)
+        {
+            Position = position;
+            UnitId = unitId;
+            Count = count;
         }
     }
 }

@@ -16,30 +16,33 @@ namespace Battle
     {
         private readonly BattleFieldViewSpawner _battleFieldViewSpawner;
         private readonly ObstaclesSpawner _obstaclesSpawner;
-        private readonly BattleCommandsDispatcher _battleCommandsDispatcher;
-        private readonly UnitsSpawner _unitsSpawner;
+        private readonly ArmySpawner _armySpawner;
         private readonly BattleMapCreator _battleMapCreator;
         private readonly BattleStartParameters _battleStartParameters;
         private readonly BattleArenaCellsViewsSpawner _cellsViewsSpawner;
         private readonly IObstaclesGenerationStrategy.Factory _obstacleGenerationStrategyFactory;
+        private readonly TurnsQueueService _turnsQueueService;
+        private readonly BattleTurnsProcessor _battleTurnsProcessor;
 
         public BattleStarter(BattleFieldViewSpawner battleFieldViewSpawner,
             ObstaclesSpawner obstaclesSpawner,
-            BattleCommandsDispatcher battleCommandsDispatcher,
-            UnitsSpawner unitsSpawner,
+            ArmySpawner armySpawner,
             BattleMapCreator battleMapCreator,
             BattleStartParameters battleStartParameters,
             BattleArenaCellsViewsSpawner cellsViewsSpawner,
-            IObstaclesGenerationStrategy.Factory obstacleGenerationStrategyFactory)
+            IObstaclesGenerationStrategy.Factory obstacleGenerationStrategyFactory,
+            TurnsQueueService turnsQueueService,
+            BattleTurnsProcessor battleTurnsProcessor)
         {
             _battleFieldViewSpawner = battleFieldViewSpawner;
             _obstaclesSpawner = obstaclesSpawner;
-            _battleCommandsDispatcher = battleCommandsDispatcher;
-            _unitsSpawner = unitsSpawner;
+            _armySpawner = armySpawner;
             _battleMapCreator = battleMapCreator;
             _battleStartParameters = battleStartParameters;
             _cellsViewsSpawner = cellsViewsSpawner;
             _obstacleGenerationStrategyFactory = obstacleGenerationStrategyFactory;
+            _turnsQueueService = turnsQueueService;
+            _battleTurnsProcessor = battleTurnsProcessor;
         }
 
         public async void Initialize()
@@ -57,9 +60,9 @@ namespace Battle
 
             await _battleFieldViewSpawner.Spawn(_battleStartParameters.BattleArenaId);
             await _obstaclesSpawner.Spawn(obstacleGenerationStrategy);
-            await _unitsSpawner.Create(UnitId.Blank, new Vector2Int(0, 2), Team.TeamLeft);
-
-            _battleCommandsDispatcher.IsEnabled = true;
+            await _armySpawner.Spawn(_battleStartParameters.StartingUnits);
+            _turnsQueueService.InitializeFromStartingUnits();
+            _battleTurnsProcessor.StartTurns();
         }
     }
 }

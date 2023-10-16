@@ -1,9 +1,11 @@
 using Battle.BattleArena.CellsViews;
 using Battle.BattleArena.Obstacles;
+using Battle.BattleArena.PathDisplay;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.StaticData;
 using RogueSharp;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Battle.BattleArena.Installers
@@ -13,7 +15,8 @@ namespace Battle.BattleArena.Installers
         [SerializeField] private BattleArenaStaticData[] _battleArenasStaticData;
         [SerializeField] private ObstacleStaticData[] _obstaclesStaticData;
         [SerializeField] private ObstaclesGenerationStaticData _obstaclesGenerationStaticData;
-        [SerializeField] private BattleArenaCellView _cellView;
+        [SerializeField] private BattleArenaCellView _cellViewPrefab;
+        [SerializeField] private LineRenderer _pathLineRendererPrefab;
 
         public override void InstallBindings()
         {
@@ -23,6 +26,7 @@ namespace Battle.BattleArena.Installers
             InstallCellsViews();
             InstallObstaclesGeneration();
             InstallPathfinding();
+            InstallPathDisplay();
         }
 
         private void InstallStaticData()
@@ -46,7 +50,7 @@ namespace Battle.BattleArena.Installers
         private void InstallCellsViews()
         {
             Container.BindFactory<BattleArenaCellView, BattleArenaCellView.Factory>()
-                .FromComponentInNewPrefab(_cellView)
+                .FromComponentInNewPrefab(_cellViewPrefab)
                 .UnderTransformGroup("CellViews");
 
             Container.BindFactory<BattleArenaId, BattleArenaCellView[,], CellsViewsArrayFactory>()
@@ -67,6 +71,12 @@ namespace Battle.BattleArena.Installers
         private void InstallPathfinding()
         {
             Container.Bind<PathfindingService>().AsSingle();
+        }
+
+        private void InstallPathDisplay()
+        {
+            Container.Bind<PathDisplayService>().AsSingle();
+            Container.Bind<LineRenderer>().FromComponentInNewPrefab(_pathLineRendererPrefab).AsSingle();
         }
     }
 }

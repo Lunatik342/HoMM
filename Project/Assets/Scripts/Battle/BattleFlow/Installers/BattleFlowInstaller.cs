@@ -1,4 +1,5 @@
 using Battle.Units.Movement;
+using UnityEngine;
 using Zenject;
 
 namespace Battle.BattleFlow.Installers
@@ -7,10 +8,16 @@ namespace Battle.BattleFlow.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<BattleInputService>().AsSingle();
-            Container.BindInterfacesAndSelfTo<BattleCommandsDispatcher>().AsSingle();
-            
             Container.Bind<UnitsMoveCommandHandler>().AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<BattleCellsInputService>().AsSingle().NonLazy();
+            Container.Bind<BattleTurnsProcessor>().AsSingle();
+            Container.Bind<TurnsQueueService>().AsSingle();
+            
+            Container.Bind<TurnControllerLocal>().AsSingle();
+            Container.Bind<UnitOnGridController>().AsSingle();
+
+            Container.BindInstance(Camera.main).AsSingle();
         }
     }
 }

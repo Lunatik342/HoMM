@@ -594,7 +594,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1d0b0d6c3c02be949be12f5fcd16a009, type: 2}
   _obstaclesGenerationStaticData: {fileID: 11400000, guid: 07a7e752f122de74e96637e37fd2f4b8,
     type: 2}
-  _cellView: {fileID: -1993129912916753401, guid: 687d5d408459b0a4bb0e2488fcf303a7,
+  _cellViewPrefab: {fileID: -1993129912916753401, guid: 687d5d408459b0a4bb0e2488fcf303a7,
+    type: 3}
+  _pathLineRendererPrefab: {fileID: 841006560837984970, guid: 9c28687e1bfb7b94d8db92b2dec2c539,
     type: 3}
 --- !u!1 &1223709740
 GameObject:

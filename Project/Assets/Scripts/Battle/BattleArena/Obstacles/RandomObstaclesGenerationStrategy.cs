@@ -28,7 +28,7 @@ namespace Battle.BattleArena.Obstacles
             _randomGenerator = new DotNetRandom(generationParameters.RandomSeed);
         }
         
-        public IEnumerable<ObstacleCreationParameters> GetObstacles()
+        public IEnumerable<ObstacleOnGridParameters> GetObstacles()
         {
             var obstacles = _staticDataProvider.GetObstaclesForBattleArena(_battleArenaId).ToList();
 
@@ -62,7 +62,7 @@ namespace Battle.BattleArena.Obstacles
                     var randomPosition = GetPositionForObstacle(rotatedObstacle);
                     if (HasEnoughSpaceOnPosition(rotatedObstacle, randomPosition))
                     {
-                        yield return new ObstacleCreationParameters(randomObstacle.Id, randomRotation, randomPosition);
+                        yield return new ObstacleOnGridParameters(randomObstacle.Id, randomRotation, randomPosition);
                         break;
                     }
                 }

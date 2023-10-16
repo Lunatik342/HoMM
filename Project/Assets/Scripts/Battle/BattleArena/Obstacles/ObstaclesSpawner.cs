@@ -42,7 +42,7 @@ namespace Battle.BattleArena
             await UniTask.WhenAll(obstaclesCreationTasks);
         }
 
-        private async UniTask GenerateObstacle(ObstacleCreationParameters obstacleParameters)
+        private async UniTask GenerateObstacle(ObstacleOnGridParameters obstacleParameters)
         {
             var obstacleStaticData = _staticDataProvider.ForObstacle(obstacleParameters.ObstacleId);
             var rotatedObstacleLayout = ObstaclesHelper.RotateObstacle(obstacleParameters.Rotation, obstacleStaticData);

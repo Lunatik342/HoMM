@@ -8,62 +8,13 @@ namespace Battle.BattleArena.CellsViews
     {
         [SerializeField] private SpriteRenderer _ornament;
         [SerializeField] private SpriteRenderer _background;
+        [SerializeField] private CellColors _cellStateColors;
 
-        private SelectionState _prevState;
+        private CellViewState _prevState;
 
-        public void SetUnreachable()
+        public void PaintCell(CellViewState state)
         {
-            _prevState = SelectionState.Unreachable;
-            gameObject.SetActive(false);
-            _background.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        }
-
-        public void SetReachable()
-        {
-            _prevState = SelectionState.Reachable;
-            gameObject.SetActive(true);
-            _background.color = new Color(0, 1, 0, 0.5f);
-        }
-
-        public void SetObstacle()
-        {
-            _prevState = SelectionState.Obstacle;
-            gameObject.SetActive(true);
-            _background.color = new Color(0, 0, 1, 0.5f);
-        }
-
-        public void SetPath()
-        {
-            _prevState = SelectionState.Path;
-            gameObject.SetActive(true);
-            _background.color = new Color(1, 0, 0, 0.5f);
-        }
-
-        public void SetHover()
-        {
-            gameObject.SetActive(true);
-            _background.color = new Color(1, 0.6f, 0, 0.5f);
-        }
-
-        public void RestorePrevState()
-        {
-            switch (_prevState)
-            {
-                case SelectionState.Unreachable:
-                    SetUnreachable();
-                    break;
-                case SelectionState.Reachable:
-                    SetReachable();
-                    break;
-                case SelectionState.Obstacle:
-                    SetObstacle();
-                    break;
-                case SelectionState.Path:
-                    SetPath();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _background.color = _cellStateColors[state];
         }
 
         public class Factory: PlaceholderFactory<BattleArenaCellView>
@@ -72,11 +23,21 @@ namespace Battle.BattleArena.CellsViews
         }
     }
 
-    public enum SelectionState
+    public enum CellViewState
     {
-        Unreachable,
-        Reachable,
-        Obstacle,
-        Path
+        Default,
+        Walkable,
+        EnemyWalkable,
+        WalkableAndEnemyWalkableIntersection,
+        TargetableByRangedAbility,
+        CurrentUnit,
+        MoveTarget,
+        AoeSpellTarget
+    }
+
+    [Serializable]
+    public class CellColors : SerializableDictionary<CellViewState, Color>
+    {
+        
     }
 }

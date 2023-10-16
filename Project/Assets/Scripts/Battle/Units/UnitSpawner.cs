@@ -10,16 +10,14 @@ using Utilities;
 
 namespace Battle.Units
 {
-    public class UnitsSpawner
+    public class UnitSpawner
     {
         private readonly Unit.Factory _unitsFactory;
         private readonly UnitsStaticDataProvider _unitsStaticDataProvider;
         private readonly AssetsLoadingService _assetsLoadingService;
         private readonly IMapHolder _mapHolder;
 
-        public List<Unit> CreatedUnits = new();
-
-        public UnitsSpawner(Unit.Factory unitsFactory, 
+        public UnitSpawner(Unit.Factory unitsFactory, 
             UnitsStaticDataProvider unitsStaticDataProvider, 
             AssetsLoadingService assetsLoadingService,
             IMapHolder mapHolder)
@@ -30,22 +28,23 @@ namespace Battle.Units
             _mapHolder = mapHolder;
         }
         
-        public async UniTask Create(UnitId unitId, Vector2Int position, Team team)
+        public async UniTask<Unit> Create(UnitCreationParameter unitCreationParameter, Team team)
         {
-            var unitStaticData = _unitsStaticDataProvider.ForUnit(unitId);
+            var unitStaticData = _unitsStaticDataProvider.ForUnit(unitCreationParameter.UnitId);
+            var gridPosition = unitCreationParameter.Position;
             
             var gameObject = await _assetsLoadingService.InstantiateAsync(unitStaticData.GameObjectAssetReference, 
-                position.ToBattleArenaWorldPosition(), Quaternion.identity, null);
+                gridPosition.ToBattleArenaWorldPosition(), Quaternion.identity, null);
             
             var createdUnit = _unitsFactory.Create(gameObject.gameObject, team, unitStaticData);
             
             var size = createdUnit.BattleMapPlaceable.Size;
-            createdUnit.GameObject.transform.position = TwoDimensionalArrayUtilities.GetWorldPositionFor(position, size, size);
             
+            createdUnit.GameObject.transform.position = TwoDimensionalArrayUtilities.GetWorldPositionFor(gridPosition, size, size);
             createdUnit.RotationController.LookAtEnemySide();
-            createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map[position.x, position.y], _mapHolder.Map);
-            
-            CreatedUnits.Add(createdUnit);
+            createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map[gridPosition.x, gridPosition.y], _mapHolder.Map);
+
+            return createdUnit;
         }
     }
 }

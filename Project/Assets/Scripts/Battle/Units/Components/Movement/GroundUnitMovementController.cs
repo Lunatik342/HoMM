@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Battle.BattleArena.PathDisplay;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units.Movement.StaticData;
@@ -49,6 +50,7 @@ namespace Battle.Units.Movement
         private async UniTask MoveToPosition(List<ICell> path)
         {
             var pathPositions = path.Select(p => p.GetWorldPosition()).ToArray();
+            
             await _rotationController.SmoothLookAt(pathPositions[0]);
 
             var pathTween = _transform

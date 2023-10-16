@@ -7,7 +7,7 @@ namespace Battle.BattleArena.Obstacles
 {
     public interface IObstaclesGenerationStrategy
     {
-        public IEnumerable<ObstacleCreationParameters> GetObstacles();
+        public IEnumerable<ObstacleOnGridParameters> GetObstacles();
         
         public class Factory: PlaceholderFactory<ObstacleGenerationParameters, BattleArenaId, IObstaclesGenerationStrategy>
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace RogueSharp
 {
@@ -63,6 +64,11 @@ namespace RogueSharp
       {
          get => _cells[x, y];
          set => _cells[x, y] = value;
+      }
+
+      public TCell GetCell(Vector2Int position)
+      {
+         return this[position.x, position.y];
       }
 
       /// <summary>

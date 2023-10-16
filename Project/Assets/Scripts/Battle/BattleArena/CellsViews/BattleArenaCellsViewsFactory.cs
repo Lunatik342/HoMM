@@ -6,8 +6,6 @@ namespace Battle.BattleArena.CellsViews
 {
     public class BattleArenaCellsViewsFactory: IFactory<BattleArenaId, BattleArenaCellView[,]>
     {
-        private const float CellsViewHeightAboveGround = 0.05f;
-        
         private readonly BattleArenaCellView.Factory _cellViewFactory;
         private readonly BattleArenaStaticDataProvider _staticDataProvider;
 
@@ -32,7 +30,7 @@ namespace Battle.BattleArena.CellsViews
                     cellViews[i, j] = createdCell;
                     
                     var gridPosition = new Vector2Int(i, j);
-                    createdCell.transform.position = gridPosition.ToBattleArenaWorldPosition() + Vector3.up * CellsViewHeightAboveGround;
+                    createdCell.transform.position = gridPosition.ToBattleArenaWorldPosition() + Vector3.up * BattleArenaObjectsHeights.CellView;
                 }
             }
 
