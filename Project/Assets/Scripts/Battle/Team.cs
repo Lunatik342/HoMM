@@ -15,10 +15,11 @@ namespace Battle
         {
             switch (team)
             {
+                //Left team looks to the right, right team look to the left
                 case Team.TeamLeft:
-                    return Vector3.left;
-                case Team.TeamRight:
                     return Vector3.right;
+                case Team.TeamRight:
+                    return Vector3.left;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(team), team, null);
             }

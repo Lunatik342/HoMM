@@ -22,7 +22,7 @@ namespace Battle
         private readonly BattleArenaCellsViewsSpawner _cellsViewsSpawner;
         private readonly IObstaclesGenerationStrategy.Factory _obstacleGenerationStrategyFactory;
         private readonly TurnsQueueService _turnsQueueService;
-        private readonly BattleTurnsProcessor _battleTurnsProcessor;
+        private readonly BattleTurnsController _battleTurnsController;
 
         public BattleStarter(BattleFieldViewSpawner battleFieldViewSpawner,
             ObstaclesSpawner obstaclesSpawner,
@@ -32,7 +32,7 @@ namespace Battle
             BattleArenaCellsViewsSpawner cellsViewsSpawner,
             IObstaclesGenerationStrategy.Factory obstacleGenerationStrategyFactory,
             TurnsQueueService turnsQueueService,
-            BattleTurnsProcessor battleTurnsProcessor)
+            BattleTurnsController battleTurnsController)
         {
             _battleFieldViewSpawner = battleFieldViewSpawner;
             _obstaclesSpawner = obstaclesSpawner;
@@ -42,7 +42,7 @@ namespace Battle
             _cellsViewsSpawner = cellsViewsSpawner;
             _obstacleGenerationStrategyFactory = obstacleGenerationStrategyFactory;
             _turnsQueueService = turnsQueueService;
-            _battleTurnsProcessor = battleTurnsProcessor;
+            _battleTurnsController = battleTurnsController;
         }
 
         public async void Initialize()
@@ -62,7 +62,7 @@ namespace Battle
             await _obstaclesSpawner.Spawn(obstacleGenerationStrategy);
             await _armySpawner.Spawn(_battleStartParameters.StartingUnits);
             _turnsQueueService.InitializeFromStartingUnits();
-            _battleTurnsProcessor.StartTurns();
+            _battleTurnsController.StartTurns();
         }
     }
 }

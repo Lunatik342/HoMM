@@ -34,7 +34,7 @@ namespace Battle.Units.Movement
 
         public void LookAtEnemySide()
         {
-            _transform.rotation = Quaternion.Euler(_enemySideOfFieldDirection);
+            _transform.rotation = Quaternion.LookRotation(_enemySideOfFieldDirection);
         }
 
         public void OnDeath()

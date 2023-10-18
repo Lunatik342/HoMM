@@ -11,6 +11,9 @@ namespace Battle.BattleArena.Pathfinding
 
         public int Size => _staticData.Size;
         public List<Cell> OccupiedCells { get; private set; } = new();
+        
+        //Костыль на время пока у меня нет юнитов с размером больше единицы
+        public Cell OccupiedCell => OccupiedCells[0];
 
         public BattleMapPlaceable(UnitGridPlaceableStaticData staticData)
         {

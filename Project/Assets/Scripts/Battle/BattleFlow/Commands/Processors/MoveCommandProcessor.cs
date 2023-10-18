@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace Battle.Units.Movement
 {
-    public class UnitsMoveCommandHandler
+    public class MoveCommandProcessor
     {
-        public async UniTask MakeMove(Unit unit, Vector2Int gridPosition)
+        public async UniTask Process(Unit unit, Vector2Int gridPosition)
         {
             await unit.MovementController.MoveToPosition(gridPosition);
+            await unit.RotationController.SmoothLookAtEnemySide();
         }
     }
 }
