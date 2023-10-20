@@ -29,6 +29,14 @@ namespace Battle.BattleArena.CellsViews
             }
         }
 
+        public void DisplayEnemyWalkableCells(List<Cell> enemyWalkableCells)
+        {
+            foreach (var enemyWalkableCell in enemyWalkableCells)
+            {
+                _cellsViewsHolder.CellsViews[enemyWalkableCell.X, enemyWalkableCell.Y].PaintCell(CellViewState.EnemyWalkable);
+            }
+        }
+
         public void DisplayMoveTargetCell(Cell cell)
         {
             _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.MoveTarget);

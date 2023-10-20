@@ -1,12 +1,13 @@
 using Battle.BattleArena.Pathfinding;
 using Battle.Units.Movement.StaticData;
+using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
 namespace Battle.Units.Movement
 {
-    public class TeleportingUnitMovementController: IUnitMovementController, IDeathEventReceiver
+    public class TeleportingUnitMovementController: UnitMovementControllerBase, IDeathEventReceiver
     {
         private readonly Transform _transform;
         private readonly BattleMapPlaceable _mapPlaceable;
@@ -20,7 +21,8 @@ namespace Battle.Units.Movement
             BattleMapPlaceable mapPlaceable, 
             RotationController rotationController,
             PathfindingService pathfindingService,
-            TeleportingUnitMovementStaticData staticData)
+            TeleportingUnitMovementStaticData staticData,
+            UnitStatsProvider statsProvider) : base(staticData, statsProvider)
         {
             _transform = transform;
             _mapPlaceable = mapPlaceable;
@@ -29,7 +31,7 @@ namespace Battle.Units.Movement
             _staticData = staticData;
         }
 
-        public async UniTask MoveToPosition(Vector2Int targetPosition)
+        public override async UniTask MoveToPosition(Vector2Int targetPosition)
         {
             var targetCell = _pathfindingService.FindPathForFlyingUnit(targetPosition);
             var targetWorldPosition = targetCell.GetWorldPosition();

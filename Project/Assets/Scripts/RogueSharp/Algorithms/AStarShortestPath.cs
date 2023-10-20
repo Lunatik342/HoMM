@@ -40,7 +40,7 @@ namespace RogueSharp.Algorithms
       /// <param name="map">The Map on which to find the shortest path between Cells</param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <returns>List of Cells representing a shortest path from the specified source to the specified destination. If no path is found null will be returned</returns>
-      public List<TCell> FindPath( TCell source, TCell destination, IMap<TCell> map , BattleMapPlaceable pathingAgent)
+      public List<TCell> FindPath( TCell source, TCell destination, IMap<TCell> map , Unit pathingAgent)
       {
          // OPEN = the set of nodes to be evaluated
          IndexMinPriorityQueue<PathNode> openNodes = new IndexMinPriorityQueue<PathNode>( map.Height * map.Width );
@@ -85,7 +85,7 @@ namespace RogueSharp.Algorithms
             {
                int neighborIndex = map.IndexFor( neighbor );
                // if neighbor is not walkable or neighbor is in CLOSED
-               if ( neighbor.IsWalkableByEntity(pathingAgent) == false || isNodeClosed[neighborIndex] )
+               if ( neighbor.IsWalkableByUnit(pathingAgent) == false || isNodeClosed[neighborIndex] )
                {
                   // skip to the next neighbor
                   continue;

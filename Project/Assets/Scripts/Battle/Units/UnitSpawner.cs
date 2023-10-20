@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
+using Battle.Units.Movement;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using RogueSharp;
@@ -43,6 +44,8 @@ namespace Battle.Units
             createdUnit.GameObject.transform.position = TwoDimensionalArrayUtilities.GetWorldPositionFor(gridPosition, size, size);
             createdUnit.RotationController.LookAtEnemySide();
             createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map[gridPosition.x, gridPosition.y], _mapHolder.Map);
+
+            createdUnit.Initialize();
 
             return createdUnit;
         }

@@ -8,6 +8,7 @@ namespace Battle.BattleArena.Pathfinding
     public class BattleMapPlaceable: IDeathEventReceiver
     {
         private readonly UnitGridPlaceableStaticData _staticData;
+        private readonly Unit _unit;
 
         public int Size => _staticData.Size;
         public List<Cell> OccupiedCells { get; private set; } = new();
@@ -15,9 +16,10 @@ namespace Battle.BattleArena.Pathfinding
         //Костыль на время пока у меня нет юнитов с размером больше единицы
         public Cell OccupiedCell => OccupiedCells[0];
 
-        public BattleMapPlaceable(UnitGridPlaceableStaticData staticData)
+        public BattleMapPlaceable(UnitGridPlaceableStaticData staticData, Unit unit)
         {
             _staticData = staticData;
+            _unit = unit;
         }
 
         public void RelocateTo(List<Cell> targetCells)
@@ -26,7 +28,7 @@ namespace Battle.BattleArena.Pathfinding
             
             foreach (var cell in targetCells) 
             {
-                cell.PlaceEntity(this);
+                cell.PlaceEntity(_unit);
             }
 
             OccupiedCells = targetCells;
@@ -56,7 +58,7 @@ namespace Battle.BattleArena.Pathfinding
         {
             foreach (var occupiedCell in OccupiedCells)
             {
-                occupiedCell.RemoveEntity(this);
+                occupiedCell.RemoveEntity(_unit);
             }
         }
     }

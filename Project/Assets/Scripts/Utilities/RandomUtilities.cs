@@ -20,6 +20,11 @@ namespace Utilities
             return source[random.Next(0, source.Count - 1)];
         }
 
+        public static T GetRandomItem<T>(this List<T> source)
+        {
+            return source.GetRandomItem(new DotNetRandom());
+        }
+
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
             return source.OrderBy(x => Guid.NewGuid());

@@ -2,6 +2,7 @@ using System;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units.Movement;
+using Battle.Units.StatsSystem;
 using UnityEngine;
 using Zenject;
 
@@ -29,9 +30,9 @@ namespace Battle.Units
             Container.Bind<Unit>().AsSingle();
             Container.Bind<RotationController>().AsSingle().WithArguments(_staticData.UnitRotationStaticData);
             Container.Bind<BattleMapPlaceable>().AsSingle().WithArguments(_staticData.UnitGridPlaceableStaticData);
+            Container.Bind<UnitStatsProvider>().AsSingle();
 
-            Container.BindInterfacesAndSelfTo(_staticData.MovementStaticData.GetContractTypeToBind()).AsSingle()
-                .WithArguments(_staticData.MovementStaticData.GetArgument());
+            _staticData.MovementStaticData.BindComponentToContainer(Container);
         }
     }
 }

@@ -12,18 +12,18 @@ namespace RogueSharp
       public int Y { get; set; }
       public bool IsFunctioning { get; set; }
       public bool IsOccupiedByObstacle { get; set; }
-      public bool IsOccupiedByEntity => PlacedEntity != null;
-      public Vector2Int GridPosition => new Vector2Int(X, Y);
-      public BattleMapPlaceable PlacedEntity { get; private set; }
+      public bool IsOccupiedByEntity => PlacedUnit != null;
+      public Vector2Int GridPosition => new(X, Y);
+      public Unit PlacedUnit { get; private set; }
       
-      public bool IsWalkableByEntity(BattleMapPlaceable placeableEntity)
+      public bool IsWalkableByUnit(Unit placeableEntity)
       {
          if (!IsFunctioning || IsOccupiedByObstacle)
          {
             return false;
          }
 
-         if (PlacedEntity != null && PlacedEntity != placeableEntity)
+         if (PlacedUnit != null && PlacedUnit != placeableEntity)
          {
             return false;
          }
@@ -31,26 +31,26 @@ namespace RogueSharp
          return true;
       }
 
-      public bool CanPlaceEntity(BattleMapPlaceable placeableEntity)
+      public bool CanPlaceUnit(Unit placeableEntity)
       {
-         return IsWalkableByEntity(placeableEntity);
+         return IsWalkableByUnit(placeableEntity);
       }
 
-      public void PlaceEntity(BattleMapPlaceable placeableEntity)
+      public void PlaceEntity(Unit unit)
       {
-         if (!CanPlaceEntity(placeableEntity))
+         if (!CanPlaceUnit(unit))
          {
             throw new InvalidOperationException("Cannot place entity on this cell");
          }
 
-         PlacedEntity = placeableEntity;
+         PlacedUnit = unit;
       }
 
-      public void RemoveEntity(BattleMapPlaceable placeableEntity)
+      public void RemoveEntity(Unit unit)
       {
-         if (PlacedEntity == placeableEntity)
+         if (PlacedUnit == unit)
          {
-            PlacedEntity = null;
+            PlacedUnit = null;
          }
       }
       

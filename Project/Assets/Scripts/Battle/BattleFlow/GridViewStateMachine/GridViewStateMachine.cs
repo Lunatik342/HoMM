@@ -4,11 +4,13 @@ namespace Battle.BattleFlow.StateMachine
 {
     public class GridViewStateMachine: BasicStateMachine
     {
-        public GridViewStateMachine(ControllingUnitViewState controllingUnitViewState, 
-            WaitingForCommandProcessViewState waitingForCommandProcessViewState)
+        public GridViewStateMachine(UnitControlViewState unitControlViewState, 
+            WaitingForCommandProcessViewState waitingForCommandProcessViewState,
+            WaitingForEnemyTurnViewState waitingForEnemyTurnViewState)
         {
-            RegisterState(controllingUnitViewState);
+            RegisterState(unitControlViewState);
             RegisterState(waitingForCommandProcessViewState);
+            RegisterState(waitingForEnemyTurnViewState);
         }
     }
 }

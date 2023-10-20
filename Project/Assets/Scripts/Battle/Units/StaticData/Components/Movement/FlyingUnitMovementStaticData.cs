@@ -1,22 +1,19 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Battle.Units.Movement.StaticData
 {
     [CreateAssetMenu(fileName = "FlyingUnitMovementStaticData", menuName = "StaticData/Units/Movement/FlyingUnitMovementData")]
-    public class FlyingUnitMovementStaticData : ScriptableObject, IUnitComponentBinder
+    public class FlyingUnitMovementStaticData : MovementStaticData
     {
         [field: SerializeField] public float FlySpeed { get; private set; }
         [field: SerializeField] public float JumpPower { get; private set; }
-
-        public Type GetContractTypeToBind()
+        
+        public override void BindComponentToContainer(DiContainer container)
         {
-            return typeof(FlyingUnitMovementController);
-        }
-
-        public object GetArgument()
-        {
-            return this;
+            container.Bind(typeof(UnitMovementControllerBase), typeof(IUnitInitializable))
+                .To<FlyingUnitMovementController>().AsSingle().WithArguments(this);
         }
     }
 }

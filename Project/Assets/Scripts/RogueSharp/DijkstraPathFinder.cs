@@ -18,7 +18,7 @@ namespace RogueSharp
       /// <param name="map">The Map that this PathFinder instance will run shortest path algorithms on</param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<Cell> map , BattleMapPlaceable pathingAgent )
+      public DijkstraPathFinder( IMap<Cell> map , Unit pathingAgent )
          : base( map, pathingAgent )
       {
       }
@@ -34,7 +34,7 @@ namespace RogueSharp
       /// </param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<Cell> map, double diagonalCost, BattleMapPlaceable pathingAgent )
+      public DijkstraPathFinder( IMap<Cell> map, double diagonalCost, Unit pathingAgent )
          : base( map, diagonalCost, pathingAgent )
       {
       }
@@ -57,18 +57,18 @@ namespace RogueSharp
       /// <param name="map">The Map that this PathFinder instance will run shortest path algorithms on</param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<TCell> map, BattleMapPlaceable pathingAgent)
+      public DijkstraPathFinder( IMap<TCell> map, Unit pathingAgent)
       {
          _map = map ?? throw new ArgumentNullException( nameof( map ), "Map cannot be null" );
          _graph = new EdgeWeightedDigraph( _map.Width * _map.Height );
          foreach ( TCell cell in _map.GetAllCells() )
          {
-            if ( cell.IsWalkableByEntity(pathingAgent) )
+            if ( cell.IsWalkableByUnit(pathingAgent) )
             {
                int v = _map.IndexFor( cell );
                foreach ( TCell neighbor in _map.GetAdjacentCells( cell.X, cell.Y ) )
                {
-                  if ( neighbor.IsWalkableByEntity(pathingAgent) )
+                  if ( neighbor.IsWalkableByUnit(pathingAgent) )
                   {
                      int w = _map.IndexFor( neighbor );
                      _graph.AddEdge( new DirectedEdge( v, w, 1.0 ) );
@@ -90,18 +90,18 @@ namespace RogueSharp
       /// </param>
       /// <param name="pathingAgent">Agent that searches a path</param>
       /// <exception cref="ArgumentNullException">Thrown when a null map parameter is passed in</exception>
-      public DijkstraPathFinder( IMap<TCell> map, double diagonalCost, BattleMapPlaceable pathingAgent )
+      public DijkstraPathFinder( IMap<TCell> map, double diagonalCost, Unit pathingAgent )
       {
          _map = map ?? throw new ArgumentNullException( nameof( map ), "Map cannot be null" );
          _graph = new EdgeWeightedDigraph( _map.Width * _map.Height );
          foreach ( TCell cell in _map.GetAllCells() )
          {
-            if ( cell.IsWalkableByEntity(pathingAgent) )
+            if ( cell.IsWalkableByUnit(pathingAgent) )
             {
                int v = _map.IndexFor( cell );
                foreach ( TCell neighbor in _map.GetAdjacentCells( cell.X, cell.Y, true ) )
                {
-                  if ( neighbor.IsWalkableByEntity(pathingAgent) )
+                  if ( neighbor.IsWalkableByUnit(pathingAgent) )
                   {
                      int w = _map.IndexFor( neighbor );
                      if ( neighbor.X != cell.X && neighbor.Y != cell.Y )

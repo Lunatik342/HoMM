@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d9eb824c7041029525422104f6a2bb, type: 3}
   m_Name: GroundUnitMovementStaticData
   m_EditorClassIdentifier: 
+  <TravelDistance>k__BackingField: 6
   <MovementSpeed>k__BackingField: 5

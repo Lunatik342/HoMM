@@ -18,7 +18,7 @@ namespace RogueSharp.Algorithms
          _diagonalCost = diagonalCost;
       }
 
-      public bool[] GetReachableCells( TCell source, IMap<TCell> map , BattleMapPlaceable pathingAgent, int maxDistanceFormStart)
+      public bool[] GetReachableCells( TCell source, IMap<TCell> map , Unit pathingAgent, int maxDistanceFormStart)
       {
          IndexMinPriorityQueue<PathNode> openNodes = new IndexMinPriorityQueue<PathNode>( map.Height * map.Width );
          bool[] isNodeClosed = new bool[map.Height * map.Width];
@@ -49,7 +49,7 @@ namespace RogueSharp.Algorithms
             foreach ( TCell neighbor in map.GetAdjacentCells( currentCell.X, currentCell.Y, includeDiagonals ) )
             {
                int neighborIndex = map.IndexFor( neighbor );
-               if ( neighbor.IsWalkableByEntity(pathingAgent) == false || isNodeClosed[neighborIndex] )
+               if ( neighbor.IsWalkableByUnit(pathingAgent) == false || isNodeClosed[neighborIndex] )
                {
                   continue;
                }

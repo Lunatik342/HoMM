@@ -11,7 +11,7 @@ namespace Battle.BattleFlow
     {
         private readonly Camera _mainCamera;
         private readonly IMapHolder _mapHolder;
-        private readonly Plane _floorPlane;
+        private Plane _floorPlane;
 
         private Cell _previousMouseoverCell;
 
@@ -30,15 +30,11 @@ namespace Battle.BattleFlow
 
         public void Tick()
         {
+            Cell mouseoverCell = null;
+            
             if (TryGetCellForMousePosition(out var gridPosition))
             {
-                var mouseoverCell = _mapHolder.Map.GetCell(gridPosition);
-
-                if (mouseoverCell != _previousMouseoverCell)
-                {
-                    SelectedCellChanged?.Invoke(mouseoverCell);
-                    _previousMouseoverCell = mouseoverCell;
-                }
+                mouseoverCell = _mapHolder.Map.GetCell(gridPosition);
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -50,15 +46,11 @@ namespace Battle.BattleFlow
                     CellRightClicked?.Invoke(_previousMouseoverCell);
                 }
             }
-            else
+
+            if (_previousMouseoverCell != mouseoverCell)
             {
-                Cell mouseoverCell = null;
-                
-                if (_previousMouseoverCell != mouseoverCell)
-                {
-                    SelectedCellChanged?.Invoke(mouseoverCell);
-                    _previousMouseoverCell = mouseoverCell;
-                }
+                SelectedCellChanged?.Invoke(mouseoverCell);
+                _previousMouseoverCell = mouseoverCell;
             }
         }
         

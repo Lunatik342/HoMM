@@ -12,7 +12,7 @@ namespace RogueSharp
       int X { get; set; }
       int Y { get; set; }
 
-      bool IsWalkableByEntity(BattleMapPlaceable placeableEntity);
+      bool IsWalkableByUnit(Unit placeableEntity);
 
       Vector3 GetWorldPosition();
       List<Cell> GetLogicalCells();

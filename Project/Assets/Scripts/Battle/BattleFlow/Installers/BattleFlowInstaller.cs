@@ -15,6 +15,7 @@ namespace Battle.BattleFlow.Installers
             Container.Bind<BattleTurnsController>().AsSingle();
             
             Container.Bind<LocalPlayerCommandProvider>().AsSingle();
+            Container.Bind<AICommandProvider>().AsSingle();
             
             Container.Bind<MoveCommandProcessor>().AsSingle();
             Container.Bind<CommandsProcessor>().AsSingle();
@@ -23,8 +24,9 @@ namespace Battle.BattleFlow.Installers
 
             Container.BindInstance(Camera.main).AsSingle();
 
-            Container.Bind<ControllingUnitViewState>().AsTransient();
+            Container.Bind<UnitControlViewState>().AsTransient();
             Container.Bind<WaitingForCommandProcessViewState>().AsTransient();
+            Container.Bind<WaitingForEnemyTurnViewState>().AsTransient();
             Container.Bind<GridViewStateMachine>().AsSingle();
         }
     }

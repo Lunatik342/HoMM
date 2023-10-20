@@ -1,10 +1,9 @@
-using System;
+using Zenject;
 
 namespace Battle.Units.Movement
 {
     public interface IUnitComponentBinder
     {
-        Type GetContractTypeToBind();
-        object GetArgument();
+        void BindComponentToContainer(DiContainer container);
     }
 }

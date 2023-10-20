@@ -4,6 +4,7 @@ using Battle.BattleArena.PathDisplay;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units.Movement.StaticData;
+using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using RogueSharp;
@@ -11,13 +12,14 @@ using UnityEngine;
 
 namespace Battle.Units.Movement
 {
-    public class GroundUnitMovementController: IUnitMovementController, IDeathEventReceiver
+    public class GroundUnitMovementController: UnitMovementControllerBase, IDeathEventReceiver
     {
         private readonly Transform _transform;
         private readonly BattleMapPlaceable _mapPlaceable;
         private readonly RotationController _rotationController;
         private readonly PathfindingService _pathfindingService;
         private readonly GroundUnitMovementStaticData _staticData;
+        private readonly Unit _unit;
 
         private Tweener _moveTween;
 
@@ -25,16 +27,19 @@ namespace Battle.Units.Movement
             BattleMapPlaceable mapPlaceable, 
             RotationController rotationController,
             PathfindingService pathfindingService,
-            GroundUnitMovementStaticData staticData)
+            GroundUnitMovementStaticData staticData,
+            Unit unit,
+            UnitStatsProvider statsProvider) : base(staticData, statsProvider)
         {
             _transform = transform;
             _mapPlaceable = mapPlaceable;
             _rotationController = rotationController;
             _pathfindingService = pathfindingService;
             _staticData = staticData;
+            _unit = unit;
         }
 
-        public async UniTask MoveToPosition(Vector2Int targetPosition)
+        public override async UniTask MoveToPosition(Vector2Int targetPosition)
         {
             var path = GetPath(targetPosition);
             await MoveToPosition(path);
@@ -42,7 +47,7 @@ namespace Battle.Units.Movement
 
         private List<ICell> GetPath(Vector2Int targetPosition)
         {
-            var path = _pathfindingService.FindPath(targetPosition, _mapPlaceable).Steps.ToList();
+            var path = _pathfindingService.FindPath(targetPosition, _unit).Steps.ToList();
             path.RemoveAt(0);
             return path;
         }
@@ -67,14 +72,14 @@ namespace Battle.Units.Movement
             await pathTween.ToUniTask();
         }
 
-        public void OnDeath()
-        {
-            StopMovement();
-        }
-
         private void StopMovement()
         {
             _moveTween?.Kill();
+        }
+
+        void IDeathEventReceiver.OnDeath()
+        {
+            StopMovement();
         }
     }
 }

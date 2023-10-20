@@ -18,7 +18,7 @@ namespace Battle.BattleFlow
         public async UniTask<ICommand> WaitForCommand(Unit unit)
         {
             var unitMoveCommandCompletionSource = new TaskCompletionSource<ICommand>();
-            _gridViewStateMachine.Enter<ControllingUnitViewState, ControllingUnitStatePayload>(new ControllingUnitStatePayload(unitMoveCommandCompletionSource, unit));
+            _gridViewStateMachine.Enter<UnitControlViewState, UnitControlStatePayload>(new UnitControlStatePayload(unitMoveCommandCompletionSource, unit));
             var command = await unitMoveCommandCompletionSource.Task;
             return command;
         }
