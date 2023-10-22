@@ -4,6 +4,7 @@ using Battle.BattleArena.Obstacles;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.BattleFlow;
+using Battle.BattleFlow.StateMachine;
 using Battle.Units;
 using Battle.Units.Movement;
 using UnityEngine;
@@ -23,6 +24,11 @@ namespace Battle
         private readonly IObstaclesGenerationStrategy.Factory _obstacleGenerationStrategyFactory;
         private readonly TurnsQueueService _turnsQueueService;
         private readonly BattleTurnsController _battleTurnsController;
+        
+        private readonly GridViewStateMachine _gridViewStateMachine;
+        private readonly UnitControlViewState _unitControlViewState;
+        private readonly WaitingForCommandProcessViewState _waitingForCommandProcessViewState;
+        private readonly WaitingForEnemyTurnViewState _waitingForEnemyTurnViewState;
 
         public BattleStarter(BattleFieldViewSpawner battleFieldViewSpawner,
             ObstaclesSpawner obstaclesSpawner,
@@ -32,7 +38,12 @@ namespace Battle
             BattleArenaCellsViewsSpawner cellsViewsSpawner,
             IObstaclesGenerationStrategy.Factory obstacleGenerationStrategyFactory,
             TurnsQueueService turnsQueueService,
-            BattleTurnsController battleTurnsController)
+            BattleTurnsController battleTurnsController, 
+            
+            GridViewStateMachine gridViewStateMachine,
+            UnitControlViewState unitControlViewState, 
+            WaitingForCommandProcessViewState waitingForCommandProcessViewState,
+            WaitingForEnemyTurnViewState waitingForEnemyTurnViewState)
         {
             _battleFieldViewSpawner = battleFieldViewSpawner;
             _obstaclesSpawner = obstaclesSpawner;
@@ -43,6 +54,11 @@ namespace Battle
             _obstacleGenerationStrategyFactory = obstacleGenerationStrategyFactory;
             _turnsQueueService = turnsQueueService;
             _battleTurnsController = battleTurnsController;
+            
+            _gridViewStateMachine = gridViewStateMachine;
+            _unitControlViewState = unitControlViewState;
+            _waitingForCommandProcessViewState = waitingForCommandProcessViewState;
+            _waitingForEnemyTurnViewState = waitingForEnemyTurnViewState;
         }
 
         public async void Initialize()
@@ -62,6 +78,12 @@ namespace Battle
             await _obstaclesSpawner.Spawn(obstacleGenerationStrategy);
             await _armySpawner.Spawn(_battleStartParameters.StartingUnits);
             _turnsQueueService.InitializeFromStartingUnits();
+            
+            _gridViewStateMachine.RegisterState(_unitControlViewState);
+            _gridViewStateMachine.RegisterState(_waitingForCommandProcessViewState);
+            _gridViewStateMachine.RegisterState(_waitingForEnemyTurnViewState);
+            
+            _battleTurnsController.CreateCommandProviders(_battleStartParameters.CommandProvidersForTeams);
             _battleTurnsController.StartTurns();
         }
     }

@@ -1,4 +1,4 @@
-using Battle.Units.Movement;
+using Battle.Units;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -12,6 +12,6 @@ namespace Battle.BattleArena.Pathfinding.StaticData
         [field: SerializeField] public AssetReferenceGameObject GameObjectAssetReference { get; private set; }
         [field: SerializeField] public UnitRotationStaticData UnitRotationStaticData { get; private set; }
         [field: SerializeField] public UnitGridPlaceableStaticData UnitGridPlaceableStaticData { get; private set; }
-        [field: SerializeField] public IUnitComponentBinder MovementStaticData { get; private set; }
+        [field: SerializeField] public MovementStaticData MovementStaticData { get; private set; }
     }
 }

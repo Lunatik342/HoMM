@@ -11,7 +11,7 @@ namespace Battle.Units.Movement.StaticData
         
         public override void BindComponentToContainer(DiContainer container)
         {
-            container.Bind(typeof(UnitMovementControllerBase), typeof(IUnitInitializable))
+            container.Bind(typeof(UnitMovementControllerBase), typeof(IUnitInitializable), typeof(IDeathEventReceiver))
                 .To<GroundUnitMovementController>().AsSingle().WithArguments(this);
         }
     }

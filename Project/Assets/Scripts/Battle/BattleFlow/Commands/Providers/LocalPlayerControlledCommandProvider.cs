@@ -3,14 +3,15 @@ using Battle.BattleArena.Pathfinding;
 using Battle.BattleFlow.Commands;
 using Battle.BattleFlow.StateMachine;
 using Cysharp.Threading.Tasks;
+using Zenject;
 
 namespace Battle.BattleFlow
 {
-    public class LocalPlayerCommandProvider: ICommandProvider
+    public class LocalPlayerControlledCommandProvider: ICommandProvider
     {
         private readonly GridViewStateMachine _gridViewStateMachine;
 
-        public LocalPlayerCommandProvider(GridViewStateMachine gridViewStateMachine)
+        public LocalPlayerControlledCommandProvider(GridViewStateMachine gridViewStateMachine)
         {
             _gridViewStateMachine = gridViewStateMachine;
         }
@@ -21,6 +22,11 @@ namespace Battle.BattleFlow
             _gridViewStateMachine.Enter<UnitControlViewState, UnitControlStatePayload>(new UnitControlStatePayload(unitMoveCommandCompletionSource, unit));
             var command = await unitMoveCommandCompletionSource.Task;
             return command;
+        }
+
+        public class Factory : PlaceholderFactory<LocalPlayerControlledCommandProvider>
+        {
+            
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.BattleArena.StaticData;
+using Battle.BattleFlow;
 using UnityEngine;
 
 namespace Battle
@@ -12,14 +13,17 @@ namespace Battle
         public ObstacleGenerationParameters ObstacleGenerationParameters { get; private set; }
         
         public Dictionary<Team, List<UnitCreationParameter>> StartingUnits { get; private set; }
+        public Dictionary<Team, CommandProviderType> CommandProvidersForTeams { get; private set; }
 
         public BattleStartParameters(BattleArenaId battleArenaId, 
             ObstacleGenerationParameters obstacleGenerationParameters,
-            Dictionary<Team, List<UnitCreationParameter>> startingUnits)
+            Dictionary<Team, List<UnitCreationParameter>> startingUnits, 
+            Dictionary<Team, CommandProviderType> commandProvidersForTeams)
         {
             BattleArenaId = battleArenaId;
             ObstacleGenerationParameters = obstacleGenerationParameters;
             StartingUnits = startingUnits;
+            CommandProvidersForTeams = commandProvidersForTeams;
         }
     }
 

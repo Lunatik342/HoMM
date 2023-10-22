@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Battle.BattleFlow.StateMachine
 {
-    public class UnitControlViewState: IPaylodedState<UnitControlStatePayload>
+    public class UnitControlViewState: DisplayingCellsViewStateBase, IPaylodedState<UnitControlStatePayload>
     {
         private readonly BattleCellsInputService _cellsInputService;
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
@@ -25,7 +25,7 @@ namespace Battle.BattleFlow.StateMachine
         public UnitControlViewState(BattleCellsInputService cellsInputService, 
             BattleArenaCellsDisplayService cellsDisplayService,
             PathfindingService pathfindingService,
-            PathDisplayService pathDisplayService)
+            PathDisplayService pathDisplayService): base(cellsDisplayService)
         {
             _cellsInputService = cellsInputService;
             _cellsDisplayService = cellsDisplayService;
@@ -37,13 +37,12 @@ namespace Battle.BattleFlow.StateMachine
         {
             _unit = payload.Unit;
             _taskCompletionSource = payload.CommandAwaiter;
-            
-            _reachableCells = _pathfindingService.GetReachableCells(payload.Unit);
+            _reachableCells = _unit.MovementController.GetReachableCells();
 
-            _cellsInputService.SelectedCellChanged += MouseOverCellChanged;
+            _cellsInputService.MouseoverCellChanged += MouseoverCellChanged;
             _cellsInputService.CellLeftClicked += OnCellClicked;
 
-            MouseOverCellChanged(_cellsInputService.MouseOverCell);
+            MouseoverCellChanged(_cellsInputService.MouseOverCell);
         }
         
         private void OnCellClicked(Cell clickedCell)
@@ -51,17 +50,20 @@ namespace Battle.BattleFlow.StateMachine
             if (_reachableCells.Contains(clickedCell))
             {
                 _pathDisplayService.StopDisplaying();
-                _cellsDisplayService.DisplayAllCellsDefault();
                 _taskCompletionSource.SetResult(new UnitMoveCommand(_unit, new Vector2Int(clickedCell.X, clickedCell.Y)));
             }
         }
 
-        private void MouseOverCellChanged(Cell cell)
+        private void MouseoverCellChanged(Cell cell)
         {
             _cellsDisplayService.DisplayAllCellsDefault();
-            _cellsDisplayService.DisplayReachableCells(_reachableCells);
+            DisplayReachableCells(cell, _reachableCells);
             _cellsDisplayService.DisplayCurrentlyControlledUnitCell(_unit.BattleMapPlaceable.OccupiedCell);
-            
+            DisplayPathToMouseOverCell(cell);
+        }
+
+        private void DisplayPathToMouseOverCell(Cell cell)
+        {
             if (_reachableCells.Contains(cell))
             {
                 _cellsDisplayService.DisplayMoveTargetCell(cell);
@@ -76,20 +78,8 @@ namespace Battle.BattleFlow.StateMachine
 
         public void Exit()
         {
-            _cellsInputService.SelectedCellChanged -= MouseOverCellChanged;
+            _cellsInputService.MouseoverCellChanged -= MouseoverCellChanged;
             _cellsInputService.CellLeftClicked -= OnCellClicked;
         }
     }
-
-    public class UnitControlStatePayload
-    {
-        public Unit Unit { get; }
-        public TaskCompletionSource<ICommand> CommandAwaiter { get; }
-
-        public UnitControlStatePayload(TaskCompletionSource<ICommand> commandAwaiter, Unit unit)
-        {
-            CommandAwaiter = commandAwaiter;
-            Unit = unit;
-        }
-    }
-}
+ }

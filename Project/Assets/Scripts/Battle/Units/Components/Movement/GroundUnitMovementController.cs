@@ -44,6 +44,11 @@ namespace Battle.Units.Movement
             var path = GetPath(targetPosition);
             await MoveToPosition(path);
         }
+        
+        public override List<Cell> GetReachableCells()
+        {
+            return _pathfindingService.GetReachableCells(_unit);
+        }
 
         private List<ICell> GetPath(Vector2Int targetPosition)
         {
@@ -64,8 +69,13 @@ namespace Battle.Units.Movement
 
             pathTween.onWaypointChange += index =>
             {
-                var cellsToOccupy = path[index].GetLogicalCells();
-                _mapPlaceable.RelocateTo(cellsToOccupy);
+                if (path.Count <= index)
+                {
+                    return;
+                }
+                
+                var cellToOccupy = path[index].GetLogicalCell();
+                _mapPlaceable.RelocateTo(cellToOccupy);
             };
 
             _moveTween = pathTween;

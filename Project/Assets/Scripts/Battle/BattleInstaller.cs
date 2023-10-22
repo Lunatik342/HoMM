@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.BattleArena.StaticData;
+using Battle.BattleFlow;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -42,7 +43,11 @@ namespace Battle
                     new(ObstacleId.Blank1, ObstaclesSpawner.ObstacleRotationAngle.Degrees0, new Vector2Int(5, 5))
                 },
                 
-            }, unitsToSpawn);
+            }, unitsToSpawn, new Dictionary<Team, CommandProviderType>
+            {
+                { Team.TeamLeft , CommandProviderType.PlayerControlled },
+                { Team.TeamRight , CommandProviderType.AIControlled },
+            });
             
             Container.Bind<BattleStartParameters>().FromInstance(testBattleStartParameters).AsSingle();
             Container.BindInterfacesAndSelfTo<BattleStarter>().AsSingle().NonLazy();

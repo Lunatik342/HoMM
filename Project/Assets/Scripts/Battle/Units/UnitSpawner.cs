@@ -43,7 +43,7 @@ namespace Battle.Units
             
             createdUnit.GameObject.transform.position = TwoDimensionalArrayUtilities.GetWorldPositionFor(gridPosition, size, size);
             createdUnit.RotationController.LookAtEnemySide();
-            createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map[gridPosition.x, gridPosition.y], _mapHolder.Map);
+            createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map.GetCell(gridPosition));
 
             createdUnit.Initialize();
 

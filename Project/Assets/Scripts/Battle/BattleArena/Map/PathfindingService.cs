@@ -8,6 +8,8 @@ namespace Battle.BattleArena.Pathfinding
     public class PathfindingService
     {
         private readonly IMapHolder _mapHolder;
+        
+        private const float DiagonalMovementCost = 1.41f;
 
         public PathfindingService(IMapHolder mapHolder)
         {
@@ -17,16 +19,20 @@ namespace Battle.BattleArena.Pathfinding
         public Path FindPath(Vector2Int targetPosition, Unit unit)
         {
             var pathfindingMap = _mapHolder.Map;
-            DijkstraPathFinder pathFinder = new DijkstraPathFinder(pathfindingMap, BattleArenaConstants.DiagonalMovementCost, unit);
+            var pathFinder = new DijkstraPathFinder(pathfindingMap, DiagonalMovementCost, unit);
             var path = pathFinder.TryFindShortestPath(unit.BattleMapPlaceable.OccupiedCell, pathfindingMap[targetPosition.x, targetPosition.y]);
-
             return path;
+        }
+
+        public ICell FindPathForFlyingUnit(Vector2Int targetPosition)
+        {
+            return _mapHolder.Map[targetPosition.x, targetPosition.y];
         }
 
         public List<Cell> GetReachableCells(Unit unit)
         {
             var occupiedCell = unit.BattleMapPlaceable.OccupiedCell;
-            var reachableCellsFinder = new ReachableCellsFinder<Cell>(BattleArenaConstants.DiagonalMovementCost);
+            var reachableCellsFinder = new ReachableCellsFinder<Cell>(DiagonalMovementCost);
             var cellsPositions = reachableCellsFinder.GetReachableCells(occupiedCell, _mapHolder.Map, unit, unit.MovementController.TravelDistance);
 
             List<Cell> reachableCells = new List<Cell>();
@@ -40,12 +46,17 @@ namespace Battle.BattleArena.Pathfinding
                 }
             }
 
+            reachableCells.Remove(unit.BattleMapPlaceable.OccupiedCell);
             return reachableCells;
         }
-
-        public ICell FindPathForFlyingUnit(Vector2Int targetPosition)
+        
+        public List<Cell> GetReachableCellsForFlyingUnit(Unit unit)
         {
-            return _mapHolder.Map[targetPosition.x, targetPosition.y];
+            var occupiedCell = unit.BattleMapPlaceable.OccupiedCell;
+            var reachableCellsFinder = new FlyingUnitReachableCellsFinder<Cell>(DiagonalMovementCost);
+            var reachableCells = reachableCellsFinder.GetReachableCells(occupiedCell, _mapHolder.Map, unit, unit.MovementController.TravelDistance);
+            reachableCells.Remove(unit.BattleMapPlaceable.OccupiedCell);
+            return reachableCells;
         }
     }
 }

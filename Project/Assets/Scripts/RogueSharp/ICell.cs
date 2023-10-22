@@ -13,8 +13,9 @@ namespace RogueSharp
       int Y { get; set; }
 
       bool IsWalkableByUnit(Unit placeableEntity);
+      public bool CanPlaceUnit(Unit placeableEntity);
 
       Vector3 GetWorldPosition();
-      List<Cell> GetLogicalCells();
+      Cell GetLogicalCell();
    }
 }

@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using Battle.BattleArena.Pathfinding;
 using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
+using RogueSharp;
 using UnityEngine;
 
 namespace Battle.Units.Movement
@@ -22,6 +25,8 @@ namespace Battle.Units.Movement
         {
             _statsProviderProvider.AddStat(StatType.TravelDistance, _movementStaticData.TravelDistance);
         }
+
+        public abstract List<Cell> GetReachableCells();
 
         public abstract UniTask MoveToPosition(Vector2Int targetPosition);
     }

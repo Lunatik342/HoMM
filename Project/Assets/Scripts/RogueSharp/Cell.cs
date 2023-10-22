@@ -59,9 +59,9 @@ namespace RogueSharp
          return this.ToBattleArenaWorldPosition();
       }
 
-      List<Cell> ICell.GetLogicalCells()
+      Cell ICell.GetLogicalCell()
       {
-         return new List<Cell> { this };
+         return this;
       }
 
       public override string ToString()

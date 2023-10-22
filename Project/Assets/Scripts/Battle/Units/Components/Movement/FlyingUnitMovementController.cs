@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding;
 using Battle.Units.Movement.StaticData;
 using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using RogueSharp;
 using UnityEngine;
 
 namespace Battle.Units.Movement
@@ -15,6 +17,7 @@ namespace Battle.Units.Movement
         private readonly RotationController _rotationController;
         private readonly PathfindingService _pathfindingService;
         private readonly FlyingUnitMovementStaticData _staticData;
+        private readonly Unit _unit;
 
         private Sequence _flyTween;
 
@@ -23,13 +26,15 @@ namespace Battle.Units.Movement
             RotationController rotationController,
             PathfindingService pathfindingService,
             FlyingUnitMovementStaticData staticData,
-            UnitStatsProvider statsProvider) : base(staticData, statsProvider)
+            UnitStatsProvider statsProvider,
+            Unit unit) : base(staticData, statsProvider)
         {
             _transform = transform;
             _mapPlaceable = mapPlaceable;
             _rotationController = rotationController;
             _pathfindingService = pathfindingService;
             _staticData = staticData;
+            _unit = unit;
         }
 
         public override async UniTask MoveToPosition(Vector2Int targetPosition)
@@ -46,7 +51,12 @@ namespace Battle.Units.Movement
             _flyTween = _transform.DOJump(targetWorldPosition, _staticData.JumpPower, 1, flyDuration).SetSpeedBased();
             await _flyTween.ToUniTask();
             
-            _mapPlaceable.RelocateTo(targetCell.GetLogicalCells());
+            _mapPlaceable.RelocateTo(targetCell.GetLogicalCell());
+        }
+
+        public override List<Cell> GetReachableCells()
+        {
+            return _pathfindingService.GetReachableCellsForFlyingUnit(_unit);
         }
 
         public void OnDeath()

@@ -3,18 +3,16 @@ using Battle.BattleFlow.Commands;
 using Battle.BattleFlow.StateMachine;
 using Cysharp.Threading.Tasks;
 using Utilities;
+using Zenject;
 
 namespace Battle.BattleFlow
 {
-    public class AICommandProvider: ICommandProvider
+    public class AIControlledCommandProvider: ICommandProvider
     {
-        private readonly PathfindingService _pathfindingService;
         private readonly GridViewStateMachine _gridViewStateMachine;
 
-        public AICommandProvider(PathfindingService pathfindingService,
-            GridViewStateMachine gridViewStateMachine)
+        public AIControlledCommandProvider(GridViewStateMachine gridViewStateMachine)
         {
-            _pathfindingService = pathfindingService;
             _gridViewStateMachine = gridViewStateMachine;
         }
 
@@ -22,9 +20,14 @@ namespace Battle.BattleFlow
         {
             _gridViewStateMachine.Enter<WaitingForEnemyTurnViewState>();
             await UniTask.Delay(2000);
-            var reachableCells = _pathfindingService.GetReachableCells(unit);
+            var reachableCells = unit.MovementController.GetReachableCells();
             var randomCell = reachableCells.GetRandomItem();
             return new UnitMoveCommand(unit, randomCell.GridPosition);
+        }
+        
+        public class Factory: PlaceholderFactory<AIControlledCommandProvider>
+        {
+            
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RogueSharp;
 using UnityEngine;
 
@@ -21,19 +22,23 @@ namespace Battle.BattleArena.CellsViews
             }
         }
 
-        public void DisplayReachableCells(List<Cell> reachableCells)
+        public void DisplayReachableCells(List<Cell> reachableCells, List<Cell> enemyReachableCells)
         {
-            foreach (var reachableCell in reachableCells)
+            var intersection = reachableCells.Intersect(enemyReachableCells);
+            
+            foreach (var cell in reachableCells)
             {
-                _cellsViewsHolder.CellsViews[reachableCell.X, reachableCell.Y].PaintCell(CellViewState.Walkable);
+                _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.Walkable);
             }
-        }
-
-        public void DisplayEnemyWalkableCells(List<Cell> enemyWalkableCells)
-        {
-            foreach (var enemyWalkableCell in enemyWalkableCells)
+            
+            foreach (var cell in enemyReachableCells)
             {
-                _cellsViewsHolder.CellsViews[enemyWalkableCell.X, enemyWalkableCell.Y].PaintCell(CellViewState.EnemyWalkable);
+                _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.EnemyWalkable);
+            }
+
+            foreach (var cell in intersection)
+            {
+                _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.WalkableAndEnemyWalkableIntersection);
             }
         }
 

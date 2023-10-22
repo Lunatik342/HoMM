@@ -15,7 +15,7 @@ namespace Battle.BattleFlow
 
         private Cell _previousMouseoverCell;
 
-        public event Action<Cell> SelectedCellChanged;
+        public event Action<Cell> MouseoverCellChanged;
         public event Action<Cell> CellLeftClicked;
         public event Action<Cell> CellRightClicked;
 
@@ -38,18 +38,18 @@ namespace Battle.BattleFlow
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    CellLeftClicked?.Invoke(_previousMouseoverCell);
+                    CellLeftClicked?.Invoke(mouseoverCell);
                 }
 
                 if (Input.GetMouseButtonDown(1))
                 {
-                    CellRightClicked?.Invoke(_previousMouseoverCell);
+                    CellRightClicked?.Invoke(mouseoverCell);
                 }
             }
 
             if (_previousMouseoverCell != mouseoverCell)
             {
-                SelectedCellChanged?.Invoke(mouseoverCell);
+                MouseoverCellChanged?.Invoke(mouseoverCell);
                 _previousMouseoverCell = mouseoverCell;
             }
         }

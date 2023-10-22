@@ -7,12 +7,8 @@ namespace RogueSharp.Algorithms
    //Based on AStar (I just removed some code and added some code), very lazy implementation but it works
    public class ReachableCellsFinder<TCell> where TCell : ICell
    {
-      private readonly double? _diagonalCost;
+      private readonly double _diagonalCost;
 
-      public ReachableCellsFinder()
-      {
-      }
-      
       public ReachableCellsFinder( double diagonalCost )
       {
          _diagonalCost = diagonalCost;
@@ -43,10 +39,8 @@ namespace RogueSharp.Algorithms
             isNodeClosed[currentIndex] = true;
 
             ICell currentCell = map.CellFor( currentIndex );
-
-            bool includeDiagonals = _diagonalCost.HasValue;
             
-            foreach ( TCell neighbor in map.GetAdjacentCells( currentCell.X, currentCell.Y, includeDiagonals ) )
+            foreach ( TCell neighbor in map.GetAdjacentCells( currentCell.X, currentCell.Y, true ) )
             {
                int neighborIndex = map.IndexFor( neighbor );
                if ( neighbor.IsWalkableByUnit(pathingAgent) == false || isNodeClosed[neighborIndex] )
@@ -92,9 +86,9 @@ namespace RogueSharp.Algorithms
       private double GetTravelCost(int x1, int y1, int x2, int y2)
       {
          //If they are diagonal
-         if (x1 != x2 && y1 != y2 && _diagonalCost.HasValue)
+         if (x1 != x2 && y1 != y2)
          {
-            return _diagonalCost.Value;
+            return _diagonalCost;
          }
 
          return 1d;
