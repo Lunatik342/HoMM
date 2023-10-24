@@ -32,7 +32,8 @@ namespace Battle.BattleArena.CellsViews
         TargetableByRangedAbility,
         CurrentUnit,
         MoveTarget,
-        AoeSpellTarget
+        AoeSpellTarget,
+        MeleeAttackTarget
     }
 
     [Serializable]

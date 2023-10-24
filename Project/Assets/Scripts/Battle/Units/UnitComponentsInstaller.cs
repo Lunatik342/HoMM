@@ -30,9 +30,10 @@ namespace Battle.Units
             Container.Bind<Unit>().AsSingle();
             Container.Bind<RotationController>().AsSingle().WithArguments(_staticData.UnitRotationStaticData);
             Container.Bind<BattleMapPlaceable>().AsSingle().WithArguments(_staticData.UnitGridPlaceableStaticData);
+            Container.BindInterfacesAndSelfTo<UnitHealth>().AsSingle().WithArguments(_staticData.DamageReceiverStaticData);
             Container.Bind<UnitStatsProvider>().AsSingle();
 
-            _staticData.MovementStaticData.BindComponentToContainer(Container);
+            _staticData.MovementStaticData.BindRelatedComponentToContainer(Container);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RogueSharp;
 using RogueSharp.Algorithms;
 using UnityEngine;
@@ -9,19 +10,19 @@ namespace Battle.BattleArena.Pathfinding
     {
         private readonly IMapHolder _mapHolder;
         
-        private const float DiagonalMovementCost = 1.41f;
+        public const float DiagonalMovementCost = 1.41f;
 
         public PathfindingService(IMapHolder mapHolder)
         {
             _mapHolder = mapHolder;
         }
 
-        public Path FindPath(Vector2Int targetPosition, Unit unit)
+        public List<ICell> FindPath(Vector2Int targetPosition, Unit unit)
         {
             var pathfindingMap = _mapHolder.Map;
             var pathFinder = new DijkstraPathFinder(pathfindingMap, DiagonalMovementCost, unit);
             var path = pathFinder.TryFindShortestPath(unit.BattleMapPlaceable.OccupiedCell, pathfindingMap[targetPosition.x, targetPosition.y]);
-            return path;
+            return path.Steps.ToList();
         }
 
         public ICell FindPathForFlyingUnit(Vector2Int targetPosition)

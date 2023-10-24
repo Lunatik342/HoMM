@@ -8,6 +8,6 @@ namespace Battle.Units
     public abstract class MovementStaticData: ScriptableObject, IUnitComponentBinder
     {
         [field: SerializeField] public int TravelDistance { get; private set; }
-        public abstract void BindComponentToContainer(DiContainer container);
+        public abstract void BindRelatedComponentToContainer(DiContainer container);
     }
 }

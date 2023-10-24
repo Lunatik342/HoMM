@@ -15,9 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 0
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: cd54b4cc1546cf14a8a447ae8904eb23, type: 2}
-    SerializedBytesString: CwEjAAAAPABNAG8AdgBlAG0AZQBuAHQAUwB0AGEAdABpAGMARABhAHQAYQA+AGsAXwBfAEIAYQBjAGsAaQBuAGcARgBpAGUAbABkAAAAAAA=
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
@@ -32,3 +31,9 @@ MonoBehaviour:
     <RotationSpeed>k__BackingField: 360
   <UnitGridPlaceableStaticData>k__BackingField:
     <Size>k__BackingField: 1
+  <MovementStaticData>k__BackingField: {fileID: 11400000, guid: cd54b4cc1546cf14a8a447ae8904eb23,
+    type: 2}
+  <DamageReceiverStaticData>k__BackingField:
+    <MaxHealth>k__BackingField: 15
+    <Defence>k__BackingField: 1
+  <Initiative>k__BackingField: 5

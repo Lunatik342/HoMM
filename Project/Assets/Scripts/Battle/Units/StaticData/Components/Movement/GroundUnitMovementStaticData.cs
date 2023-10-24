@@ -9,9 +9,9 @@ namespace Battle.Units.Movement.StaticData
     {
         [field: SerializeField] public float MovementSpeed { get; private set; }
         
-        public override void BindComponentToContainer(DiContainer container)
+        public override void BindRelatedComponentToContainer(DiContainer container)
         {
-            container.Bind(typeof(UnitMovementControllerBase), typeof(IUnitInitializable), typeof(IDeathEventReceiver))
+            container.Bind(typeof(UnitMovementControllerBase), typeof(IStatsInitializer), typeof(IDeathEventReceiver))
                 .To<GroundUnitMovementController>().AsSingle().WithArguments(this);
         }
     }

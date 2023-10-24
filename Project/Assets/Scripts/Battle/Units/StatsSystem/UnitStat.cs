@@ -10,7 +10,7 @@ namespace Battle.Units.StatsSystem
 
         public readonly int BaseValue;
         public int Value { get; private set; }
-        public event Action<int> ValueChanged;
+        public event Action<int, int> ValueChanged;
 
         public UnitStat(int baseValue)
         {
@@ -91,8 +91,9 @@ namespace Battle.Units.StatsSystem
 
         private void SetDirty()
         {
+            var previousValue = Value;
             Value = CalculateFinalValue();
-            ValueChanged?.Invoke(Value);
+            ValueChanged?.Invoke(previousValue, Value);
         }
  
         private int CompareModifierOrder(StatModifier a, StatModifier b)

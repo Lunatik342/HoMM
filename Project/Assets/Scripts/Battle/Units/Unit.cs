@@ -16,14 +16,15 @@ namespace Battle.BattleArena.Pathfinding
         [Inject] public RotationController RotationController { get; set; }
         [Inject] public BattleMapPlaceable BattleMapPlaceable { get; set; }
         [Inject] public UnitStatsProvider StatsProvider { get; set; }
+        [Inject] public UnitHealth Health { get; set; }
         
-        [Inject] private List<IUnitInitializable> _initializableComponents { get; set; }
+        [Inject] private List<IStatsInitializer> _initializableComponents { get; set; }
 
-        public void Initialize()
+        public void InitializeStats()
         {
             foreach (var initializableComponent in _initializableComponents)
             {
-                initializableComponent.Initialize();
+                initializableComponent.ConfigureStats();
             }
         }
 

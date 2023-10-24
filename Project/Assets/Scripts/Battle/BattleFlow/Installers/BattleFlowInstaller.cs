@@ -1,5 +1,6 @@
 using Battle.BattleFlow.Commands;
 using Battle.BattleFlow.StateMachine;
+using Battle.BattleFlow.StateMachine.MouseOverCells;
 using Battle.Units.Movement;
 using UnityEngine;
 using Zenject;
@@ -32,10 +33,15 @@ namespace Battle.BattleFlow.Installers
 
         private void BindGridViewStateMachine()
         {
+            Container.Bind<GridViewStateMachine>().AsSingle();
+            
             Container.Bind<UnitControlViewState>().AsTransient();
             Container.Bind<WaitingForCommandProcessViewState>().AsTransient();
             Container.Bind<WaitingForEnemyTurnViewState>().AsTransient();
-            Container.Bind<GridViewStateMachine>().AsSingle();
+
+            Container.Bind<ReachableCellHoverHandler>().AsSingle();
+            Container.Bind<MeleeAttackCellHoverHandler>().AsSingle();
+            Container.Bind<EmptyCellHoverHandler>().AsSingle();
         }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Battle.Units.Movement
 {
-    public abstract class UnitMovementControllerBase: IUnitInitializable
+    public abstract class UnitMovementControllerBase: IStatsInitializer
     {
         private readonly MovementStaticData _movementStaticData;
         private readonly UnitStatsProvider _statsProviderProvider;
@@ -21,7 +21,7 @@ namespace Battle.Units.Movement
             _statsProviderProvider = statsProviderProvider;
         }
 
-        void IUnitInitializable.Initialize()
+        void IStatsInitializer.ConfigureStats()
         {
             _statsProviderProvider.AddStat(StatType.TravelDistance, _movementStaticData.TravelDistance);
         }

@@ -30,5 +30,8 @@ namespace Battle.Units.StatsSystem
     public enum StatType
     {
         TravelDistance = 1,
+        Initiative = 2,
+        MaxHealth = 3,
+        Defence = 4,
     }
 }

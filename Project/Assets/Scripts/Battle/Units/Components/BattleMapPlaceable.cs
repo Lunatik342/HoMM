@@ -21,7 +21,7 @@ namespace Battle.BattleArena.Pathfinding
         public void RelocateTo(Cell targetCell)
         {
             RemoveFromCurrentPosition();
-            targetCell.PlaceEntity(_unit);
+            targetCell.PlaceUnit(_unit);
             OccupiedCell = targetCell;
         }
 
@@ -32,7 +32,7 @@ namespace Battle.BattleArena.Pathfinding
 
         private void RemoveFromCurrentPosition()
         {
-            OccupiedCell?.RemoveEntity(_unit);
+            OccupiedCell?.RemoveUnit(_unit);
         }
     }
 }

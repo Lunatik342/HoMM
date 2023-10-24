@@ -36,7 +36,7 @@ namespace RogueSharp
          return IsWalkableByUnit(placeableEntity);
       }
 
-      public void PlaceEntity(Unit unit)
+      public void PlaceUnit(Unit unit)
       {
          if (!CanPlaceUnit(unit))
          {
@@ -46,7 +46,7 @@ namespace RogueSharp
          PlacedUnit = unit;
       }
 
-      public void RemoveEntity(Unit unit)
+      public void RemoveUnit(Unit unit)
       {
          if (PlacedUnit == unit)
          {

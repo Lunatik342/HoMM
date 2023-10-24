@@ -68,6 +68,11 @@ namespace RogueSharp
 
       public TCell GetCell(Vector2Int position)
       {
+         if (position.x < 0 || position.y < 0 || position.x >= _cells.GetLength(0) || position.y >= _cells.GetLength(1))
+         {
+            return default;
+         }
+         
          return this[position.x, position.y];
       }
 

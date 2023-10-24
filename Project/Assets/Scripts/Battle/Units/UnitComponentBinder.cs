@@ -4,6 +4,6 @@ namespace Battle.Units.Movement
 {
     public interface IUnitComponentBinder
     {
-        void BindComponentToContainer(DiContainer container);
+        void BindRelatedComponentToContainer(DiContainer container);
     }
 }

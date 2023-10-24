@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Battle.BattleArena.Pathfinding;
+using Utilities;
 
 namespace RogueSharp.Algorithms
 {
@@ -28,7 +29,7 @@ namespace RogueSharp.Algorithms
                         continue;
                     }
 
-                    if (CalculateDistance(source, cell) < maxDistanceFormStart)
+                    if (CellsUtilities.CalculateDistance(source, cell) < maxDistanceFormStart)
                     {
                         result.Add(cell.GetLogicalCell());
                     }
@@ -36,17 +37,6 @@ namespace RogueSharp.Algorithms
             }
 
             return result;
-        }
-
-        private double CalculateDistance(TCell source, TCell destination)
-        {
-            int dx = Math.Abs(source.X - destination.X);
-            int dy = Math.Abs(source.Y - destination.Y);
-
-            int dMin = Math.Min(dx, dy);
-            int dMax = Math.Max(dx, dy);
-
-            return (dMin * _diagonalCost) + (dMax - dMin);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Battle
             }, unitsToSpawn, new Dictionary<Team, CommandProviderType>
             {
                 { Team.TeamLeft , CommandProviderType.PlayerControlled },
-                { Team.TeamRight , CommandProviderType.AIControlled },
+                { Team.TeamRight , CommandProviderType.PlayerControlled },
             });
             
             Container.Bind<BattleStartParameters>().FromInstance(testBattleStartParameters).AsSingle();

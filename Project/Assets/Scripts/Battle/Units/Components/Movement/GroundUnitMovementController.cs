@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Battle.BattleArena.PathDisplay;
 using Battle.BattleArena.Pathfinding;
-using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units.Movement.StaticData;
 using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
@@ -52,7 +50,7 @@ namespace Battle.Units.Movement
 
         private List<ICell> GetPath(Vector2Int targetPosition)
         {
-            var path = _pathfindingService.FindPath(targetPosition, _unit).Steps.ToList();
+            var path = _pathfindingService.FindPath(targetPosition, _unit);
             path.RemoveAt(0);
             return path;
         }

@@ -47,6 +47,11 @@ namespace Battle.BattleArena.CellsViews
             _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.MoveTarget);
         }
 
+        public void DisplayAttackTargetCell(Cell cell)
+        {
+            _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.MeleeAttackTarget);
+        }
+
         public void DisplayCurrentlyControlledUnitCell(Cell cell)
         {
             _cellsViewsHolder.CellsViews[cell.X, cell.Y].PaintCell(CellViewState.CurrentUnit);

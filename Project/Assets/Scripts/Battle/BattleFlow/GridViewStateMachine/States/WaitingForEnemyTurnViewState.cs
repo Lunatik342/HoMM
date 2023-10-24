@@ -5,13 +5,13 @@ using RogueSharp;
 
 namespace Battle.BattleFlow.StateMachine
 {
-    public class WaitingForEnemyTurnViewState: DisplayingCellsViewStateBase, IState
+    public class WaitingForEnemyTurnViewState: IState
     {
         private readonly BattleCellsInputService _cellsInputService;
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
 
         public WaitingForEnemyTurnViewState(BattleCellsInputService cellsInputService, 
-            BattleArenaCellsDisplayService cellsDisplayService) : base(cellsDisplayService)
+            BattleArenaCellsDisplayService cellsDisplayService)
         {
             _cellsInputService = cellsInputService;
             _cellsDisplayService = cellsDisplayService;
@@ -26,7 +26,12 @@ namespace Battle.BattleFlow.StateMachine
         private void MouseoverCellChanged(Cell cell)
         {
             _cellsDisplayService.DisplayAllCellsDefault();
-            DisplayReachableCells(cell, new List<Cell>());
+
+            var mouseoverUnitReachableCells = cell?.PlacedUnit != null ? 
+                cell.PlacedUnit.MovementController.GetReachableCells() : 
+                new List<Cell>();
+            
+            _cellsDisplayService.DisplayReachableCells(mouseoverUnitReachableCells, mouseoverUnitReachableCells);
         }
 
         public void Exit()

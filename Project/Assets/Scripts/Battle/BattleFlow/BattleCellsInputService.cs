@@ -14,10 +14,12 @@ namespace Battle.BattleFlow
         private Plane _floorPlane;
 
         private Cell _previousMouseoverCell;
+        private Vector3 _previousMousePosition;
 
         public event Action<Cell> MouseoverCellChanged;
         public event Action<Cell> CellLeftClicked;
         public event Action<Cell> CellRightClicked;
+        public event Action<Vector3> MousePositionChanged;
 
         public Cell MouseOverCell => _previousMouseoverCell;
 
@@ -32,7 +34,7 @@ namespace Battle.BattleFlow
         {
             Cell mouseoverCell = null;
             
-            if (TryGetCellForMousePosition(out var gridPosition))
+            if (TryGetCellForMousePosition(out var gridPosition, out var hitPosition))
             {
                 mouseoverCell = _mapHolder.Map.GetCell(gridPosition);
 
@@ -46,27 +48,34 @@ namespace Battle.BattleFlow
                     CellRightClicked?.Invoke(mouseoverCell);
                 }
             }
-
+            
             if (_previousMouseoverCell != mouseoverCell)
             {
                 MouseoverCellChanged?.Invoke(mouseoverCell);
                 _previousMouseoverCell = mouseoverCell;
             }
+
+            if (_previousMousePosition != hitPosition)
+            {
+                MousePositionChanged?.Invoke(hitPosition);
+                _previousMousePosition = hitPosition;
+            }
         }
-        
-        private bool TryGetCellForMousePosition(out Vector2Int gridPosition)
+
+        private bool TryGetCellForMousePosition(out Vector2Int gridPosition, out Vector3 hitPoint)
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (_floorPlane.Raycast(ray, out var enter))
             {
-                Vector3 hitPoint = ray.GetPoint(enter);
+                hitPoint = ray.GetPoint(enter);
                 gridPosition = hitPoint.ToMapCellCoordinates();
 
                 return IsPositionInsideGrid(gridPosition);
             }
 
             gridPosition = default;
+            hitPoint = default;
             return false;
         }
 

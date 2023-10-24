@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Battle.BattleArena.Pathfinding;
 using Battle.Units;
+using Battle.Units.StatsSystem;
 using Utilities;
 
 namespace Battle.BattleFlow
@@ -19,7 +20,7 @@ namespace Battle.BattleFlow
 
         public void InitializeFromStartingUnits()
         {
-            var shuffledUnits = _unitsHolder.AllUnits.Shuffle().ToList();
+            var shuffledUnits = _unitsHolder.AllUnits.OrderByDescending(u => u.StatsProvider.GetStatValue(StatType.Initiative)).ToList();
 
             foreach (var unit in shuffledUnits)
             {
