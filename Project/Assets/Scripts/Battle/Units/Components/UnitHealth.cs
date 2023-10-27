@@ -12,11 +12,13 @@ namespace Battle.Units
 
         public int AliveUnitsCount { get; private set; }
         public int CurrenHealth { get; private set; }
+        public bool IsAlive => AliveUnitsCount > 0;
 
         public event Action<int, int> HealthChanged; 
         public event Action UnitDied; 
 
-        public UnitHealth(UnitStatsProvider statsProvider, DamageReceiverStaticData damageReceiverStaticData)
+        public UnitHealth(UnitStatsProvider statsProvider, 
+            DamageReceiverStaticData damageReceiverStaticData)
         {
             _statsProvider = statsProvider;
             _damageReceiverStaticData = damageReceiverStaticData;
@@ -52,7 +54,7 @@ namespace Battle.Units
                 CurrenHealth = maxHealth + CurrenHealth;
             }
 
-            if (AliveUnitsCount < 0)
+            if (AliveUnitsCount < 1)
             {
                 AliveUnitsCount = 0;
                 CurrenHealth = 0;
@@ -64,6 +66,11 @@ namespace Battle.Units
             {
                 UnitDied?.Invoke();
             }
+        }
+
+        public float GetHealthPercentage()
+        {
+            return (float)CurrenHealth / _maxHealthStat.Value;
         }
 
         private void AdjustCurrentMaxHealth(int previousMaxHealth, int currentMaxHealth)

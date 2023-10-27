@@ -1,4 +1,5 @@
 using Battle.BattleFlow.Commands;
+using Battle.BattleFlow.Commands.Processors;
 using Battle.BattleFlow.StateMachine;
 using Battle.BattleFlow.StateMachine.MouseOverCells;
 using Battle.Units.Movement;
@@ -28,6 +29,7 @@ namespace Battle.BattleFlow.Installers
             Container.BindFactory<LocalPlayerControlledCommandProvider, LocalPlayerControlledCommandProvider.Factory>().AsSingle();
             Container.BindFactory<AIControlledCommandProvider, AIControlledCommandProvider.Factory>().AsSingle();
             Container.Bind<MoveCommandProcessor>().AsSingle();
+            Container.Bind<MeleeAttackCommandProcessor>().AsSingle();
             Container.Bind<CommandsProcessor>().AsSingle();
         }
 

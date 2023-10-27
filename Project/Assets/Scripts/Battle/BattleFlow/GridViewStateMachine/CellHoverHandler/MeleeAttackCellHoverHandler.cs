@@ -85,7 +85,7 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
                 _cellsDisplayService.DisplayMoveTargetCell(cellToAttackFrom);
                 _cellsDisplayService.DisplayAttackTargetCell(_mouseoverCell);
                 var path = _pathfindingService.FindPath(cellToAttackFrom.GridPosition, _controlledUnit);
-                _pathDisplayService.Display(path);
+                _pathDisplayService.DisplayPath(path);
             }
         }
 

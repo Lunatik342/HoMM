@@ -6,9 +6,11 @@ namespace Battle.Units.StatsSystem
     {
         private Dictionary<StatType, UnitStat> _stats = new();
 
-        public void AddStat(StatType statType, int baseValue)
+        public UnitStat AddStat(StatType statType, int baseValue)
         {
-            _stats.Add(statType, new UnitStat(baseValue));
+            var stat = new UnitStat(baseValue);
+            _stats.Add(statType, stat);
+            return stat;
         }
 
         public bool TryGetStat(StatType statType, out UnitStat unitStat)
@@ -33,5 +35,9 @@ namespace Battle.Units.StatsSystem
         Initiative = 2,
         MaxHealth = 3,
         Defence = 4,
+        Attack = 5,
+        MinDamage = 6,
+        MaxDamage = 7,
+        Luck = 8
     }
 }

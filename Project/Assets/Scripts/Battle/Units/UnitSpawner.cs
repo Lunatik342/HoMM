@@ -46,10 +46,11 @@ namespace Battle.Units
             createdUnit.RotationController.LookAtEnemySide();
             createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map.GetCell(gridPosition));
             
-            createdUnit.StatsProvider.AddStat(StatType.Initiative, unitStaticData.Initiative);
+            createdUnit.StatsProvider.AddStat(StatType.Initiative, unitStaticData.ActingInTurnsQueueStaticData.Initiative);
             createdUnit.InitializeStats();
             
             createdUnit.Health.SetUnitsCount(unitCreationParameter.Count);
+            createdUnit.HealthUI.Initialize();
 
             return createdUnit;
         }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units;
+using Battle.Units.Components;
 using Battle.Units.Movement;
 using Battle.Units.StatsSystem;
 using UnityEngine;
@@ -17,7 +18,10 @@ namespace Battle.BattleArena.Pathfinding
         [Inject] public BattleMapPlaceable BattleMapPlaceable { get; set; }
         [Inject] public UnitStatsProvider StatsProvider { get; set; }
         [Inject] public UnitHealth Health { get; set; }
-        
+        [Inject] public UnitAttack Attack { get; set; }
+        [Inject] public UnitHealthView HealthUI { get; set; }
+        [Inject] public UnitActions UnitActions { get; set; }
+
         [Inject] private List<IStatsInitializer> _initializableComponents { get; set; }
 
         public void InitializeStats()

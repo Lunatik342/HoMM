@@ -37,7 +37,7 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
             repaintCellsAction();
             _cellsDisplayService.DisplayMoveTargetCell(mouseoverCell);
             var path = _pathfindingService.FindPath(mouseoverCell.GridPosition, controlledUnit);
-            _pathDisplayService.Display(path);
+            _pathDisplayService.DisplayPath(path);
             
             _cellsInputService.CellLeftClicked += OnCellClicked;
         }

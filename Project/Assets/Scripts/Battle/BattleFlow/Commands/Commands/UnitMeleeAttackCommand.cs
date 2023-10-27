@@ -17,9 +17,9 @@ namespace Battle.BattleFlow.Commands
             TargetUnit = targetUnit;
         }
         
-        public UniTask Process(CommandsProcessor commandsProcessor)
+        public async UniTask Process(CommandsProcessor commandsProcessor)
         {
-            throw new System.NotImplementedException();
+            await commandsProcessor.ProcessMeleeAttackCommand(this);
         }
     }
 }

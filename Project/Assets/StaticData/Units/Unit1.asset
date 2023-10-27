@@ -36,4 +36,11 @@ MonoBehaviour:
   <DamageReceiverStaticData>k__BackingField:
     <MaxHealth>k__BackingField: 15
     <Defence>k__BackingField: 1
-  <Initiative>k__BackingField: 5
+  <ActingInTurnsQueueStaticData>k__BackingField:
+    <Initiative>k__BackingField: 0
+    <Morale>k__BackingField: 0
+  <AttackDamageStaticData>k__BackingField:
+    <AttackStat>k__BackingField: 5
+    <DamageMin>k__BackingField: 1
+    <DamageMax>k__BackingField: 2
+    <Luck>k__BackingField: 0

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Battle.BattleArena.Pathfinding;
+using Battle.Units.Animation;
 using Battle.Units.Movement.StaticData;
 using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Battle.Units.Movement
         private readonly PathfindingService _pathfindingService;
         private readonly GroundUnitMovementStaticData _staticData;
         private readonly Unit _unit;
+        private readonly UnitAnimator _animator;
 
         private Tweener _moveTween;
 
@@ -27,7 +29,8 @@ namespace Battle.Units.Movement
             PathfindingService pathfindingService,
             GroundUnitMovementStaticData staticData,
             Unit unit,
-            UnitStatsProvider statsProvider) : base(staticData, statsProvider)
+            UnitStatsProvider statsProvider, 
+            UnitAnimator animator) : base(staticData, statsProvider)
         {
             _transform = transform;
             _mapPlaceable = mapPlaceable;
@@ -35,6 +38,7 @@ namespace Battle.Units.Movement
             _pathfindingService = pathfindingService;
             _staticData = staticData;
             _unit = unit;
+            _animator = animator;
         }
 
         public override async UniTask MoveToPosition(Vector2Int targetPosition)
@@ -61,6 +65,7 @@ namespace Battle.Units.Movement
             
             await _rotationController.SmoothLookAt(pathPositions[0]);
 
+            _animator.SetMoving(true);
             var pathTween = _transform
                 .DOPath(pathPositions, _staticData.MovementSpeed, PathType.CatmullRom).SetLookAt(.05f)
                 .SetEase(Ease.Linear).SetSpeedBased(true);
@@ -78,6 +83,8 @@ namespace Battle.Units.Movement
 
             _moveTween = pathTween;
             await pathTween.ToUniTask();
+            
+            _animator.SetMoving(false);
         }
 
         private void StopMovement()

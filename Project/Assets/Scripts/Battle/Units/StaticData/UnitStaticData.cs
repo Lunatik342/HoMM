@@ -14,6 +14,7 @@ namespace Battle.BattleArena.Pathfinding.StaticData
         [field: SerializeField] public UnitGridPlaceableStaticData UnitGridPlaceableStaticData { get; private set; }
         [field: SerializeField] public MovementStaticData MovementStaticData { get; private set; }
         [field: SerializeField] public DamageReceiverStaticData DamageReceiverStaticData { get; private set; }
-        [field: SerializeField] public int Initiative { get; private set; }
+        [field: SerializeField] public ActingInTurnsQueueStaticData ActingInTurnsQueueStaticData { get; private set; }
+        [field: SerializeField] public AttackDamageDealerStaticData AttackDamageStaticData { get; private set; }
     }
 }
