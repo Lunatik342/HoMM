@@ -1,3 +1,4 @@
+using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -11,8 +12,8 @@ namespace Battle.BattleFlow.Commands.Processors
             await attackingUnit.MovementController.MoveToPosition(attackPosition);
 
             await UniTask.WhenAll(
-                attackingUnit.RotationController.SmoothLookAt(attackedUnit.GameObject.transform.position),
-                attackedUnit.RotationController.SmoothLookAt(attackingUnit.GameObject.transform.position));
+                attackingUnit.RotationController.SmoothLookAt(attackedUnit.PositionProvider.OccupiedCell.GridPosition.ToBattleArenaWorldPosition()),
+                attackedUnit.RotationController.SmoothLookAt(attackingUnit.PositionProvider.OccupiedCell.GridPosition.ToBattleArenaWorldPosition()));
 
             var damageCompletionSource = new UniTaskCompletionSource<int>();
             var attackAnimationTask = attackingUnit.UnitActions.MakeAttack(damageCompletionSource);

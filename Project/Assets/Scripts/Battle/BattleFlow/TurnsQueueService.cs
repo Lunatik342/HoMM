@@ -11,7 +11,7 @@ namespace Battle.BattleFlow
     {
         private readonly IUnitsHolder _unitsHolder;
 
-        private Queue<Unit> _queue = new ();
+        private List<Unit> _queue = new ();
 
         public TurnsQueueService(IUnitsHolder unitsHolder)
         {
@@ -20,18 +20,20 @@ namespace Battle.BattleFlow
 
         public void InitializeFromStartingUnits()
         {
-            var shuffledUnits = _unitsHolder.AllUnits.OrderByDescending(u => u.StatsProvider.GetStatValue(StatType.Initiative)).ToList();
+            var shuffledUnits = _unitsHolder.GetAllUnits().OrderByDescending(u => u.StatsProvider.GetStatValue(StatType.Initiative)).ToList();
 
             foreach (var unit in shuffledUnits)
             {
-                _queue.Enqueue(unit);
+                _queue.Add(unit);
+                unit.Health.UnitDied += () => { _queue.Remove(unit);};
             }
         }
 
         public Unit Dequeue()
         {
-            var unit = _queue.Dequeue();
-            _queue.Enqueue(unit);
+            var unit = _queue[0];
+            _queue.RemoveAt(0);
+            _queue.Add(unit);
             return unit;
         }
     }

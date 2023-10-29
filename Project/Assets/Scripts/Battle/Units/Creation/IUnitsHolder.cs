@@ -5,6 +5,8 @@ namespace Battle.Units
 {
     public interface IUnitsHolder
     {
-        public List<Unit> AllUnits { get; }
+        public IEnumerable<Unit> GetAllUnits();
+
+        public List<Unit> GetAllUnitsOfTeam(Team team);
     }
 }

@@ -19,6 +19,7 @@ namespace Battle.BattleFlow.Installers
             
             Container.Bind<TurnsQueueService>().AsSingle();
             Container.Bind<BattleTurnsController>().AsSingle();
+            Container.Bind<GameResultEvaluator>().AsSingle();
 
             BindCommandsProcessing();
             BindGridViewStateMachine();

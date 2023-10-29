@@ -11,7 +11,6 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
     public class ReachableCellHoverHandler: ICellHoverHandler
     {
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
-        private readonly PathfindingService _pathfindingService;
         private readonly PathDisplayService _pathDisplayService;
         private readonly BattleCellsInputService _cellsInputService;
         
@@ -19,12 +18,10 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
         private Unit _controlledUnit;
 
         public ReachableCellHoverHandler(BattleArenaCellsDisplayService cellsDisplayService,
-            PathfindingService pathfindingService,
             PathDisplayService pathDisplayService,
             BattleCellsInputService cellsInputService)
         {
             _cellsDisplayService = cellsDisplayService;
-            _pathfindingService = pathfindingService;
             _pathDisplayService = pathDisplayService;
             _cellsInputService = cellsInputService;
         }
@@ -36,8 +33,7 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
             
             repaintCellsAction();
             _cellsDisplayService.DisplayMoveTargetCell(mouseoverCell);
-            var path = _pathfindingService.FindPath(mouseoverCell.GridPosition, controlledUnit);
-            _pathDisplayService.DisplayPath(path);
+            controlledUnit.MovementController.DisplayPathToCell(_pathDisplayService, mouseoverCell.GridPosition);
             
             _cellsInputService.CellLeftClicked += OnCellClicked;
         }

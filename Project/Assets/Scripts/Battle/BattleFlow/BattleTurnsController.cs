@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Battle.BattleFlow.Commands;
 using Battle.BattleFlow.StateMachine;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
+using Zenject;
 
 namespace Battle.BattleFlow
 {
@@ -13,6 +15,8 @@ namespace Battle.BattleFlow
         private readonly AIControlledCommandProvider.Factory _aiCommandProviderFactory;
         private readonly GridViewStateMachine _gridViewStateMachine;
         private readonly CommandsProcessor _commandsProcessor;
+        private readonly GameResultEvaluator _gameResultEvaluator;
+        private readonly ZenjectSceneLoader _sceneLoader;
 
         private readonly Dictionary<Team, ICommandProvider> _commandProviders = new();
 
@@ -20,13 +24,17 @@ namespace Battle.BattleFlow
             LocalPlayerControlledCommandProvider.Factory localPlayerCommandProviderFactory, 
             AIControlledCommandProvider.Factory aiCommandProviderFactory,
             GridViewStateMachine gridViewStateMachine,
-            CommandsProcessor commandsProcessor)
+            CommandsProcessor commandsProcessor,
+            GameResultEvaluator gameResultEvaluator,
+            ZenjectSceneLoader sceneLoader)
         {
             _turnsQueueService = turnsQueueService;
             _localPlayerCommandProviderFactory = localPlayerCommandProviderFactory;
             _aiCommandProviderFactory = aiCommandProviderFactory;
             _gridViewStateMachine = gridViewStateMachine;
             _commandsProcessor = commandsProcessor;
+            _gameResultEvaluator = gameResultEvaluator;
+            _sceneLoader = sceneLoader;
         }
 
         public void CreateCommandProviders(Dictionary<Team, CommandProviderType> providersForTeams)
@@ -56,6 +64,13 @@ namespace Battle.BattleFlow
             while (true)
             {
                 await MakeTurn();
+                
+                if (_gameResultEvaluator.IsGameOver(out var winningTeam))
+                {
+                    Debug.LogError("Game over");
+                    //_sceneLoader.LoadScene(0);
+                    break;
+                }
             }
         }
         

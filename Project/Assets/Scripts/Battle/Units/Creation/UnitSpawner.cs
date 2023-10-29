@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.Movement;
 using Battle.Units.StatsSystem;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
-using RogueSharp;
 using UnityEngine;
 using Utilities;
 
@@ -39,18 +36,9 @@ namespace Battle.Units
                 gridPosition.ToBattleArenaWorldPosition(), Quaternion.identity, null);
             
             var createdUnit = _unitsFactory.Create(gameObject.gameObject, team, unitStaticData);
-            
-            var size = createdUnit.BattleMapPlaceable.Size;
-            
-            createdUnit.GameObject.transform.position = TwoDimensionalArrayUtilities.GetWorldPositionFor(gridPosition, size, size);
-            createdUnit.RotationController.LookAtEnemySide();
-            createdUnit.BattleMapPlaceable.RelocateTo(_mapHolder.Map.GetCell(gridPosition));
-            
+
+            createdUnit.Initialize(_mapHolder.Map.GetCell(gridPosition), unitCreationParameter.Count);
             createdUnit.StatsProvider.AddStat(StatType.Initiative, unitStaticData.ActingInTurnsQueueStaticData.Initiative);
-            createdUnit.InitializeStats();
-            
-            createdUnit.Health.SetUnitsCount(unitCreationParameter.Count);
-            createdUnit.HealthUI.Initialize();
 
             return createdUnit;
         }

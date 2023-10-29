@@ -89,7 +89,7 @@ namespace Battle.BattleFlow.StateMachine
         {
             _cellsDisplayService.DisplayAllCellsDefault();
             _cellsDisplayService.DisplayReachableCells(_controlledUnitReachableCells, _mouseoverUnitReachableCells);
-            _cellsDisplayService.DisplayCurrentlyControlledUnitCell(_controlledUnit.BattleMapPlaceable.OccupiedCell);
+            _cellsDisplayService.DisplayCurrentlyControlledUnitCell(_controlledUnit.PositionProvider.OccupiedCell);
         }
 
         private bool CanReachCellForMeleeAttack(Cell cell, List<Cell> reachableCells, out List<Cell> adjacentToEnemyCells)

@@ -4,7 +4,7 @@ using Battle.Units.StatsSystem;
 
 namespace Battle.Units
 {
-    public class UnitHealth : IStatsInitializer
+    public class UnitHealth : IStatsInitializer, IHealthInfoProvider
     {
         private readonly UnitStatsProvider _statsProvider;
         private readonly DamageReceiverStaticData _damageReceiverStaticData;

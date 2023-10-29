@@ -18,7 +18,7 @@ namespace Battle.Units.Animation
             _animator.SetBool(IsMoving, isMoving);
         }
         
-        //Тайминги пока хардкодом чтобы отладить всё
+        //TODO Remove hardcode
         public (UniTask damageDealTiming, UniTask fullAnimationDuration) PlayAttackAnimation()
         {
             _animator.SetTrigger(Attack);

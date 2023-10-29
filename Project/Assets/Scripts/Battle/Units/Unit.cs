@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units;
 using Battle.Units.Components;
 using Battle.Units.Movement;
 using Battle.Units.StatsSystem;
+using RogueSharp;
 using UnityEngine;
 using Zenject;
 
@@ -11,25 +11,44 @@ namespace Battle.BattleArena.Pathfinding
 {
     public class Unit
     {
-        [Inject] public Team Team { get; set; }
-        [Inject] public GameObject GameObject { get; set; }
-        [Inject] public UnitMovementControllerBase MovementController { get; set; }
-        [Inject] public RotationController RotationController { get; set; }
-        [Inject] public BattleMapPlaceable BattleMapPlaceable { get; set; }
-        [Inject] public UnitStatsProvider StatsProvider { get; set; }
-        [Inject] public UnitHealth Health { get; set; }
-        [Inject] public UnitAttack Attack { get; set; }
-        [Inject] public UnitHealthView HealthUI { get; set; }
-        [Inject] public UnitActions UnitActions { get; set; }
+        public UnitMovementController MovementController { get; private set; }
+        public RotationController RotationController { get; private set; }
+        public UnitActions UnitActions { get; private set; }
+        
+        public IUnitPositionProvider PositionProvider { get; private set; }
+        public IHealthInfoProvider Health { get; private set; }
 
-        [Inject] private List<IStatsInitializer> _initializableComponents { get; set; }
+        public UnitStatsProvider StatsProvider { get; private set; }
+        public Team Team { get; private set; }
+        
+        private UnitInitializer _unitInitializer;
 
-        public void InitializeStats()
+        public Unit(UnitStatsProvider statsProvider, 
+            IHealthInfoProvider healthInfoProvider, 
+            RotationController rotationController, 
+            UnitActions unitActions,
+            Team team)
         {
-            foreach (var initializableComponent in _initializableComponents)
-            {
-                initializableComponent.ConfigureStats();
-            }
+            UnitActions = unitActions;
+            Health = healthInfoProvider;
+            StatsProvider = statsProvider;
+            RotationController = rotationController;
+            Team = team;
+        }
+
+        [Inject] //TODO remove circular dep's
+        public void Construct(UnitMovementController unitMovementController, 
+            IUnitPositionProvider unitPositionProvider, 
+            UnitInitializer unitInitializer)
+        {
+            MovementController = unitMovementController;
+            _unitInitializer = unitInitializer;
+            PositionProvider = unitPositionProvider;
+        }
+
+        public void Initialize(Cell cell, int count)
+        {
+            _unitInitializer.Initialize(cell, count);
         }
 
         public class Factory : PlaceholderFactory<GameObject, Team, UnitStaticData, Unit>

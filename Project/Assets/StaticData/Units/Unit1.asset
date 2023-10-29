@@ -41,6 +41,6 @@ MonoBehaviour:
     <Morale>k__BackingField: 0
   <AttackDamageStaticData>k__BackingField:
     <AttackStat>k__BackingField: 5
-    <DamageMin>k__BackingField: 1
-    <DamageMax>k__BackingField: 2
+    <DamageMin>k__BackingField: 25
+    <DamageMax>k__BackingField: 35
     <Luck>k__BackingField: 0

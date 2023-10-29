@@ -16,7 +16,6 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
     public class MeleeAttackCellHoverHandler: ICellHoverHandler
     {
         private readonly BattleArenaCellsDisplayService _cellsDisplayService;
-        private readonly PathfindingService _pathfindingService;
         private readonly PathDisplayService _pathDisplayService;
         private readonly BattleCellsInputService _cellsInputService;
         private readonly IMapHolder _mapHolder;
@@ -30,13 +29,11 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
         private Cell _cellToAttackFrom;
 
         public MeleeAttackCellHoverHandler(BattleArenaCellsDisplayService cellsDisplayService,
-            PathfindingService pathfindingService,
             PathDisplayService pathDisplayService,
             BattleCellsInputService cellsInputService,
             IMapHolder mapHolder)
         {
             _cellsDisplayService = cellsDisplayService;
-            _pathfindingService = pathfindingService;
             _pathDisplayService = pathDisplayService;
             _cellsInputService = cellsInputService;
             _mapHolder = mapHolder;
@@ -84,8 +81,7 @@ namespace Battle.BattleFlow.StateMachine.MouseOverCells
                 _repaintCellsAction();
                 _cellsDisplayService.DisplayMoveTargetCell(cellToAttackFrom);
                 _cellsDisplayService.DisplayAttackTargetCell(_mouseoverCell);
-                var path = _pathfindingService.FindPath(cellToAttackFrom.GridPosition, _controlledUnit);
-                _pathDisplayService.DisplayPath(path);
+                _controlledUnit.MovementController.DisplayPathToCell(_pathDisplayService, cellToAttackFrom.GridPosition);
             }
         }
 

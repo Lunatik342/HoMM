@@ -37,7 +37,7 @@ namespace Battle.Units.Movement
             _transform.rotation = Quaternion.LookRotation(_enemySideOfFieldDirection);
         }
 
-        public void OnDeath()
+        void IDeathEventReceiver.OnDeath()
         {
             StopRotation();
         }

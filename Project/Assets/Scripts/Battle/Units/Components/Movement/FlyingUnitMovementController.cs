@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Battle.BattleArena;
+using Battle.BattleArena.PathDisplay;
 using Battle.BattleArena.Pathfinding;
 using Battle.Units.Movement.StaticData;
 using Battle.Units.StatsSystem;
@@ -10,7 +11,7 @@ using UnityEngine;
 
 namespace Battle.Units.Movement
 {
-    public class FlyingUnitMovementController: UnitMovementControllerBase, IDeathEventReceiver
+    public class FlyingUnitMovementController: UnitMovementController, IDeathEventReceiver
     {
         private readonly Transform _transform;
         private readonly BattleMapPlaceable _mapPlaceable;
@@ -37,31 +38,43 @@ namespace Battle.Units.Movement
             _unit = unit;
         }
 
+        public override void DisplayPathToCell(PathDisplayService pathDisplayService, Vector2Int position)
+        {
+            var path = GetPath(position);
+            pathDisplayService.DisplayArc(path);
+        }
+
         public override async UniTask MoveToPosition(Vector2Int targetPosition)
         {
             var currentCell = _mapPlaceable.OccupiedCell;
-            var targetCell = _pathfindingService.FindPathForFlyingUnit(targetPosition);
-            var travelDistance = Vector3.Distance(currentCell.ToBattleArenaWorldPosition(), targetCell.GetWorldPosition());
+            var path = GetPath(targetPosition);
+            var lastCell = path[^1];
+            var lastCellPosition = lastCell.GetWorldPosition();
+
+            var travelDistance = Vector3.Distance(currentCell.ToBattleArenaWorldPosition(), lastCellPosition);
             var flyDuration = travelDistance / _staticData.FlySpeed;
 
-            var targetWorldPosition = targetCell.GetWorldPosition();
-
-            await _rotationController.SmoothLookAt(targetWorldPosition);
+            await _rotationController.SmoothLookAt(lastCellPosition);
             
-            _flyTween = _transform.DOJump(targetWorldPosition, _staticData.JumpPower, 1, flyDuration).SetSpeedBased();
+            _flyTween = _transform.DOJump(lastCellPosition, _staticData.JumpPower, 1, flyDuration).SetSpeedBased();
             await _flyTween.ToUniTask();
             
-            _mapPlaceable.RelocateTo(targetCell.GetLogicalCell());
+            _mapPlaceable.RelocateTo(lastCell.GetLogicalCell());
         }
 
         public override List<Cell> GetReachableCells()
         {
-            return _pathfindingService.GetReachableCellsForFlyingUnit(_unit);
+            return _pathfindingService.GetReachableCellsForFlyingUnit(_unit, _travelDistanceStat.Value);
         }
 
-        public void OnDeath()
+        void IDeathEventReceiver.OnDeath()
         {
             Stop();
+        }
+
+        private List<ICell> GetPath(Vector2Int targetPosition)
+        {
+            return _pathfindingService.FindPathForFlyingUnit(targetPosition, _unit);
         }
 
         private void Stop()

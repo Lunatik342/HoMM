@@ -4,12 +4,11 @@ using RogueSharp;
 
 namespace Battle.BattleArena.Pathfinding
 {
-    public class BattleMapPlaceable : IDeathEventReceiver
+    public class BattleMapPlaceable : IDeathEventReceiver, IUnitPositionProvider
     {
         private readonly UnitGridPlaceableStaticData _staticData;
         private readonly Unit _unit;
 
-        public int Size => _staticData.Size;
         public Cell OccupiedCell { get; private set; }
 
         public BattleMapPlaceable(UnitGridPlaceableStaticData staticData, Unit unit)
@@ -25,7 +24,7 @@ namespace Battle.BattleArena.Pathfinding
             OccupiedCell = targetCell;
         }
 
-        public void OnDeath()
+        void IDeathEventReceiver.OnDeath()
         {
             RemoveFromCurrentPosition();
         }

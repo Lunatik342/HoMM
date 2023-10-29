@@ -1,5 +1,4 @@
 using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.Animation;
 using Battle.Units.StatsSystem;
 using UnityEngine;
 
@@ -37,13 +36,11 @@ namespace Battle.Units.Components
             var unitsCount = _health.AliveUnitsCount;
             var damageFromOneUnit = Random.Range(_damageMinStat.Value, _damageMaxStat.Value + 1);
 
-            bool hasCritProc = false;
             var luckValue = Random.Range(0, 10);
 
             if (luckValue < _luckStat.Value)
             {
                 int critMultiplier = 2;
-                hasCritProc = true;
                 damageFromOneUnit *= critMultiplier;
             }
 

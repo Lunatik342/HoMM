@@ -2,6 +2,7 @@ using Battle.BattleArena.Pathfinding;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.Units.Animation;
 using Battle.Units.Components;
+using Battle.Units.Creation;
 using Battle.Units.Movement;
 using Battle.Units.StatsSystem;
 using UnityEngine;
@@ -24,22 +25,40 @@ namespace Battle.Units
         
         public override void InstallBindings()
         {
+            BindGameObjectComponents();
+            BindHealthView();
+            BindLogicalComponents();
+
+            Container.BindInstance(_team);
+
+            Container.Bind<Unit>().AsSingle();
+            Container.Bind<UnitInitializer>().AsSingle();
+            Container.Bind<UnitDeathHandler>().AsSingle().NonLazy();
+        }
+
+        private void BindGameObjectComponents()
+        {
             Container.QueueForInject(_gameObject);
-            
+
             Container.Bind<UnitAnimator>().FromComponentOn(_gameObject).AsSingle();
             Container.Bind<Transform>().FromComponentOn(_gameObject).AsSingle();
             Container.BindInstance(_gameObject);
-            
-            Container.BindInstance(_team);
-            Container.Bind<Unit>().AsSingle();
-            Container.Bind<RotationController>().AsSingle().WithArguments(_staticData.UnitRotationStaticData);
-            Container.Bind<BattleMapPlaceable>().AsSingle().WithArguments(_staticData.UnitGridPlaceableStaticData);
+        }
+
+        private void BindHealthView()
+        {
+            Container.BindInterfacesAndSelfTo<UnitHealthView>().FromComponentInNewPrefabResource("UnitCanvas")
+                .UnderTransform(_gameObject.transform).AsSingle().NonLazy();
+        }
+
+        private void BindLogicalComponents()
+        {
+            Container.BindInterfacesAndSelfTo<RotationController>().AsSingle().WithArguments(_staticData.UnitRotationStaticData);
+            Container.BindInterfacesAndSelfTo<BattleMapPlaceable>().AsSingle().WithArguments(_staticData.UnitGridPlaceableStaticData);
             Container.BindInterfacesAndSelfTo<UnitHealth>().AsSingle().WithArguments(_staticData.DamageReceiverStaticData);
             Container.Bind<UnitStatsProvider>().AsSingle();
             Container.Bind<UnitActions>().AsSingle();
             Container.BindInterfacesAndSelfTo<UnitAttack>().AsSingle().WithArguments(_staticData.AttackDamageStaticData);
-            Container.BindInterfacesAndSelfTo<UnitHealthView>().FromComponentInNewPrefabResource("UnitCanvas")
-                .UnderTransform(_gameObject.transform).AsSingle().NonLazy();
 
             _staticData.MovementStaticData.BindRelatedComponentToContainer(Container);
         }

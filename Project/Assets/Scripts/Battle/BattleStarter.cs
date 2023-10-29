@@ -29,6 +29,7 @@ namespace Battle
         private readonly UnitControlViewState _unitControlViewState;
         private readonly WaitingForCommandProcessViewState _waitingForCommandProcessViewState;
         private readonly WaitingForEnemyTurnViewState _waitingForEnemyTurnViewState;
+        private readonly GameResultEvaluator _gameResultEvaluator;
 
         public BattleStarter(BattleFieldViewSpawner battleFieldViewSpawner,
             ObstaclesSpawner obstaclesSpawner,
@@ -43,7 +44,8 @@ namespace Battle
             GridViewStateMachine gridViewStateMachine,
             UnitControlViewState unitControlViewState, 
             WaitingForCommandProcessViewState waitingForCommandProcessViewState,
-            WaitingForEnemyTurnViewState waitingForEnemyTurnViewState)
+            WaitingForEnemyTurnViewState waitingForEnemyTurnViewState,
+            GameResultEvaluator gameResultEvaluator)
         {
             _battleFieldViewSpawner = battleFieldViewSpawner;
             _obstaclesSpawner = obstaclesSpawner;
@@ -59,6 +61,7 @@ namespace Battle
             _unitControlViewState = unitControlViewState;
             _waitingForCommandProcessViewState = waitingForCommandProcessViewState;
             _waitingForEnemyTurnViewState = waitingForEnemyTurnViewState;
+            _gameResultEvaluator = gameResultEvaluator;
         }
 
         public async void Initialize()
@@ -82,6 +85,8 @@ namespace Battle
             _gridViewStateMachine.RegisterState(_unitControlViewState);
             _gridViewStateMachine.RegisterState(_waitingForCommandProcessViewState);
             _gridViewStateMachine.RegisterState(_waitingForEnemyTurnViewState);
+            
+            _gameResultEvaluator.Initialize(_battleStartParameters.StartingUnits);
             
             _battleTurnsController.CreateCommandProviders(_battleStartParameters.CommandProvidersForTeams);
             _battleTurnsController.StartTurns();

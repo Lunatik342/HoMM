@@ -21,20 +21,24 @@ namespace Battle.BattleArena.Pathfinding
         {
             var pathfindingMap = _mapHolder.Map;
             var pathFinder = new DijkstraPathFinder(pathfindingMap, DiagonalMovementCost, unit);
-            var path = pathFinder.TryFindShortestPath(unit.BattleMapPlaceable.OccupiedCell, pathfindingMap[targetPosition.x, targetPosition.y]);
+            var path = pathFinder.TryFindShortestPath(unit.PositionProvider.OccupiedCell, pathfindingMap[targetPosition.x, targetPosition.y]);
             return path.Steps.ToList();
         }
 
-        public ICell FindPathForFlyingUnit(Vector2Int targetPosition)
+        public List<ICell> FindPathForFlyingUnit(Vector2Int targetPosition, Unit unit)
         {
-            return _mapHolder.Map[targetPosition.x, targetPosition.y];
+            return new List<ICell>()
+            {
+                unit.PositionProvider.OccupiedCell,
+                _mapHolder.Map.GetCell(targetPosition),
+            };
         }
 
-        public List<Cell> GetReachableCells(Unit unit)
+        public List<Cell> GetReachableCells(Unit unit, int travelDistance)
         {
-            var occupiedCell = unit.BattleMapPlaceable.OccupiedCell;
+            var occupiedCell = unit.PositionProvider.OccupiedCell;
             var reachableCellsFinder = new ReachableCellsFinder<Cell>(DiagonalMovementCost);
-            var cellsPositions = reachableCellsFinder.GetReachableCells(occupiedCell, _mapHolder.Map, unit, unit.MovementController.TravelDistance);
+            var cellsPositions = reachableCellsFinder.GetReachableCells(occupiedCell, _mapHolder.Map, unit, travelDistance);
 
             List<Cell> reachableCells = new List<Cell>();
 
@@ -47,16 +51,16 @@ namespace Battle.BattleArena.Pathfinding
                 }
             }
 
-            reachableCells.Remove(unit.BattleMapPlaceable.OccupiedCell);
+            reachableCells.Remove(unit.PositionProvider.OccupiedCell);
             return reachableCells;
         }
         
-        public List<Cell> GetReachableCellsForFlyingUnit(Unit unit)
+        public List<Cell> GetReachableCellsForFlyingUnit(Unit unit, int travelDistance)
         {
-            var occupiedCell = unit.BattleMapPlaceable.OccupiedCell;
+            var occupiedCell = unit.PositionProvider.OccupiedCell;
             var reachableCellsFinder = new FlyingUnitReachableCellsFinder<Cell>(DiagonalMovementCost);
-            var reachableCells = reachableCellsFinder.GetReachableCells(occupiedCell, _mapHolder.Map, unit, unit.MovementController.TravelDistance);
-            reachableCells.Remove(unit.BattleMapPlaceable.OccupiedCell);
+            var reachableCells = reachableCellsFinder.GetReachableCells(occupiedCell, _mapHolder.Map, unit, travelDistance);
+            reachableCells.Remove(unit.PositionProvider.OccupiedCell);
             return reachableCells;
         }
     }

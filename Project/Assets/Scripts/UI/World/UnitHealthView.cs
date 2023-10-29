@@ -1,9 +1,10 @@
 using Battle.Units;
+using Battle.Units.Movement;
 using UI.Generic;
 using UnityEngine;
 using Zenject;
 
-public class UnitHealthView : MonoBehaviour
+public class UnitHealthView : MonoBehaviour, IDeathEventReceiver
 {
     [SerializeField] private AnimatedNumberChanger _unitsCountText;
     [SerializeField] private ProgressBar _heathBar;
@@ -19,7 +20,6 @@ public class UnitHealthView : MonoBehaviour
     public void Initialize()
     {
         _unitHealth.HealthChanged += DisplayNewHealth;
-        _unitHealth.UnitDied += HideUI;
         
         _unitsCountText.SetValue(_unitHealth.AliveUnitsCount);
         _heathBar.SetFillAmount(_unitHealth.GetHealthPercentage());
@@ -31,14 +31,13 @@ public class UnitHealthView : MonoBehaviour
         _heathBar.SetFillAmount(_unitHealth.GetHealthPercentage());
     }
 
-    private void HideUI()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void OnDestroy()
     {
         _unitHealth.HealthChanged -= DisplayNewHealth;
-        _unitHealth.UnitDied -= HideUI;
+    }
+
+    void IDeathEventReceiver.OnDeath()
+    {
+        gameObject.SetActive(false);
     }
 }
