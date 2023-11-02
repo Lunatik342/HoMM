@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Battle.BattleArena;
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.BattleArena.StaticData;
+using Battle.Arena.Obstacles;
+using Battle.Arena.StaticData;
 using Battle.BattleFlow;
+using Battle.BattleFlow.Phases;
+using Battle.UnitCommands.Providers;
+using Battle.Units.StaticData;
 using Infrastructure.SimpleStateMachine;
 using UnityEngine;
 using Zenject;

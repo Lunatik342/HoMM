@@ -1,5 +1,6 @@
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.StatsSystem;
+using Battle.StatsSystem;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.StaticData.Components;
 using UnityEngine;
 
 namespace Battle.Units.Components

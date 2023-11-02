@@ -1,8 +1,8 @@
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.Movement;
-using RogueSharp;
+using Algorithms.RogueSharp;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.StaticData.Components;
 
-namespace Battle.BattleArena.Pathfinding
+namespace Battle.Units.Components
 {
     public class BattleMapPlaceable : IDeathEventReceiver, IUnitPositionProvider
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RogueSharp.Random
+namespace Algorithms.RogueSharp.Random
 {
    /// <summary>
    /// A weighted collection from which items of type T can be chosen at random.

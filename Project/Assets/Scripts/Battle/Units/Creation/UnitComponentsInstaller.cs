@@ -1,14 +1,11 @@
-using Battle.BattleArena.Pathfinding;
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.Animation;
+using Battle.StatsSystem;
 using Battle.Units.Components;
-using Battle.Units.Creation;
-using Battle.Units.Movement;
-using Battle.Units.StatsSystem;
+using Battle.Units.StaticData;
+using Battle.Units.WorldUI;
 using UnityEngine;
 using Zenject;
 
-namespace Battle.Units
+namespace Battle.Units.Creation
 {
     public class UnitComponentsInstaller : Installer<UnitComponentsInstaller>
     {

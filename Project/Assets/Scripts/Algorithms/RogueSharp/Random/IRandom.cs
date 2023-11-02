@@ -1,4 +1,4 @@
-﻿namespace RogueSharp.Random
+﻿namespace Algorithms.RogueSharp.Random
 {
    /// <summary>
    /// An Interface for pseudo-random number generators to implement.

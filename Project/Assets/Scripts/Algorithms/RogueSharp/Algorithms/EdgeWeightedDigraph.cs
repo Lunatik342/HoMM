@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms.RogueSharp.Algorithms
 {
    /// <summary>
    /// The EdgeWeightedDigraph class represents an edge-weighted directed graph of vertices named 0 through V-1, where each directed edge

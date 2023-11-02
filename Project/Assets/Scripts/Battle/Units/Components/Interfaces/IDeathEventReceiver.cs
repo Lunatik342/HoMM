@@ -1,4 +1,4 @@
-namespace Battle.Units.Movement
+namespace Battle.Units.Components.Interfaces
 {
     public interface IDeathEventReceiver
     {

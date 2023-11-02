@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RogueSharp
+namespace Algorithms.RogueSharp
 {
    /// <summary>
    /// A class representing an ordered list of Cells from Start to End

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using Battle.BattleArena;
-using Battle.BattleArena.Pathfinding;
+using Battle.Arena.Misc;
+using Battle.Units;
 using UnityEngine;
 
-namespace RogueSharp
+namespace Algorithms.RogueSharp
 {
    public class Cell : ICell
    {

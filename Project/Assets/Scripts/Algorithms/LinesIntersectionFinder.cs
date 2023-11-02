@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms
 {
     public class LinesIntersectionFinder
     {

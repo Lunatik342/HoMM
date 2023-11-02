@@ -1,8 +1,9 @@
 using System;
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.StatsSystem;
+using Battle.StatsSystem;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.StaticData.Components;
 
-namespace Battle.Units
+namespace Battle.Units.Components
 {
     public class UnitHealth : IStatsInitializer, IHealthInfoProvider
     {

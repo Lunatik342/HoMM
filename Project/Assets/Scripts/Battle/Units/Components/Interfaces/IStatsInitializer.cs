@@ -1,4 +1,4 @@
-namespace Battle.Units
+namespace Battle.Units.Components.Interfaces
 {
     public interface IStatsInitializer
     {

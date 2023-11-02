@@ -1,38 +1,39 @@
 using System;
 using System.Collections.Generic;
-using Battle.BattleFlow.Commands;
 using Battle.BattleFlow.Phases;
-using Battle.BattleFlow.StateMachine;
+using Battle.CellViewsGrid.GridViewStateMachine;
+using Battle.CellViewsGrid.GridViewStateMachine.States;
+using Battle.UnitCommands.Processors;
+using Battle.UnitCommands.Providers;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Battle.BattleFlow
 {
     public class BattleTurnsController
     {
-        private readonly TurnsQueueService _turnsQueueService;
+        private readonly UnitsQueueService _unitsQueueService;
         private readonly LocalPlayerControlledCommandProvider.Factory _localPlayerCommandProviderFactory;
         private readonly AIControlledCommandProvider.Factory _aiCommandProviderFactory;
         private readonly GridViewStateMachine _gridViewStateMachine;
-        private readonly CommandsProcessor _commandsProcessor;
+        private readonly CommandsProcessorFacade _commandsProcessorFacade;
         private readonly GameResultEvaluator _gameResultEvaluator;
         private readonly BattlePhasesStateMachine _battlePhasesStateMachine;
 
         private readonly Dictionary<Team, ICommandProvider> _commandProviders = new();
 
-        public BattleTurnsController(TurnsQueueService turnsQueueService, 
+        public BattleTurnsController(UnitsQueueService unitsQueueService, 
             LocalPlayerControlledCommandProvider.Factory localPlayerCommandProviderFactory, 
             AIControlledCommandProvider.Factory aiCommandProviderFactory,
             GridViewStateMachine gridViewStateMachine,
-            CommandsProcessor commandsProcessor,
+            CommandsProcessorFacade commandsProcessorFacade,
             GameResultEvaluator gameResultEvaluator,
             BattlePhasesStateMachine battlePhasesStateMachine)
         {
-            _turnsQueueService = turnsQueueService;
+            _unitsQueueService = unitsQueueService;
             _localPlayerCommandProviderFactory = localPlayerCommandProviderFactory;
             _aiCommandProviderFactory = aiCommandProviderFactory;
             _gridViewStateMachine = gridViewStateMachine;
-            _commandsProcessor = commandsProcessor;
+            _commandsProcessorFacade = commandsProcessorFacade;
             _gameResultEvaluator = gameResultEvaluator;
             _battlePhasesStateMachine = battlePhasesStateMachine;
         }
@@ -76,10 +77,10 @@ namespace Battle.BattleFlow
         private async UniTask MakeTurn()
         {
             var betweenTurnsDelay = 250;
-            var targetUnit = _turnsQueueService.Dequeue();
+            var targetUnit = _unitsQueueService.Dequeue();
             var command = await _commandProviders[targetUnit.Team].WaitForCommand(targetUnit);
             _gridViewStateMachine.Enter<WaitingForCommandProcessViewState>();
-            await command.Process(_commandsProcessor);
+            await command.Process(_commandsProcessorFacade);
             await UniTask.Delay(betweenTurnsDelay);
         }
     }

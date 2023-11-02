@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Battle.BattleArena.Pathfinding.StaticData
+namespace Battle.Units.StaticData.Components
 {
     [Serializable]
     public class AttackDamageDealerStaticData

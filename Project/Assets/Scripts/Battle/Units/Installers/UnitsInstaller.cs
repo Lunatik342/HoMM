@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units;
-using Battle.Units.Movement;
+using Battle.Units.Creation;
+using Battle.Units.StaticData;
 using UnityEngine;
 using Zenject;
 
-namespace Battle.BattleArena.Pathfinding.Installers
+namespace Battle.Units.Installers
 {
     public class UnitsInstaller: MonoInstaller<UnitsInstaller>
     {

@@ -1,4 +1,4 @@
-﻿namespace RogueSharp.Algorithms
+﻿namespace Algorithms.RogueSharp.Algorithms
 {
    /// <summary>
    /// The DirectedEdge class represents a weighted edge in an edge-weighted directed graph. 

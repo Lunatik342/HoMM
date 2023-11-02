@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Battle.BattleArena.Pathfinding.StaticData
+namespace Battle.Units.StaticData
 {
     public class UnitsStaticDataProvider
     {

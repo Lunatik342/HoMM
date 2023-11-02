@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms.RogueSharp.Algorithms
 {
    /// <summary>
    /// The DijkstraShortestPath class represents a data type for solving the single-source shortest paths problem

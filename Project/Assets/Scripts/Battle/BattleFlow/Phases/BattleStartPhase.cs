@@ -1,9 +1,11 @@
-using Battle.BattleArena;
-using Battle.BattleArena.CellsViews;
-using Battle.BattleArena.Obstacles;
-using Battle.BattleArena.Pathfinding;
-using Battle.BattleFlow.StateMachine;
+using Battle.Arena.ArenaView;
+using Battle.Arena.Map;
+using Battle.Arena.Obstacles;
+using Battle.CellViewsGrid.CellsViews;
+using Battle.CellViewsGrid.GridViewStateMachine;
+using Battle.CellViewsGrid.GridViewStateMachine.States;
 using Battle.Units;
+using Battle.Units.Creation;
 using Cysharp.Threading.Tasks;
 using Infrastructure.SimpleStateMachine;
 
@@ -18,7 +20,7 @@ namespace Battle.BattleFlow.Phases
         private readonly BattleArenaCellsViewsSpawner _cellsViewsSpawner;
         private readonly IObstaclesGenerationStrategy.Factory _obstacleGenerationStrategyFactory;
         
-        private readonly TurnsQueueService _turnsQueueService;
+        private readonly UnitsQueueService _unitsQueueService;
         private readonly BattleTurnsController _battleTurnsController;
         private readonly GridViewStateMachine _gridViewStateMachine;
         private readonly StatesFactory _statesFactory;
@@ -31,7 +33,7 @@ namespace Battle.BattleFlow.Phases
             BattleMapCreator battleMapCreator,
             BattleArenaCellsViewsSpawner cellsViewsSpawner,
             IObstaclesGenerationStrategy.Factory obstacleGenerationStrategyFactory,
-            TurnsQueueService turnsQueueService,
+            UnitsQueueService unitsQueueService,
             BattleTurnsController battleTurnsController,
             GridViewStateMachine gridViewStateMachine,
             StatesFactory statesFactory,
@@ -44,7 +46,7 @@ namespace Battle.BattleFlow.Phases
             _battleMapCreator = battleMapCreator;
             _cellsViewsSpawner = cellsViewsSpawner;
             _obstacleGenerationStrategyFactory = obstacleGenerationStrategyFactory;
-            _turnsQueueService = turnsQueueService;
+            _unitsQueueService = unitsQueueService;
             _battleTurnsController = battleTurnsController;
             _gridViewStateMachine = gridViewStateMachine;
             _statesFactory = statesFactory;
@@ -93,7 +95,7 @@ namespace Battle.BattleFlow.Phases
 
         private void InitializeBattleFlowSystems(BattleStartParameters battleStartParameters)
         {
-            _turnsQueueService.InitializeFromStartingUnits();
+            _unitsQueueService.InitializeFromStartingUnits();
             _gameResultEvaluator.SetParticipatingTeams(battleStartParameters.StartingUnits);
             _battleTurnsController.CreateCommandProviders(battleStartParameters.CommandProvidersForTeams);
         }

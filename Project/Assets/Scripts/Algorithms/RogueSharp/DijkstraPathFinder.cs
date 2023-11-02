@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Battle.BattleArena.Pathfinding;
-using RogueSharp.Algorithms;
+using Algorithms.RogueSharp.Algorithms;
+using Battle.Units;
 
-namespace RogueSharp
+namespace Algorithms.RogueSharp
 {
    /// <summary>
    /// A class which can be used to find shortest path from a source to a destination in a Map.

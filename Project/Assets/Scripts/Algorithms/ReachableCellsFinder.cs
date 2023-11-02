@@ -1,20 +1,15 @@
 using System;
-using Battle.BattleArena.Pathfinding;
+using Algorithms.RogueSharp;
+using Algorithms.RogueSharp.Algorithms;
+using Battle.Arena.Misc;
+using Battle.Units;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms
 {
-   
    //Based on AStar (I just removed some code and added some code), very lazy implementation but it works
    public class ReachableCellsFinder<TCell> where TCell : ICell
    {
-      private readonly double _diagonalCost;
-
-      public ReachableCellsFinder( double diagonalCost )
-      {
-         _diagonalCost = diagonalCost;
-      }
-
-      public bool[] GetReachableCells( TCell source, IMap<TCell> map , Unit pathingAgent, int maxDistanceFormStart)
+      public static bool[] GetReachableCells( TCell source, IMap<TCell> map , Unit pathingAgent, int maxDistanceFormStart)
       {
          IndexMinPriorityQueue<PathNode> openNodes = new IndexMinPriorityQueue<PathNode>( map.Height * map.Width );
          bool[] isNodeClosed = new bool[map.Height * map.Width];
@@ -83,12 +78,12 @@ namespace RogueSharp.Algorithms
          }
       }
 
-      private double GetTravelCost(int x1, int y1, int x2, int y2)
+      private static double GetTravelCost(int x1, int y1, int x2, int y2)
       {
          //If they are diagonal
          if (x1 != x2 && y1 != y2)
          {
-            return _diagonalCost;
+            return BattleArenaConstants.DiagonalMovementCost;
          }
 
          return 1d;

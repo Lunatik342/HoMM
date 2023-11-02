@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using Battle.BattleArena.Pathfinding;
+﻿using Battle.Units;
 using UnityEngine;
 
-namespace RogueSharp
+namespace Algorithms.RogueSharp
 {
    /// <summary>
    /// A interface ONLY for pathfinding, solves the task of finding the path for units of different sizes

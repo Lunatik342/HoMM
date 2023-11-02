@@ -1,9 +1,10 @@
-using Battle.BattleArena.Pathfinding.StaticData;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.StaticData.Components;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace Battle.Units.Movement
+namespace Battle.Units.Components
 {
     public class RotationController: IDeathEventReceiver
     {

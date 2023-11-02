@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Battle.BattleArena.Pathfinding;
+using Battle.Units;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms.RogueSharp.Algorithms
 {
    /// <summary>
    /// The AStarShortestPath class represents a data type for finding the shortest path between two Cells on a Map

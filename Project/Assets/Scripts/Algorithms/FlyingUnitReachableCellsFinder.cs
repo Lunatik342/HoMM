@@ -1,20 +1,13 @@
-using System;
 using System.Collections.Generic;
-using Battle.BattleArena.Pathfinding;
+using Algorithms.RogueSharp;
+using Battle.Units;
 using Utilities;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms
 {
     public class FlyingUnitReachableCellsFinder<TCell> where TCell : ICell
     {
-        private readonly double _diagonalCost;
-
-        public FlyingUnitReachableCellsFinder( double diagonalCost )
-        {
-            _diagonalCost = diagonalCost;
-        }
-
-        public List<Cell> GetReachableCells(TCell source, IMap<TCell> map, Unit pathingAgent, int maxDistanceFormStart)
+        public static List<Cell> GetReachableCells(TCell source, IMap<TCell> map, Unit pathingAgent, int maxDistanceFormStart)
         {
             List<Cell> result = new List<Cell>();
             

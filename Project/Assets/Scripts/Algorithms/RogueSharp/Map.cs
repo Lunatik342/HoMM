@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace RogueSharp
+namespace Algorithms.RogueSharp
 {
    /// <summary>
    /// A Map represents a rectangular grid of Cells, each of which has a number of properties for determining walkability and so on

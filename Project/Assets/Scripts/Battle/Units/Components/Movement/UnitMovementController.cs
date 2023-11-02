@@ -1,11 +1,13 @@
 using System.Collections.Generic;
-using Battle.BattleArena.PathDisplay;
-using Battle.Units.StatsSystem;
+using Algorithms.RogueSharp;
+using Battle.CellViewsGrid.PathDisplay;
+using Battle.StatsSystem;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.StaticData.Components.Movement;
 using Cysharp.Threading.Tasks;
-using RogueSharp;
 using UnityEngine;
 
-namespace Battle.Units.Movement
+namespace Battle.Units.Components.Movement
 {
     public abstract class UnitMovementController: IStatsInitializer
     {

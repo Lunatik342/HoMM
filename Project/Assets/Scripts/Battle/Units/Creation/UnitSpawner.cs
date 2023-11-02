@@ -1,13 +1,12 @@
-using Battle.BattleArena;
-using Battle.BattleArena.Pathfinding;
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units.StatsSystem;
+using Battle.Arena.Map;
+using Battle.Arena.Misc;
+using Battle.StatsSystem;
+using Battle.Units.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using UnityEngine;
-using Utilities;
 
-namespace Battle.Units
+namespace Battle.Units.Creation
 {
     public class UnitSpawner
     {

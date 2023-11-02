@@ -1,8 +1,9 @@
-using System;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.Components.Movement;
 using UnityEngine;
 using Zenject;
 
-namespace Battle.Units.Movement.StaticData
+namespace Battle.Units.StaticData.Components.Movement
 {
     [CreateAssetMenu(fileName = "FlyingUnitMovementStaticData", menuName = "StaticData/Units/Movement/FlyingUnitMovementData")]
     public class FlyingUnitMovementStaticData : MovementStaticData

@@ -492,6 +492,50 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &597992316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 597992318}
+  - component: {fileID: 597992317}
+  m_Layer: 0
+  m_Name: UnitCommandsInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &597992317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597992316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1126ce55f848cab5edadaeb482eb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &597992318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597992316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1029930353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,6 +620,8 @@ MonoBehaviour:
   - {fileID: 1183555570}
   - {fileID: 2087980979}
   - {fileID: 1223709742}
+  - {fileID: 1982945563}
+  - {fileID: 597992317}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -610,6 +656,8 @@ Transform:
   - {fileID: 1183555569}
   - {fileID: 2087980978}
   - {fileID: 1223709741}
+  - {fileID: 1982945564}
+  - {fileID: 597992318}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183555568
@@ -664,10 +712,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1d0b0d6c3c02be949be12f5fcd16a009, type: 2}
   _obstaclesGenerationStaticData: {fileID: 11400000, guid: 07a7e752f122de74e96637e37fd2f4b8,
     type: 2}
-  _cellViewPrefab: {fileID: -1993129912916753401, guid: 687d5d408459b0a4bb0e2488fcf303a7,
-    type: 3}
-  _pathLineRendererPrefab: {fileID: 841006560837984970, guid: 9c28687e1bfb7b94d8db92b2dec2c539,
-    type: 3}
 --- !u!1 &1223709740
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,6 +934,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+--- !u!1 &1982945562
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1982945564}
+  - component: {fileID: 1982945563}
+  m_Layer: 0
+  m_Name: CellViewsInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1982945563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982945562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dadd2bcd0214169b768b55022b9e6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cellViewPrefab: {fileID: -1993129912916753401, guid: 687d5d408459b0a4bb0e2488fcf303a7,
+    type: 3}
+  _pathLineRendererPrefab: {fileID: 841006560837984970, guid: 9c28687e1bfb7b94d8db92b2dec2c539,
+    type: 3}
+--- !u!4 &1982945564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982945562}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1029930353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2087980977
 GameObject:
   m_ObjectHideFlags: 0

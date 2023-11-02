@@ -1,9 +1,8 @@
-using System;
-using Battle.Units.Movement;
+using Battle.Units.Generic;
 using UnityEngine;
 using Zenject;
 
-namespace Battle.Units
+namespace Battle.Units.StaticData.Components.Movement
 {
     public abstract class MovementStaticData: ScriptableObject, IUnitComponentBinder
     {

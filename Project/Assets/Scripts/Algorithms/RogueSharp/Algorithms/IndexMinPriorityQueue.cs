@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms.RogueSharp.Algorithms
 {
    /// <summary>
    /// The IndexMinPriorityQueue class represents an indexed priority queue of generic keys.

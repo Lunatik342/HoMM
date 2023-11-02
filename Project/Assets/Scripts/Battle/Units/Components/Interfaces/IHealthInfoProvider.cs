@@ -1,6 +1,6 @@
 using System;
 
-namespace Battle.Units
+namespace Battle.Units.Components.Interfaces
 {
     public interface IHealthInfoProvider
     {

@@ -1,6 +1,6 @@
 using System;
-using Battle.BattleArena.Pathfinding;
-using RogueSharp;
+using Algorithms.RogueSharp;
+using Battle.Arena.Misc;
 
 namespace Utilities
 {
@@ -14,7 +14,7 @@ namespace Utilities
             int dMin = Math.Min(dx, dy);
             int dMax = Math.Max(dx, dy);
 
-            return (dMin * PathfindingService.DiagonalMovementCost) + (dMax - dMin);
+            return (dMin * BattleArenaConstants.DiagonalMovementCost) + (dMax - dMin);
         }
     }
 }

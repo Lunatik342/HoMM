@@ -1,4 +1,3 @@
-using Battle.Units.Animation;
 using Cysharp.Threading.Tasks;
 
 namespace Battle.Units.Components

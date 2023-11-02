@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Battle.BattleArena.Pathfinding;
 using Cysharp.Threading.Tasks;
 
-namespace Battle.Units
+namespace Battle.Units.Creation
 {
     public class ArmySpawner: IUnitsHolder
     {

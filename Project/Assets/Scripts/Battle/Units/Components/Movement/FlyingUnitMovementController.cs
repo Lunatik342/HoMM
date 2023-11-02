@@ -1,15 +1,16 @@
 using System.Collections.Generic;
-using Battle.BattleArena;
-using Battle.BattleArena.PathDisplay;
-using Battle.BattleArena.Pathfinding;
-using Battle.Units.Movement.StaticData;
-using Battle.Units.StatsSystem;
+using Algorithms.RogueSharp;
+using Battle.Arena.Map;
+using Battle.Arena.Misc;
+using Battle.CellViewsGrid.PathDisplay;
+using Battle.StatsSystem;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.StaticData.Components.Movement;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using RogueSharp;
 using UnityEngine;
 
-namespace Battle.Units.Movement
+namespace Battle.Units.Components.Movement
 {
     public class FlyingUnitMovementController: UnitMovementController, IDeathEventReceiver
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RogueSharp.Random
+namespace Algorithms.RogueSharp.Random
 {
    /// <summary>
    /// A class implementing IRandom which used for generating pseudo-random numbers 

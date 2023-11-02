@@ -1,4 +1,4 @@
-using Battle.BattleArena;
+using Battle.Arena.Misc;
 using UnityEngine;
 
 namespace Utilities

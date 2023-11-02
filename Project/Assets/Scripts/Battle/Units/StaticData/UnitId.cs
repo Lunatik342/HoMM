@@ -1,4 +1,4 @@
-namespace Battle.BattleArena.Pathfinding.StaticData
+namespace Battle.Units.StaticData
 {
     public enum UnitId
     {

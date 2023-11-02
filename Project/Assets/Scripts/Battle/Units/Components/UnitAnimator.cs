@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Battle.Units.Animation
+namespace Battle.Units.Components
 {
     public class UnitAnimator : MonoBehaviour
     {

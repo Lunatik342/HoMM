@@ -1,8 +1,9 @@
-using Battle.BattleArena;
+using Algorithms.RogueSharp;
+using Battle.Arena.Misc;
 using UnityEngine;
 using Utilities;
 
-namespace RogueSharp.Algorithms
+namespace Algorithms
 {
     public class AttackPositionFinder
     {

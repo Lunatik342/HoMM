@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RogueSharp
+namespace Algorithms.RogueSharp
 {
    /// <summary>
    ///   A struct that defines a point in 2D space

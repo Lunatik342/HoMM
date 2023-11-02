@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Battle.BattleArena.Pathfinding;
 
-namespace Battle.Units
+namespace Battle.Units.Creation
 {
     public interface IUnitsHolder
     {

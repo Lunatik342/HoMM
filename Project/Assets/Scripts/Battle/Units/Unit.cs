@@ -1,13 +1,13 @@
-using Battle.BattleArena.Pathfinding.StaticData;
-using Battle.Units;
+using Algorithms.RogueSharp;
+using Battle.StatsSystem;
 using Battle.Units.Components;
-using Battle.Units.Movement;
-using Battle.Units.StatsSystem;
-using RogueSharp;
+using Battle.Units.Components.Interfaces;
+using Battle.Units.Components.Movement;
+using Battle.Units.StaticData;
 using UnityEngine;
 using Zenject;
 
-namespace Battle.BattleArena.Pathfinding
+namespace Battle.Units
 {
     public class Unit
     {

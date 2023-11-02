@@ -1,6 +1,6 @@
-using RogueSharp;
+using Algorithms.RogueSharp;
 
-namespace Battle.BattleArena.Pathfinding
+namespace Battle.Units.Components.Interfaces
 {
     public interface IUnitPositionProvider
     {

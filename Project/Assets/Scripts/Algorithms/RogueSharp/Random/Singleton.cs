@@ -1,4 +1,4 @@
-﻿namespace RogueSharp.Random
+﻿namespace Algorithms.RogueSharp.Random
 {
    /// <summary>
    /// The Singleton class is a public static class that holds the DefaultRandom generator.
