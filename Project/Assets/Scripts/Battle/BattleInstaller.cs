@@ -4,6 +4,7 @@ using Battle.BattleArena;
 using Battle.BattleArena.Pathfinding.StaticData;
 using Battle.BattleArena.StaticData;
 using Battle.BattleFlow;
+using Infrastructure.SimpleStateMachine;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -13,6 +14,16 @@ namespace Battle
     public class BattleInstaller : MonoInstaller
     {
         public override void InstallBindings()
+        {
+            var testBattleStartParameters = CreateBattleStartParametersTEMPORARY();
+
+            Container.Bind<BattleStartParameters>().FromInstance(testBattleStartParameters).AsSingle().WhenInjectedInto<BattleBootstrapper>();
+            Container.BindInterfacesAndSelfTo<BattleBootstrapper>().AsSingle().NonLazy();
+            Container.Bind<BattlePhasesStateMachine>().AsSingle();
+            Container.Bind<StatesFactory>().AsSingle();
+        }
+
+        private static BattleStartParameters CreateBattleStartParametersTEMPORARY()
         {
             var unitsToSpawn = new Dictionary<Team, List<UnitCreationParameter>>()
             {
@@ -33,7 +44,7 @@ namespace Battle
                     }
                 },
             };
-            
+
             var testBattleStartParameters = new BattleStartParameters(BattleArenaId.Blank, new ObstacleGenerationParameters()
             {
                 IsRandom = true,
@@ -42,15 +53,12 @@ namespace Battle
                 {
                     new(ObstacleId.Blank1, ObstaclesSpawner.ObstacleRotationAngle.Degrees0, new Vector2Int(5, 5))
                 },
-                
             }, unitsToSpawn, new Dictionary<Team, CommandProviderType>
             {
-                { Team.TeamLeft , CommandProviderType.PlayerControlled },
-                { Team.TeamRight , CommandProviderType.PlayerControlled },
+                { Team.TeamLeft, CommandProviderType.PlayerControlled },
+                { Team.TeamRight, CommandProviderType.PlayerControlled },
             });
-            
-            Container.Bind<BattleStartParameters>().FromInstance(testBattleStartParameters).AsSingle();
-            Container.BindInterfacesAndSelfTo<BattleStarter>().AsSingle().NonLazy();
+            return testBattleStartParameters;
         }
     }
 }

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Battle.BattleFlow.Commands;
+using Battle.BattleFlow.Phases;
 using Battle.BattleFlow.StateMachine;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using Zenject;
 
 namespace Battle.BattleFlow
 {
@@ -16,7 +16,7 @@ namespace Battle.BattleFlow
         private readonly GridViewStateMachine _gridViewStateMachine;
         private readonly CommandsProcessor _commandsProcessor;
         private readonly GameResultEvaluator _gameResultEvaluator;
-        private readonly ZenjectSceneLoader _sceneLoader;
+        private readonly BattlePhasesStateMachine _battlePhasesStateMachine;
 
         private readonly Dictionary<Team, ICommandProvider> _commandProviders = new();
 
@@ -26,7 +26,7 @@ namespace Battle.BattleFlow
             GridViewStateMachine gridViewStateMachine,
             CommandsProcessor commandsProcessor,
             GameResultEvaluator gameResultEvaluator,
-            ZenjectSceneLoader sceneLoader)
+            BattlePhasesStateMachine battlePhasesStateMachine)
         {
             _turnsQueueService = turnsQueueService;
             _localPlayerCommandProviderFactory = localPlayerCommandProviderFactory;
@@ -34,7 +34,7 @@ namespace Battle.BattleFlow
             _gridViewStateMachine = gridViewStateMachine;
             _commandsProcessor = commandsProcessor;
             _gameResultEvaluator = gameResultEvaluator;
-            _sceneLoader = sceneLoader;
+            _battlePhasesStateMachine = battlePhasesStateMachine;
         }
 
         public void CreateCommandProviders(Dictionary<Team, CommandProviderType> providersForTeams)
@@ -67,8 +67,7 @@ namespace Battle.BattleFlow
                 
                 if (_gameResultEvaluator.IsGameOver(out var winningTeam))
                 {
-                    Debug.LogError("Game over");
-                    //_sceneLoader.LoadScene(0);
+                    _battlePhasesStateMachine.Enter<BattleEndPhase>();
                     break;
                 }
             }
@@ -76,11 +75,12 @@ namespace Battle.BattleFlow
         
         private async UniTask MakeTurn()
         {
+            var betweenTurnsDelay = 250;
             var targetUnit = _turnsQueueService.Dequeue();
             var command = await _commandProviders[targetUnit.Team].WaitForCommand(targetUnit);
             _gridViewStateMachine.Enter<WaitingForCommandProcessViewState>();
             await command.Process(_commandsProcessor);
-            await UniTask.Delay(250);
+            await UniTask.Delay(betweenTurnsDelay);
         }
     }
 }

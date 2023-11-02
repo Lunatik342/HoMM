@@ -16,9 +16,9 @@ namespace Battle.BattleFlow.Commands.Processors
                 attackedUnit.RotationController.SmoothLookAt(attackingUnit.PositionProvider.OccupiedCell.GridPosition.ToBattleArenaWorldPosition()));
 
             var damageCompletionSource = new UniTaskCompletionSource<int>();
-            var attackAnimationTask = attackingUnit.UnitActions.MakeAttack(damageCompletionSource);
+            var attackAnimationTask = attackingUnit.UnitSimpleActions.MakeAttack(damageCompletionSource);
             var damage = await damageCompletionSource.Task;
-            var takeDamageAnimationTask = attackedUnit.UnitActions.TakeDamage(damage);
+            var takeDamageAnimationTask = attackedUnit.UnitSimpleActions.TakeDamage(damage);
 
             await UniTask.WhenAll(attackAnimationTask, takeDamageAnimationTask);
 

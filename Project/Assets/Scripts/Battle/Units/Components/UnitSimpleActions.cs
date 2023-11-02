@@ -3,25 +3,25 @@ using Cysharp.Threading.Tasks;
 
 namespace Battle.Units.Components
 {
-    public class UnitActions
+    public class UnitSimpleActions
     {
         private readonly UnitAttack _unitAttack;
         private readonly UnitHealth _unitHealth;
         private readonly UnitAnimator _unitAnimator;
 
-        public UnitActions(UnitAttack unitAttack, UnitHealth unitHealth, UnitAnimator unitAnimator)
+        public UnitSimpleActions(UnitAttack unitAttack, UnitHealth unitHealth, UnitAnimator unitAnimator)
         {
             _unitAttack = unitAttack;
             _unitHealth = unitHealth;
             _unitAnimator = unitAnimator;
         }
 
-        public async UniTask MakeAttack(UniTaskCompletionSource<int> damageCompletionSource)
+        public async UniTask MakeAttack(UniTaskCompletionSource<int> damageCalculationCompletionSource)
         {
             var animationTimings = _unitAnimator.PlayAttackAnimation();
 
             await animationTimings.damageDealTiming;
-            damageCompletionSource.TrySetResult(_unitAttack.GetRawDamage());
+            damageCalculationCompletionSource.TrySetResult(_unitAttack.GetRawDamage());
             await animationTimings.fullAnimationDuration;
         }
 

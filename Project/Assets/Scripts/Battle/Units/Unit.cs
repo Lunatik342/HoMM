@@ -13,7 +13,7 @@ namespace Battle.BattleArena.Pathfinding
     {
         public UnitMovementController MovementController { get; private set; }
         public RotationController RotationController { get; private set; }
-        public UnitActions UnitActions { get; private set; }
+        public UnitSimpleActions UnitSimpleActions { get; private set; }
         
         public IUnitPositionProvider PositionProvider { get; private set; }
         public IHealthInfoProvider Health { get; private set; }
@@ -26,10 +26,10 @@ namespace Battle.BattleArena.Pathfinding
         public Unit(UnitStatsProvider statsProvider, 
             IHealthInfoProvider healthInfoProvider, 
             RotationController rotationController, 
-            UnitActions unitActions,
+            UnitSimpleActions unitSimpleActions,
             Team team)
         {
-            UnitActions = unitActions;
+            UnitSimpleActions = unitSimpleActions;
             Health = healthInfoProvider;
             StatsProvider = statsProvider;
             RotationController = rotationController;

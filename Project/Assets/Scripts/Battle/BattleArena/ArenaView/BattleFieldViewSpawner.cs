@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Battle.BattleArena.StaticData;
+using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
 using Unity.Mathematics;
 using UnityEngine;
@@ -21,13 +22,13 @@ namespace Battle.BattleArena
             _assetsLoadingService = assetsLoadingService;
         }
 
-        public async Task Spawn(BattleArenaId battleArenaId)
+        public async UniTask Spawn(BattleArenaId battleArenaId)
         {
             var battleFieldStaticData = _staticDataProvider.ForBattleArena(battleArenaId);
             await SpawnBattleFieldView(battleFieldStaticData);
         }
 
-        private async Task SpawnBattleFieldView(BattleArenaStaticData arenaStaticData)
+        private async UniTask SpawnBattleFieldView(BattleArenaStaticData arenaStaticData)
         {
             //Taking [0,0] cell's top left corner as starting position for the view
             var gridPosition = new Vector2(-0.5f, -0.5f);

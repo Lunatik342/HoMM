@@ -16,7 +16,7 @@ namespace Battle.Units
             _unitSpawner = unitSpawner;
         }
 
-        public async Task Spawn(Dictionary<Team, List<UnitCreationParameter>> startingUnits)
+        public async UniTask Spawn(Dictionary<Team, List<UnitCreationParameter>> startingUnits)
         {
             List<UniTask> unitCreationTasks = new List<UniTask>();
 

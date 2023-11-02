@@ -37,10 +37,6 @@ namespace Battle.BattleFlow.Installers
         private void BindGridViewStateMachine()
         {
             Container.Bind<GridViewStateMachine>().AsSingle();
-            
-            Container.Bind<UnitControlViewState>().AsTransient();
-            Container.Bind<WaitingForCommandProcessViewState>().AsTransient();
-            Container.Bind<WaitingForEnemyTurnViewState>().AsTransient();
 
             Container.Bind<ReachableCellHoverHandler>().AsSingle();
             Container.Bind<MeleeAttackCellHoverHandler>().AsSingle();

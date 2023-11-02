@@ -15,7 +15,7 @@ namespace Battle.BattleFlow
             _unitsHolder = unitsHolder;
         }
 
-        public void Initialize(Dictionary<Team, List<UnitCreationParameter>> startingUnits)
+        public void SetParticipatingTeams(Dictionary<Team, List<UnitCreationParameter>> startingUnits)
         {
             foreach (var teamStartingUnit in startingUnits)
             {

@@ -57,7 +57,7 @@ namespace Battle.Units
             Container.BindInterfacesAndSelfTo<BattleMapPlaceable>().AsSingle().WithArguments(_staticData.UnitGridPlaceableStaticData);
             Container.BindInterfacesAndSelfTo<UnitHealth>().AsSingle().WithArguments(_staticData.DamageReceiverStaticData);
             Container.Bind<UnitStatsProvider>().AsSingle();
-            Container.Bind<UnitActions>().AsSingle();
+            Container.Bind<UnitSimpleActions>().AsSingle();
             Container.BindInterfacesAndSelfTo<UnitAttack>().AsSingle().WithArguments(_staticData.AttackDamageStaticData);
 
             _staticData.MovementStaticData.BindRelatedComponentToContainer(Container);
