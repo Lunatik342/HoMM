@@ -20,6 +20,7 @@ namespace Battle.BattleFlow
         private readonly BattlePhasesStateMachine _battlePhasesStateMachine;
 
         private readonly Dictionary<Team, ICommandProvider> _commandProviders = new();
+        private readonly int _betweenTurnsDelay = 250;
 
         public BattleTurnsController(UnitsQueueService unitsQueueService, 
             LocalPlayerControlledCommandProvider.Factory localPlayerCommandProviderFactory, 
@@ -68,7 +69,7 @@ namespace Battle.BattleFlow
                 
                 if (_gameResultEvaluator.IsGameOver(out var winningTeam))
                 {
-                    _battlePhasesStateMachine.Enter<BattleEndPhase>();
+                    _battlePhasesStateMachine.Enter<BattleEndPhase, Team>(winningTeam);
                     break;
                 }
             }
@@ -76,12 +77,11 @@ namespace Battle.BattleFlow
         
         private async UniTask MakeTurn()
         {
-            var betweenTurnsDelay = 250;
             var targetUnit = _unitsQueueService.Dequeue();
             var command = await _commandProviders[targetUnit.Team].WaitForCommand(targetUnit);
             _gridViewStateMachine.Enter<WaitingForCommandProcessViewState>();
             await command.Process(_commandsProcessorFacade);
-            await UniTask.Delay(betweenTurnsDelay);
+            await UniTask.Delay(_betweenTurnsDelay);
         }
     }
 }

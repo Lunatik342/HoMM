@@ -24,26 +24,26 @@ namespace Battle.Units
         private UnitInitializer _unitInitializer;
 
         public Unit(UnitStatsProvider statsProvider, 
-            IHealthInfoProvider healthInfoProvider, 
-            RotationController rotationController, 
-            UnitSimpleActions unitSimpleActions,
+            RotationController rotationController,
             Team team)
         {
-            UnitSimpleActions = unitSimpleActions;
-            Health = healthInfoProvider;
             StatsProvider = statsProvider;
             RotationController = rotationController;
             Team = team;
         }
 
-        [Inject] //TODO remove circular dep's
+        [Inject] //TODO remove circular dependencies
         public void Construct(UnitMovementController unitMovementController, 
-            IUnitPositionProvider unitPositionProvider, 
-            UnitInitializer unitInitializer)
+            IUnitPositionProvider unitPositionProvider,
+            UnitInitializer unitInitializer,
+            IHealthInfoProvider healthInfoProvider,
+            UnitSimpleActions unitSimpleActions)
         {
             MovementController = unitMovementController;
             _unitInitializer = unitInitializer;
             PositionProvider = unitPositionProvider;
+            Health = healthInfoProvider;
+            UnitSimpleActions = unitSimpleActions;
         }
 
         public void Initialize(Cell cell, int count)

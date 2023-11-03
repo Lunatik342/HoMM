@@ -9,6 +9,8 @@ namespace Battle.Units.Components
     {
         private readonly UnitStatsProvider _statsProvider;
         private readonly DamageReceiverStaticData _damageReceiverStaticData;
+        private readonly Unit _unit;
+        
         private UnitStat _maxHealthStat;
 
         public int AliveUnitsCount { get; private set; }
@@ -16,13 +18,15 @@ namespace Battle.Units.Components
         public bool IsAlive => AliveUnitsCount > 0;
 
         public event Action<int, int> HealthChanged; 
-        public event Action UnitDied; 
+        public event Action<Unit> UnitDied; 
 
         public UnitHealth(UnitStatsProvider statsProvider, 
-            DamageReceiverStaticData damageReceiverStaticData)
+            DamageReceiverStaticData damageReceiverStaticData,
+            Unit unit)
         {
             _statsProvider = statsProvider;
             _damageReceiverStaticData = damageReceiverStaticData;
+            _unit = unit;
         }
 
         void IStatsInitializer.ConfigureStats()
@@ -65,7 +69,7 @@ namespace Battle.Units.Components
 
             if (AliveUnitsCount == 0 && CurrenHealth == 0)
             {
-                UnitDied?.Invoke();
+                UnitDied?.Invoke(_unit);
             }
         }
 

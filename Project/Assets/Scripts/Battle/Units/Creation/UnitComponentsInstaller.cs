@@ -12,12 +12,14 @@ namespace Battle.Units.Creation
         private readonly GameObject _gameObject;
         private readonly Team _team;
         private readonly UnitStaticData _staticData;
+        private readonly UnitHealthView _healthViewPrefab;
 
-        public UnitComponentsInstaller(GameObject gameObject, Team team, UnitStaticData staticData)
+        public UnitComponentsInstaller(GameObject gameObject, Team team, UnitStaticData staticData, UnitHealthView healthViewPrefab)
         {
             _gameObject = gameObject;
             _team = team;
             _staticData = staticData;
+            _healthViewPrefab = healthViewPrefab;
         }
         
         public override void InstallBindings()
@@ -44,7 +46,7 @@ namespace Battle.Units.Creation
 
         private void BindHealthView()
         {
-            Container.BindInterfacesAndSelfTo<UnitHealthView>().FromComponentInNewPrefabResource("UnitCanvas")
+            Container.BindInterfacesAndSelfTo<UnitHealthView>().FromComponentInNewPrefab(_healthViewPrefab)
                 .UnderTransform(_gameObject.transform).AsSingle().NonLazy();
         }
 

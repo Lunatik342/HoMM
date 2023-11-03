@@ -19,7 +19,7 @@ namespace Battle.Units.Components
             _unitHealth.UnitDied += HandleDeath;
         }
 
-        private void HandleDeath()
+        private void HandleDeath(Unit _)
         {
             foreach (var deathEventReceiver in _deathEventReceivers)
             {

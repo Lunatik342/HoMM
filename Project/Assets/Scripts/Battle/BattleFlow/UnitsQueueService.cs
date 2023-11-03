@@ -25,8 +25,14 @@ namespace Battle.BattleFlow
             foreach (var unit in shuffledUnits)
             {
                 _queue.Add(unit);
-                unit.Health.UnitDied += () => { _queue.Remove(unit);};
+                unit.Health.UnitDied += RemoveFromQueue;
             }
+        }
+
+        private void RemoveFromQueue(Unit diedUnit)
+        {
+            _queue.Remove(diedUnit);
+            diedUnit.Health.UnitDied -= RemoveFromQueue;
         }
 
         public Unit Dequeue()

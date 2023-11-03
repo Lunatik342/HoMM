@@ -1,17 +1,16 @@
 using Array2DEditor;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace Battle.Arena.StaticData
 {
     [CreateAssetMenu(fileName = "Obstacle", menuName = "StaticData/BattleArena/Obstacle")]
-    public class ObstacleStaticData : SerializedScriptableObject
+    public class ObstacleStaticData : ScriptableObject
     {
         [field: SerializeField] public ObstacleId Id { get; private set; }
         [field: SerializeField] public AssetReferenceGameObject ViewPrefabReference { get; private set; }
         
-        [field: Space(20), InfoBox("Checked cells are occupied by obstacle")] 
+        [field: Space(20), Tooltip("Checked cells are occupied by obstacle")] 
         [field: SerializeField] private Array2DBool Figure { get; set; }
 
         public bool[,] GetLayout() => Figure.GetCells();

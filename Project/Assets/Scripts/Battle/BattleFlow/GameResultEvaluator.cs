@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Battle.Units;
 using Battle.Units.Creation;
 
 namespace Battle.BattleFlow
@@ -28,9 +27,9 @@ namespace Battle.BattleFlow
         {
             foreach (var participatingTeam in _participatingTeams)
             {
-                var aliveUnitsCount = _unitsHolder.GetAllUnitsOfTeam(participatingTeam).Count(u => u.Health.IsAlive);
+                var allTeamUnitsDead = _unitsHolder.GetAllUnitsOfTeam(participatingTeam).All(u => !u.Health.IsAlive);
 
-                if (aliveUnitsCount == 0)
+                if (allTeamUnitsDead)
                 {
                     winningTeam = GetOppositeTeamTo(participatingTeam);
                     return true;
