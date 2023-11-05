@@ -4,7 +4,6 @@ using Battle.Arena.Obstacles;
 using Battle.CellViewsGrid.CellsViews;
 using Battle.CellViewsGrid.GridViewStateMachine;
 using Battle.CellViewsGrid.GridViewStateMachine.States;
-using Battle.Units;
 using Battle.Units.Creation;
 using Cysharp.Threading.Tasks;
 using Infrastructure.SimpleStateMachine;
