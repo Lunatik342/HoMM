@@ -303,9 +303,9 @@ GameObject:
   - component: {fileID: 6297811239772726615}
   - component: {fileID: 27439301375360383}
   - component: {fileID: 8303742191220995548}
-  - component: {fileID: 5669655387647997190}
-  - component: {fileID: 2739923723277955925}
   - component: {fileID: 5195751789302162368}
+  - component: {fileID: 2758125222129912160}
+  - component: {fileID: 2462763711884428507}
   m_Layer: 5
   m_Name: LoadingScreen
   m_TagString: Untagged
@@ -354,6 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13972ad22ecd9234bb3be029226d942a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _eventsReceivers: []
+  _openAnimation: {fileID: 2758125222129912160}
+  _closeAnimation: {fileID: 2462763711884428507}
   _backgroundSprites:
   - {fileID: 21300000, guid: bb1c38dc0a1911c4d902c70ac1a8dad6, type: 3}
   - {fileID: 21300000, guid: 0026fb16a8de308439da14649a1e494e, type: 3}
@@ -367,12 +370,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d6979bd4d17b58947b30d976e858b35d, type: 3}
   - {fileID: 21300000, guid: 2bf18fc2ed3652f499a4effd088b5a5d, type: 3}
   _backgroundImage: {fileID: 1742142479989513220}
-  _content: {fileID: 997780181342212558}
-  _fadeImage: {fileID: 1312644230758712525}
-  _canvasGroup: {fileID: 5195751789302162368}
-  _contentFadeInDuration: 0.25
-  _contentFadeOutDuration: 0.25
-  _screenFadeDuration: 0.15
 --- !u!223 &8303742191220995548
 Canvas:
   m_ObjectHideFlags: 0
@@ -396,46 +393,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 10
   m_TargetDisplay: 0
---- !u!114 &5669655387647997190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776474238514443164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!114 &2739923723277955925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7776474238514443164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!225 &5195751789302162368
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -448,3 +405,37 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2758125222129912160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7776474238514443164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c12756efa0ab49a1b70ccde32b44dd63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _content: {fileID: 997780181342212558}
+  _fadeImage: {fileID: 1312644230758712525}
+  _canvasGroup: {fileID: 5195751789302162368}
+  _contentFadeInDuration: 0.25
+  _screenFadeDuration: 0.15
+--- !u!114 &2462763711884428507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7776474238514443164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f750c0aaf93a44f087ed425f3ada6995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _content: {fileID: 997780181342212558}
+  _fadeImage: {fileID: 1312644230758712525}
+  _canvasGroup: {fileID: 5195751789302162368}
+  _contentFadeOutDuration: 0.25
+  _screenFadeDuration: 0.15

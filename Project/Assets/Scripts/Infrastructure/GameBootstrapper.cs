@@ -1,20 +1,26 @@
-using Cysharp.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.SimpleStateMachine;
 using UnityEngine;
 using Zenject;
 
 public class GameBootstrapper : MonoBehaviour
 {
-    private SceneLoader _sceneLoader;
+    private GameStateMachine _gameStateMachine;
+    private StatesFactory _statesFactory;
     
     [Inject]
-    public void Construct(SceneLoader sceneLoader)
+    public void Construct(GameStateMachine gameStateMachine, StatesFactory statesFactory)
     {
-        _sceneLoader = sceneLoader;
+        _gameStateMachine = gameStateMachine;
+        _statesFactory = statesFactory;
     }
     
     public void Start()
     {
-        _sceneLoader.LoadMainMenuScene().Forget(Debug.LogError);
+        _gameStateMachine.RegisterState(_statesFactory.Create<BootstrapState>());
+        _gameStateMachine.RegisterState(_statesFactory.Create<MainMenuState>());
+        _gameStateMachine.RegisterState(_statesFactory.Create<BattleState>());
+        
+        _gameStateMachine.Enter<BootstrapState>();
     }
 }

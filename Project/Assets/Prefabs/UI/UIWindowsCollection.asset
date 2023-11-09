@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ff8654b3dc45ee81131d2f26e84911, type: 3}
+  m_Name: UIWindowsCollection
+  m_EditorClassIdentifier: 
+  _windows:
+  - {fileID: 710748192796460153, guid: e34b3fcd158284a4e852f558facd1ba5, type: 3}
+  - {fileID: 27439301375360383, guid: 88fbd4c545bb15a47817f4d8d40aaad8, type: 3}

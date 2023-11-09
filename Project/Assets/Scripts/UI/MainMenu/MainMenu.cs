@@ -10,6 +10,7 @@ using Battle.Units.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure;
 using UI.GenericUIComponents;
+using UISystem;
 using UnityEngine;
 using UnityEngine.UI;
 using Utilities;
@@ -18,46 +19,41 @@ using Random = UnityEngine.Random;
 
 namespace UI.MainMenu
 {
-    public class MainMenu : MonoBehaviour
+    public class MainMenu : UIWindow
     {
         [SerializeField] private AnimatedSpriteSwapper _animatedSpriteSwapper;
         [SerializeField] private Sprite[] _backgroundSprites;
         [SerializeField] private int _delaysBetweenSpriteSwapInMilliSecs;
         [SerializeField] private Button _startGameButton;
 
+        private GameStateMachine _gameStateMachine;
+        private UIWindowsManager _uiWindowsManager;
+        
         private CancellationTokenSource _cancellationTokenSource;
 
-        private SceneLoader _sceneLoader;
-
         [Inject]
-        public void Construct(SceneLoader sceneLoader)
+        public void Construct(GameStateMachine gameStateMachine)
         {
-            _sceneLoader = sceneLoader;
+            _gameStateMachine = gameStateMachine;
         }
-        
-        private void Start()
+
+        public override void OnInit()
         {
             _startGameButton.onClick.AddListener(LoadBattleLevel);
-            Show();
-        }
-
-        private void OnDestroy()
-        {
-            Hide();
         }
 
         private void LoadBattleLevel()
         {
-            _sceneLoader.LoadBattleScene(CreateBattleStartParametersTEMPORARY()).Forget(Debug.LogError);
+            _gameStateMachine.Enter<BattleState, BattleStartParameters>(CreateBattleStartParametersTEMPORARY());
         }
 
-        public void Show()
+        public override void OnShow()
         {
             _cancellationTokenSource = new CancellationTokenSource();
             StartBackgroundSwapSequence(_cancellationTokenSource.Token).SuppressCancellationThrow().Forget(Debug.LogError);
         }
 
-        public void Hide()
+        public override void OnHide()
         {
             EndBackgroundSwapSequence();
         }
@@ -83,7 +79,7 @@ namespace UI.MainMenu
             _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = null;
         }
-        
+
         private static BattleStartParameters CreateBattleStartParametersTEMPORARY()
         {
             var unitsToSpawn = new Dictionary<Team, List<UnitCreationParameter>>()

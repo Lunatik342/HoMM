@@ -444,6 +444,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f49ec3ed20e2564985d0ab10a1a8081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _eventsReceivers: []
+  _openAnimation: {fileID: 0}
+  _closeAnimation: {fileID: 0}
   _animatedSpriteSwapper: {fileID: 6785341390659037023}
   _backgroundSprites:
   - {fileID: 21300000, guid: 9dfb45ad7b33f1f4ab953ba172ba19b5, type: 3}

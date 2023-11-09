@@ -1,7 +1,6 @@
 using System;
 using Battle;
 using Cysharp.Threading.Tasks;
-using UI.LoadingScreen;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -10,14 +9,10 @@ namespace Infrastructure
     public class SceneLoader
     {
         private readonly ZenjectSceneLoader _sceneLoader;
-        private readonly LoadingScreen _loadingScreen;
 
-        private const int _minimumLoadingScreenShownDuration = 750;
-
-        public SceneLoader(ZenjectSceneLoader sceneLoader, LoadingScreen loadingScreen)
+        public SceneLoader(ZenjectSceneLoader sceneLoader)
         {
             _sceneLoader = sceneLoader;
-            _loadingScreen = loadingScreen;
         }
 
         public async UniTask LoadBattleScene(BattleStartParameters battleStartParameters)
@@ -35,11 +30,7 @@ namespace Infrastructure
         
         private async UniTask LoadScene(string sceneName, LoadSceneMode loadSceneMode, Action<DiContainer> extraBindings = null)
         {
-            await _loadingScreen.Show();
-            await UniTask.WhenAll(
-                _sceneLoader.LoadSceneAsync(sceneName, loadSceneMode, extraBindings).ToUniTask(),
-                UniTask.Delay(_minimumLoadingScreenShownDuration));
-            await _loadingScreen.Hide();
+            await _sceneLoader.LoadSceneAsync(sceneName, loadSceneMode, extraBindings).ToUniTask();
         }
     }
 }
