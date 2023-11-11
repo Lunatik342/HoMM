@@ -11,6 +11,7 @@ namespace UISystem.Animations
         [SerializeField] private Transform _transformForAnimation;
         [SerializeField] private float _openAnimationDuration = 0.25f;
         [SerializeField] private float _startScale = 0.7f;
+        
         public override async UniTask Animate(CancellationToken cancellationToken)
         {
             var animationSequence = DOTween.Sequence();

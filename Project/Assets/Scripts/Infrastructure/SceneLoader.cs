@@ -1,5 +1,6 @@
 using System;
 using Battle;
+using Battle.BattleFlow.Phases;
 using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -20,6 +21,7 @@ namespace Infrastructure
             await LoadScene(SceneNames.BattleSceneName, LoadSceneMode.Single, container =>
             {
                 container.BindInstance(battleStartParameters).WhenInjectedInto<BattleBootstrapper>();
+                container.BindInstance(battleStartParameters).WhenInjectedInto<BattleEndPhase>();
             });
         }
         

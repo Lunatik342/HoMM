@@ -7,6 +7,8 @@ using Battle.CellViewsGrid.GridViewStateMachine.States;
 using Battle.Units.Creation;
 using Cysharp.Threading.Tasks;
 using Infrastructure.SimpleStateMachine;
+using UI.LoadingScreen;
+using UISystem;
 
 namespace Battle.BattleFlow.Phases
 {
@@ -25,6 +27,7 @@ namespace Battle.BattleFlow.Phases
         private readonly StatesFactory _statesFactory;
         private readonly GameResultEvaluator _gameResultEvaluator;
         private readonly BattlePhasesStateMachine _battlePhasesStateMachine;
+        private readonly UIWindowsManager _uiWindowsManager;
 
         public BattleStartPhase(BattleFieldViewSpawner battleFieldViewSpawner,
             ObstaclesSpawner obstaclesSpawner,
@@ -37,7 +40,8 @@ namespace Battle.BattleFlow.Phases
             GridViewStateMachine gridViewStateMachine,
             StatesFactory statesFactory,
             GameResultEvaluator gameResultEvaluator,
-            BattlePhasesStateMachine battlePhasesStateMachine)
+            BattlePhasesStateMachine battlePhasesStateMachine,
+            UIWindowsManager uiWindowsManager)
         {
             _battleFieldViewSpawner = battleFieldViewSpawner;
             _obstaclesSpawner = obstaclesSpawner;
@@ -51,6 +55,7 @@ namespace Battle.BattleFlow.Phases
             _statesFactory = statesFactory;
             _gameResultEvaluator = gameResultEvaluator;
             _battlePhasesStateMachine = battlePhasesStateMachine;
+            _uiWindowsManager = uiWindowsManager;
         }
 
         public void Enter(BattleStartParameters battleStartParameters)
@@ -64,6 +69,7 @@ namespace Battle.BattleFlow.Phases
             await CreateArmies(battleStartParameters);
             InitializeGridViewStateMachine();
             InitializeBattleFlowSystems(battleStartParameters);
+            await _uiWindowsManager.CloseWindow<LoadingWindow>();
             _battlePhasesStateMachine.Enter<BattleProgressPhase>();
         }
 

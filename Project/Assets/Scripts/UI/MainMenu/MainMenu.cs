@@ -10,6 +10,7 @@ using Battle.Units.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure;
 using UI.GenericUIComponents;
+using UI.LoadingScreen;
 using UISystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,9 +33,10 @@ namespace UI.MainMenu
         private CancellationTokenSource _cancellationTokenSource;
 
         [Inject]
-        public void Construct(GameStateMachine gameStateMachine)
+        public void Construct(GameStateMachine gameStateMachine, UIWindowsManager uiWindowsManager)
         {
             _gameStateMachine = gameStateMachine;
+            _uiWindowsManager = uiWindowsManager;
         }
 
         public override void OnInit()
@@ -42,8 +44,9 @@ namespace UI.MainMenu
             _startGameButton.onClick.AddListener(LoadBattleLevel);
         }
 
-        private void LoadBattleLevel()
+        private async void LoadBattleLevel()
         {
+            await _uiWindowsManager.OpenWindow<LoadingWindow>();
             _gameStateMachine.Enter<BattleState, BattleStartParameters>(CreateBattleStartParametersTEMPORARY());
         }
 

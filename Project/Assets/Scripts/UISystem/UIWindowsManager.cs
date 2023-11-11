@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -18,10 +21,11 @@ namespace UISystem
             _windowsFactory = windowsFactory;
         }
 
-        public async UniTask<T> OpenWindow<T>() where T : IUIWindow
+        public async UniTask<T> OpenWindow<T>(Action<T> beforeWindowInit = null) where T : class, IUIWindow
         {
             var window = _windowsFactory.GetWindow<T>();
             window.GameObject.transform.SetParent(transform, false);
+            beforeWindowInit?.Invoke(window);
             window.Init();
             _openWindows.Add(window);
             await window.Open();

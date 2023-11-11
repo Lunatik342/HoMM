@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace Infrastructure
 {
-    public static class BootstrapLoader
+    public static class BootstrapSceneAutoLoader
     {
 #if UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

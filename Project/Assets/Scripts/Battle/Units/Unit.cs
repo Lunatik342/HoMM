@@ -20,16 +20,19 @@ namespace Battle.Units
 
         public UnitStatsProvider StatsProvider { get; private set; }
         public Team Team { get; private set; }
+        public UnitId UnitId { get; private set; }
         
         private UnitInitializer _unitInitializer;
 
         public Unit(UnitStatsProvider statsProvider, 
             RotationController rotationController,
-            Team team)
+            Team team,
+            UnitId unitId)
         {
             StatsProvider = statsProvider;
             RotationController = rotationController;
             Team = team;
+            UnitId = unitId;
         }
 
         [Inject] //TODO remove circular dependencies

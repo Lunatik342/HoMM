@@ -20,10 +20,9 @@ namespace Infrastructure
         
         public async void Enter()
         {
-            var loadingScreen = await _uiWindowsManager.OpenWindow<LoadingScreen>();
             await _sceneLoader.LoadMainMenuScene();
             await _uiWindowsManager.OpenWindow<MainMenu>();
-            await _uiWindowsManager.CloseWindow(loadingScreen);
+            await _uiWindowsManager.CloseWindow<LoadingWindow>();
         }
 
         public void Exit()

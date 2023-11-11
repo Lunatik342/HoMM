@@ -29,6 +29,7 @@ namespace Battle.Units.Creation
             BindLogicalComponents();
 
             Container.BindInstance(_team);
+            Container.BindInstance(_staticData.UnitId);
 
             Container.Bind<Unit>().AsSingle();
             Container.Bind<UnitInitializer>().AsSingle();

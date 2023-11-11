@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UI.LoadingScreen
 {
-    public class LoadingScreen : UIWindow
+    public class LoadingWindow : UIWindow
     {
         [SerializeField] private Sprite[] _backgroundSprites;
         [SerializeField] private Image _backgroundImage;

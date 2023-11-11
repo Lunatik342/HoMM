@@ -67,9 +67,9 @@ namespace Battle.BattleFlow
             {
                 await MakeTurn();
                 
-                if (_gameResultEvaluator.IsGameOver(out var winningTeam))
+                if (_gameResultEvaluator.IsGameOver(out _))
                 {
-                    _battlePhasesStateMachine.Enter<BattleEndPhase, Team>(winningTeam);
+                    _battlePhasesStateMachine.Enter<BattleEndPhase>();
                     break;
                 }
             }
