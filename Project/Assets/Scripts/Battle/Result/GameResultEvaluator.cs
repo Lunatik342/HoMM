@@ -33,7 +33,7 @@ namespace Battle.BattleFlow
 
                 if (allTeamUnitsDead)
                 {
-                    wonTeam = GetOppositeTeamTo(participatingTeam);
+                    wonTeam = participatingTeam.GetOppositeTeam();
                     return true;
                 }
             }
@@ -108,11 +108,6 @@ namespace Battle.BattleFlow
             var aliveUnitsCount = unitsAfterBattle.Where(u => u.UnitId == currentUnitId).Sum(u => u.Health.AliveUnitsCount);
             var unitsDiesCount = startingUnitsCount - aliveUnitsCount;
             return unitsDiesCount;
-        }
-
-        private Team GetOppositeTeamTo(Team team)
-        {
-            return team == Team.TeamLeft ? Team.TeamRight : Team.TeamLeft;
         }
     }
 

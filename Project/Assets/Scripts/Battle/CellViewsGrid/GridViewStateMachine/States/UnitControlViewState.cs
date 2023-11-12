@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Algorithms;
 using Algorithms.RogueSharp;
 using Battle.Arena.Misc;
 using Battle.CellViewsGrid.CellsViews;
@@ -84,7 +85,7 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.States
             canAttackFromCells = null;
             return cell?.PlacedUnit != null && 
                    cell.PlacedUnit.Team != _controlledUnit.Team &&
-                   CanReachCellForMeleeAttack(cell, _controlledUnitReachableCells, out canAttackFromCells);
+                   ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(cell, _controlledUnitReachableCells, out canAttackFromCells);
         }
 
         private void Repaint()
@@ -92,23 +93,6 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.States
             _cellsDisplayService.DisplayAllCellsDefault();
             _cellsDisplayService.DisplayReachableCells(_controlledUnitReachableCells, _mouseoverUnitReachableCells);
             _cellsDisplayService.DisplayCurrentlyControlledUnitCell(_controlledUnit.PositionProvider.OccupiedCell);
-        }
-
-        private bool CanReachCellForMeleeAttack(Cell cell, List<Cell> reachableCells, out List<Cell> adjacentToEnemyCells)
-        {
-            var tolerance = 0.01f;
-            adjacentToEnemyCells = new List<Cell>();
-            
-            foreach (var reachableCell in reachableCells)
-            {
-                if (CellsUtilities.CalculateDistance(reachableCell, cell) < 
-                    BattleArenaConstants.DiagonalMovementCost + tolerance)
-                {
-                    adjacentToEnemyCells.Add(reachableCell);
-                }
-            }
-
-            return adjacentToEnemyCells.Count > 0;
         }
 
         public void Exit()

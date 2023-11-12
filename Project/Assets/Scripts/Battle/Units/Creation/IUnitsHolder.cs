@@ -7,5 +7,6 @@ namespace Battle.Units.Creation
         public IEnumerable<Unit> GetAllUnits();
 
         public List<Unit> GetAllUnitsOfTeam(Team team);
+        public List<Unit> GetAllAliveUnitsOfTeam(Team team);
     }
 }

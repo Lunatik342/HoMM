@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 
 namespace Battle.Units.Creation
@@ -47,6 +48,11 @@ namespace Battle.Units.Creation
         public List<Unit> GetAllUnitsOfTeam(Team team)
         {
             return _unitsOfTeam[team];
+        }
+
+        public List<Unit> GetAllAliveUnitsOfTeam(Team team)
+        {
+            return _unitsOfTeam[team].Where(u => u.Health.IsAlive).ToList();
         }
 
         private async UniTask CreateUnit(UnitCreationParameter unitCreationParameter, Team team, List<Unit> holder)

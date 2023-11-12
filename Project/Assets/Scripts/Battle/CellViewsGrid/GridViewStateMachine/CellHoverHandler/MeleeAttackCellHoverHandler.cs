@@ -62,7 +62,7 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
 
         private void MousePositionChanged(Vector3 mouseWorldPosition)
         {
-            var attackCellCoordinate = AttackPositionFinder.FindPosition(_mouseoverCell, mouseWorldPosition);
+            var attackCellCoordinate = AttackCellFromMousePositionFinder.FindPosition(_mouseoverCell, mouseWorldPosition);
             var cell = _mapHolder.Map.GetCell(attackCellCoordinate);
 
             Cell cellToAttackFrom;

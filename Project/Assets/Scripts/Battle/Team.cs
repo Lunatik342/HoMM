@@ -24,5 +24,10 @@ namespace Battle
                     throw new ArgumentOutOfRangeException(nameof(team), team, null);
             }
         }
+        
+        public static Team GetOppositeTeam(this Team team)
+        {
+            return team == Team.TeamLeft ? Team.TeamRight : Team.TeamLeft;
+        }
     }
 }

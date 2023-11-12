@@ -5,7 +5,7 @@ using Utilities;
 
 namespace Algorithms
 {
-    public class AttackPositionFinder
+    public class AttackCellFromMousePositionFinder
     {
         public static Vector2Int FindPosition(Cell cellToAttack, Vector3 mouseWorldPosition)
         {

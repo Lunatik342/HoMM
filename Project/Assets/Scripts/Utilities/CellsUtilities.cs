@@ -6,7 +6,7 @@ namespace Utilities
 {
     public static class CellsUtilities
     {
-        public static double CalculateDistance(ICell source, ICell destination)
+        public static float CalculateDistance(ICell source, ICell destination)
         {
             int dx = Math.Abs(source.X - destination.X);
             int dy = Math.Abs(source.Y - destination.Y);

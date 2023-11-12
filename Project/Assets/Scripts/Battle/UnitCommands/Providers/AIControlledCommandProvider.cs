@@ -1,3 +1,4 @@
+using Battle.AI;
 using Battle.CellViewsGrid.GridViewStateMachine;
 using Battle.CellViewsGrid.GridViewStateMachine.States;
 using Battle.UnitCommands.Commands;
@@ -11,19 +12,36 @@ namespace Battle.UnitCommands.Providers
     public class AIControlledCommandProvider: ICommandProvider
     {
         private readonly GridViewStateMachine _gridViewStateMachine;
+        private readonly ConsiderationsFactory _considerationsFactory;
 
-        public AIControlledCommandProvider(GridViewStateMachine gridViewStateMachine)
+        public AIControlledCommandProvider(GridViewStateMachine gridViewStateMachine, ConsiderationsFactory considerationsFactory)
         {
             _gridViewStateMachine = gridViewStateMachine;
+            _considerationsFactory = considerationsFactory;
         }
 
         public async UniTask<ICommand> WaitForCommand(Unit unit)
         {
             _gridViewStateMachine.Enter<WaitingForEnemyTurnViewState>();
-            await UniTask.Delay(2000);
-            var reachableCells = unit.MovementController.GetReachableCells();
-            var randomCell = reachableCells.GetRandomItem();
-            return new UnitMoveCommand(unit, randomCell.GridPosition);
+            await UniTask.Delay(500);
+            var considerations = _considerationsFactory.Create(unit);
+
+            IConsideration considerationWithMaxResult = null;
+
+            foreach (var consideration in considerations)
+            {
+                if (!consideration.CalculationComplete)
+                {
+                    consideration.Consider();
+                }
+
+                if (considerationWithMaxResult == null || consideration.ConsiderationResult > considerationWithMaxResult.ConsiderationResult)
+                {
+                    considerationWithMaxResult = consideration;
+                }
+            }
+
+            return considerationWithMaxResult.GetCommand();
         }
         
         public class Factory: PlaceholderFactory<AIControlledCommandProvider>

@@ -3,7 +3,7 @@ using System.Linq;
 using Battle.StatsSystem;
 using Battle.Units;
 using Battle.Units.Creation;
-using Utilities;
+using UnityEngine;
 
 namespace Battle.BattleFlow
 {
@@ -11,7 +11,8 @@ namespace Battle.BattleFlow
     {
         private readonly IUnitsHolder _unitsHolder;
 
-        private List<Unit> _queue = new ();
+        private List<Unit> _initialQueue = new ();
+        private List<Unit> _currentTurnQueue = new ();
 
         public UnitsQueueService(IUnitsHolder unitsHolder)
         {
@@ -20,27 +21,31 @@ namespace Battle.BattleFlow
 
         public void InitializeFromStartingUnits()
         {
-            var shuffledUnits = _unitsHolder.GetAllUnits().OrderByDescending(u => u.StatsProvider.GetStatValue(StatType.Initiative)).ToList();
-
-            foreach (var unit in shuffledUnits)
+            var orderedUnits = _unitsHolder.GetAllUnits().OrderByDescending(u =>
             {
-                _queue.Add(unit);
+                var randomSpread = Random.Range(-0.1f, 0.1f);
+                return u.StatsProvider.GetStatValue(StatType.Initiative) + randomSpread;
+            }).ToList();
+
+            foreach (var unit in orderedUnits)
+            {
+                _initialQueue.Add(unit);
                 unit.Health.UnitDied += RemoveFromQueue;
             }
         }
 
-        private void RemoveFromQueue(Unit diedUnit)
-        {
-            _queue.Remove(diedUnit);
-            diedUnit.Health.UnitDied -= RemoveFromQueue;
-        }
-
         public Unit Dequeue()
         {
-            var unit = _queue[0];
-            _queue.RemoveAt(0);
-            _queue.Add(unit);
+            var unit = _initialQueue[0];
+            _initialQueue.RemoveAt(0);
+            _initialQueue.Add(unit);
             return unit;
+        }
+
+        private void RemoveFromQueue(Unit diedUnit)
+        {
+            _initialQueue.Remove(diedUnit);
+            diedUnit.Health.UnitDied -= RemoveFromQueue;
         }
     }
 }

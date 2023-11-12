@@ -116,7 +116,7 @@ namespace UI.MainMenu
             }, unitsToSpawn, new Dictionary<Team, CommandProviderType>
             {
                 { Team.TeamLeft, CommandProviderType.PlayerControlled },
-                { Team.TeamRight, CommandProviderType.PlayerControlled },
+                { Team.TeamRight, CommandProviderType.AIControlled },
             });
             return testBattleStartParameters;
         }
