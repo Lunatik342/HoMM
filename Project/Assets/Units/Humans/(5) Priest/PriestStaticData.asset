@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f991f8e234984d50a50ec881a56ac88a, type: 3}
+  m_Name: PriestStaticData
+  m_EditorClassIdentifier: 
+  <UnitId>k__BackingField: 5
+  <GameObjectAssetReference>k__BackingField:
+    m_AssetGUID: b4df426183579b949ae3594456f22d44
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  <UnitRotationStaticData>k__BackingField:
+    <RotationSpeed>k__BackingField: 360
+  <UnitGridPlaceableStaticData>k__BackingField:
+    <Size>k__BackingField: 1
+  <MovementStaticData>k__BackingField: {fileID: 11400000, guid: 6529af7e9b2e6354892bcd77c2923f20,
+    type: 2}
+  <DamageReceiverStaticData>k__BackingField:
+    <MaxHealth>k__BackingField: 54
+    <Defence>k__BackingField: 12
+  <ActingInTurnsQueueStaticData>k__BackingField:
+    <Initiative>k__BackingField: 10
+    <Morale>k__BackingField: 0
+  <AttackDamageStaticData>k__BackingField:
+    <AttackStat>k__BackingField: 12
+    <DamageMin>k__BackingField: 9
+    <DamageMax>k__BackingField: 12
+    <Luck>k__BackingField: 0

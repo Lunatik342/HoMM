@@ -42,6 +42,41 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d66b0a5cf1dbaf44a93ea4084af0aef
+    m_Address: Assets/Units/Humans/(1) Peasant/PeasantPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a198db92dc0712043aa4f785a0d85fe4
+    m_Address: Assets/Units/Humans/(2) Archer/ArcherPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7398c1fcc3595d34c81f71466e2a4c90
+    m_Address: Assets/Units/Humans/(3) Footman/FootmanPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1cfb1f76acddd442b97d89e516df910
+    m_Address: Assets/Units/Humans/(4) Swordsman/SwordsmanPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b4df426183579b949ae3594456f22d44
+    m_Address: Assets/Units/Humans/(5) Priest/PriestPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd9cc480e8a533c4da47604f65bdc6af
+    m_Address: Assets/Units/Humans/(6) Cavalier/CavalierPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4bd950df97dd93f43bcd25717f5f8658
+    m_Address: Assets/Units/Humans/(7) King/KingPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2a72184f8402adc40a7e53490dfc95e9, type: 2}
   m_SchemaSet:

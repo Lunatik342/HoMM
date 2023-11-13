@@ -914,7 +914,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitStaticData:
   - {fileID: 11400000, guid: e3d7882154dd8ec44a91a49acb88ac90, type: 2}
-  - {fileID: 11400000, guid: 1a20efcd0e11e8a4fa56018e23458db7, type: 2}
+  - {fileID: 11400000, guid: 744c6f0730a24d246851b9a84a7d6d08, type: 2}
+  - {fileID: 11400000, guid: 6da4702093d18524482119ad5ef3e1f3, type: 2}
+  - {fileID: 11400000, guid: 48673eaa9438c2a459e086c4fecd2679, type: 2}
+  - {fileID: 11400000, guid: 8ded193bf9222b349bcc01c2816b33b0, type: 2}
+  - {fileID: 11400000, guid: 799001d0fa8e6e749bbf641017babb69, type: 2}
+  - {fileID: 11400000, guid: a49fdbab21b7ed44faa7ba5619c1ce43, type: 2}
+  - {fileID: 11400000, guid: 146745fbf112c544f9bb489675f49698, type: 2}
   _unitHealthViewPrefab: {fileID: 5964741801531907220, guid: 60c894b94ea2cb24f9404957586628e8,
     type: 3}
 --- !u!1 &2104439862

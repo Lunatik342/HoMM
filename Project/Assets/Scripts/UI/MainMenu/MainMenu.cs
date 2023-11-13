@@ -90,17 +90,17 @@ namespace UI.MainMenu
                 {
                     Team.TeamLeft, new List<UnitCreationParameter>
                     {
-                        new UnitCreationParameter(new Vector2Int(0, 0), UnitId.Blank, 5),
-                        new UnitCreationParameter(new Vector2Int(1, 4), UnitId.Blank, 15),
-                        new UnitCreationParameter(new Vector2Int(1, 9), UnitId.Blank, 10),
+                        new UnitCreationParameter(new Vector2Int(0, 0), UnitId.Peasant, 33),
+                        new UnitCreationParameter(new Vector2Int(1, 4), UnitId.Archer, 50),
+                        new UnitCreationParameter(new Vector2Int(1, 9), UnitId.King, 100),
                     }
                 },
                 {
                     Team.TeamRight, new List<UnitCreationParameter>
                     {
-                        new UnitCreationParameter(new Vector2Int(10, 2), UnitId.Blank, 33),
-                        new UnitCreationParameter(new Vector2Int(11, 6), UnitId.Blank, 62),
-                        new UnitCreationParameter(new Vector2Int(10, 8), UnitId.Blank, 12),
+                        new UnitCreationParameter(new Vector2Int(10, 2), UnitId.Swordsman, 33),
+                        new UnitCreationParameter(new Vector2Int(11, 6), UnitId.King, 50),
+                        new UnitCreationParameter(new Vector2Int(10, 8), UnitId.Cavalier, 100),
                     }
                 },
             };
