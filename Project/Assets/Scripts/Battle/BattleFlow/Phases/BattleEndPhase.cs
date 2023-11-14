@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Infrastructure;
 using Infrastructure.SimpleStateMachine;
 using UI.BattleResultWindow;
+using UI.Hud;
 using UI.LoadingScreen;
 using UISystem;
 using UnityEngine;
@@ -42,6 +43,7 @@ namespace Battle.BattleFlow.Phases
 
         private async Task<BattleResultWindowOutput> ShowBattleResultScreen(BattleResultData battleResultData)
         {
+            _uiWindowsManager.CloseWindow<UnitsQueueWindow>().Forget(Debug.LogError);
             var resultWindowCompletionSource = new UniTaskCompletionSource<BattleResultWindowOutput>();
             
             await _uiWindowsManager.OpenWindow<BattleResultWindow>(window =>

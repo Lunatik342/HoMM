@@ -14,6 +14,7 @@ namespace Battle.Units
         public UnitMovementController MovementController { get; private set; }
         public RotationController RotationController { get; private set; }
         public UnitSimpleActions UnitSimpleActions { get; private set; }
+        public UnitTurnsHelper TurnsHelper { get; private set; }
         
         public IUnitPositionProvider PositionProvider { get; private set; }
         public IHealthInfoProvider Health { get; private set; }
@@ -26,11 +27,13 @@ namespace Battle.Units
 
         public Unit(UnitStatsProvider statsProvider, 
             RotationController rotationController,
+            UnitTurnsHelper unitTurnsHelper,
             Team team,
             UnitId unitId)
         {
             StatsProvider = statsProvider;
             RotationController = rotationController;
+            TurnsHelper = unitTurnsHelper;
             Team = team;
             UnitId = unitId;
         }

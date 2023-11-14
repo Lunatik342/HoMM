@@ -7,8 +7,10 @@ using Battle.CellViewsGrid.GridViewStateMachine.States;
 using Battle.Units.Creation;
 using Cysharp.Threading.Tasks;
 using Infrastructure.SimpleStateMachine;
+using UI.Hud;
 using UI.LoadingScreen;
 using UISystem;
+using UnityEngine;
 
 namespace Battle.BattleFlow.Phases
 {
@@ -100,7 +102,8 @@ namespace Battle.BattleFlow.Phases
 
         private void InitializeBattleFlowSystems(BattleStartParameters battleStartParameters)
         {
-            _unitsQueueService.InitializeFromStartingUnits();
+            _unitsQueueService.AddAllAliveUnitsToQueue();
+            _uiWindowsManager.OpenWindow<UnitsQueueWindow>(window => {window.PassParameters(_unitsQueueService);}).Forget(Debug.LogError);
             _gameResultEvaluator.SetParticipatingTeams(battleStartParameters.StartingUnits);
             _battleTurnsController.CreateCommandProviders(battleStartParameters.CommandProvidersForTeams);
         }

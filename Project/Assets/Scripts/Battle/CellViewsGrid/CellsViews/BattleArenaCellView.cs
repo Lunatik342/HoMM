@@ -14,7 +14,14 @@ namespace Battle.CellViewsGrid.CellsViews
 
         public void PaintCell(CellViewState state)
         {
-            _background.color = _cellStateColors[state];
+            if (state == CellViewState.Empty)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                _background.color = _cellStateColors[state];
+            }
         }
 
         public class Factory: PlaceholderFactory<BattleArenaCellView>
@@ -25,6 +32,7 @@ namespace Battle.CellViewsGrid.CellsViews
 
     public enum CellViewState
     {
+        Empty = -1,
         Default,
         Walkable,
         EnemyWalkable,

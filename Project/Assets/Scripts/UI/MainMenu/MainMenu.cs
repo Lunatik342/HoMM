@@ -105,7 +105,7 @@ namespace UI.MainMenu
                 },
             };
 
-            var testBattleStartParameters = new BattleStartParameters(BattleArenaId.Blank, new ObstacleGenerationParameters()
+            var testBattleStartParameters = new BattleStartParameters(BattleArenaId.Forge, new ObstacleGenerationParameters()
             {
                 IsRandom = true,
                 RandomSeed = Random.Range(0, Int32.MaxValue),

@@ -1,23 +1,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using Algorithms.RogueSharp;
+using Battle.Arena.Map;
 
 namespace Battle.CellViewsGrid.CellsViews
 {
     public class BattleArenaCellsDisplayService
     {
         private readonly IBattleArenaCellsViewsHolder _cellsViewsHolder;
+        private readonly IMapHolder _mapHolder;
 
-        public BattleArenaCellsDisplayService(IBattleArenaCellsViewsHolder cellsViewsHolder)
+        public BattleArenaCellsDisplayService(IBattleArenaCellsViewsHolder cellsViewsHolder, IMapHolder mapHolder)
         {
             _cellsViewsHolder = cellsViewsHolder;
+            _mapHolder = mapHolder;
         }
 
         public void DisplayAllCellsDefault()
         {
-            foreach (var cellView in _cellsViewsHolder.CellsViews)
+            for (int i = 0; i < _mapHolder.Map.Width; i++)
             {
-                cellView.PaintCell(CellViewState.Default);
+                for (int j = 0; j < _mapHolder.Map.Height; j++)
+                {
+                    var cell = _mapHolder.Map[i, j];
+                    var cellView = _cellsViewsHolder.CellsViews[i, j];
+
+                    if (!cell.IsFunctioning || cell.IsOccupiedByObstacle)
+                    {
+                        cellView.PaintCell(CellViewState.Empty);
+                    }
+                    else
+                    {
+                        cellView.PaintCell(CellViewState.Default);
+                    }
+                }
             }
         }
 

@@ -77,6 +77,56 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ea532de1c4d88f74a8abd08d4c73acc5
+    m_Address: Assets/Arenas/DwarfForges/ForgesBattleArenaPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 59832af80ccf90d48bc17932931cd1cb
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{1.1} Barrel/{1.1} BarrelObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8561587116f4191449abf1e979fe8eba
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{1 1} BarrelFilled/{1 1} BarrelFilledObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 311f12e8cdd573d409ac082edab17c93
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{1 1} Crate/CrateObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f6251bae590b23f489b533846117bf0a
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{1.1} Lava/LavaObstaclePreafab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7908bddd18b1e6347a75af861a6322e5
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{2.2} Crates/CratesObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6de13ee9de19b514cb143722a841f32c
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{2.2} Cogs/CogsObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52a79bc21f528c4448dc1d360c5d118d
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{2.2} Lava/LavaObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b54bf64b6ad3d74b87f8195603af8a9
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{2.3} Lava/LavaObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65dacd59d65da2c498365316cfe0f5f5
+    m_Address: Assets/Arenas/DwarfForges/Obstacles/{2.3} Sarcafagus/SarcafagusObstaclePrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 2a72184f8402adc40a7e53490dfc95e9, type: 2}
   m_SchemaSet:

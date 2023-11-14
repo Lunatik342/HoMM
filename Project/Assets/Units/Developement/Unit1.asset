@@ -12,15 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f991f8e234984d50a50ec881a56ac88a, type: 3}
   m_Name: Unit1
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   <UnitId>k__BackingField: 0
   <GameObjectAssetReference>k__BackingField:
     m_AssetGUID: 2048e9be082453a469eeb561b16c2c67
@@ -31,7 +22,7 @@ MonoBehaviour:
     <RotationSpeed>k__BackingField: 360
   <UnitGridPlaceableStaticData>k__BackingField:
     <Size>k__BackingField: 1
-  <MovementStaticData>k__BackingField: {fileID: 11400000, guid: cd54b4cc1546cf14a8a447ae8904eb23,
+  <MovementStaticData>k__BackingField: {fileID: 11400000, guid: c646205399f5c67478bfb8c013516f6e,
     type: 2}
   <DamageReceiverStaticData>k__BackingField:
     <MaxHealth>k__BackingField: 15

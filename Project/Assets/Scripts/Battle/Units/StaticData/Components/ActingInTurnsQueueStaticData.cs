@@ -7,6 +7,5 @@ namespace Battle.Units.StaticData.Components
     public class ActingInTurnsQueueStaticData
     {
         [field: SerializeField] public int Initiative { get; private set; }
-        [field: SerializeField] public int Morale { get; private set; }
     }
 }

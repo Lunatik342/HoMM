@@ -1,6 +1,5 @@
 using Battle.Arena.Map;
 using Battle.Arena.Misc;
-using Battle.StatsSystem;
 using Battle.Units.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure.AssetManagement;
@@ -37,7 +36,6 @@ namespace Battle.Units.Creation
             var createdUnit = _unitsFactory.Create(gameObject.gameObject, team, unitStaticData);
 
             createdUnit.Initialize(_mapHolder.Map.GetCell(gridPosition), unitCreationParameter.Count);
-            createdUnit.StatsProvider.AddStat(StatType.Initiative, unitStaticData.ActingInTurnsQueueStaticData.Initiative);
 
             return createdUnit;
         }

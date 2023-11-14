@@ -255,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 5.49, y: 9.32, z: -11.13}
+  m_LocalPosition: {x: 5.5, y: 11.7, z: -12.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -337,7 +337,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -380,7 +380,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5000
+  m_ColorTemperature: 7692
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -641,10 +641,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleArenasStaticData:
   - {fileID: 11400000, guid: 134e1c43dadf37148b488a7403b8b025, type: 2}
+  - {fileID: 11400000, guid: c77bb72a8f2f6ed47bd0bb4732c4a4de, type: 2}
   _obstaclesStaticData:
   - {fileID: 11400000, guid: 4c73764d4ec6ec9458dfc2b62ed6673b, type: 2}
   - {fileID: 11400000, guid: 69c4880face93b4459190791922a695c, type: 2}
   - {fileID: 11400000, guid: 1d0b0d6c3c02be949be12f5fcd16a009, type: 2}
+  - {fileID: 11400000, guid: 0cae93353abe94e41b65501ce02b08ec, type: 2}
+  - {fileID: 11400000, guid: ca070f3580e24bb41b520cbb067ea042, type: 2}
+  - {fileID: 11400000, guid: bfca61b41c3c71a428b35a94b6daa123, type: 2}
+  - {fileID: 11400000, guid: 97afeba2d726a5e4787db8547c561b15, type: 2}
+  - {fileID: 11400000, guid: b8030be74aa246a468c2f794fe426ef2, type: 2}
+  - {fileID: 11400000, guid: 986fa201b83c0184cb0136bcbb2ef084, type: 2}
+  - {fileID: 11400000, guid: a2f0715bd51d6a04a9eb493877641a7b, type: 2}
+  - {fileID: 11400000, guid: 2805c8303b09b244985c9aba565339ee, type: 2}
+  - {fileID: 11400000, guid: fd706a71cc714d7479ff3282585e4eca, type: 2}
   _obstaclesGenerationStaticData: {fileID: 11400000, guid: 07a7e752f122de74e96637e37fd2f4b8,
     type: 2}
 --- !u!1 &1223709740

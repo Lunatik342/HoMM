@@ -13,7 +13,6 @@ namespace Battle.Units.Components
 
         private UnitStat _damageMinStat;
         private UnitStat _damageMaxStat;
-        private UnitStat _luckStat;
         
         public UnitAttack(AttackDamageDealerStaticData staticData, 
             UnitStatsProvider statsProvider, 
@@ -27,7 +26,6 @@ namespace Battle.Units.Components
         void IStatsInitializer.ConfigureStats()
         {
             _statsProvider.AddStat(StatType.Attack, _staticData.AttackStat);
-            _luckStat = _statsProvider.AddStat(StatType.Luck, _staticData.Luck);
             _damageMinStat = _statsProvider.AddStat(StatType.MinDamage, _staticData.DamageMin);
             _damageMaxStat = _statsProvider.AddStat(StatType.MaxDamage, _staticData.DamageMax);
         }
@@ -36,15 +34,6 @@ namespace Battle.Units.Components
         {
             var unitsCount = _health.AliveUnitsCount;
             var damageFromOneUnit = Random.Range(_damageMinStat.Value, _damageMaxStat.Value + 1);
-
-            var luckValue = Random.Range(0, 10);
-
-            if (luckValue < _luckStat.Value)
-            {
-                int critMultiplier = 2;
-                damageFromOneUnit *= critMultiplier;
-            }
-
             return damageFromOneUnit * unitsCount;
         }
     }

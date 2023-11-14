@@ -6,6 +6,7 @@ using Battle.CellViewsGrid.GridViewStateMachine.States;
 using Battle.UnitCommands.Processors;
 using Battle.UnitCommands.Providers;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Battle.BattleFlow
 {
@@ -77,11 +78,22 @@ namespace Battle.BattleFlow
         
         private async UniTask MakeTurn()
         {
-            var targetUnit = _unitsQueueService.Dequeue();
+            var targetUnit = _unitsQueueService.GetNextUnitInQueue();
+            
             var command = await _commandProviders[targetUnit.Team].WaitForCommand(targetUnit);
             _gridViewStateMachine.Enter<WaitingForCommandProcessViewState>();
             await command.Process(_commandsProcessorFacade);
+            
+            _unitsQueueService.RemoveUnitFromQueue(targetUnit);
             await UniTask.Delay(_betweenTurnsDelay);
+
+            var newTurnStarted = _unitsQueueService.StartNewTurnIfNeeded();
+
+            if (newTurnStarted)
+            {
+                Debug.LogError("New turn");
+                await UniTask.Delay(2000);
+            }
         }
     }
 }
