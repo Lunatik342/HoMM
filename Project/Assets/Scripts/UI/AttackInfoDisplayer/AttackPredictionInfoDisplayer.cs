@@ -1,10 +1,11 @@
 using Battle.Units.Components;
 using TMPro;
 using UnityEngine;
+using Utilities.UsefullClasses;
 
 namespace UI.AttackInfoDisplayer
 {
-    public class AttackInfoDisplayer : MonoBehaviour
+    public class AttackPredictionInfoDisplayer : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _damageInfoText;
         [SerializeField] private TextMeshProUGUI _retaliationInfoText;

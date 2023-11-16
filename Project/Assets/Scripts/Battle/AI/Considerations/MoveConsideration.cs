@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using Algorithms;
 using Algorithms.RogueSharp;
-using Battle.AI.Settings;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
-using UnityEngine;
 using Utilities;
 
-namespace Battle.AI
+namespace Battle.AI.Considerations
 {
     public class MoveConsideration: IConsideration
     {
@@ -18,7 +16,6 @@ namespace Battle.AI
         private readonly List<Unit> _enemyUnits;
         private readonly List<Cell>[] _enemyReachableCells;
         private readonly float _maxTravelDistanceForMap;
-        private readonly MoveConsiderationWeights _weights;
 
         public float ConsiderationResult { get; private set; }
         public bool CalculationComplete { get; private set; }
@@ -29,8 +26,7 @@ namespace Battle.AI
             List<Cell> reachableByUnitCells, 
             List<Unit> enemyUnits, 
             List<Cell>[] enemyReachableCells,
-            float maxTravelDistanceForMap,
-            MoveConsiderationWeights weights)
+            float maxTravelDistanceForMap)
         {
             _unit = unit;
             _targetCell = targetCell;
@@ -38,7 +34,6 @@ namespace Battle.AI
             _enemyUnits = enemyUnits;
             _enemyReachableCells = enemyReachableCells;
             _maxTravelDistanceForMap = maxTravelDistanceForMap;
-            _weights = weights;
         }
         
         public void Consider()
@@ -58,9 +53,10 @@ namespace Battle.AI
         //Pretty bad implementation, needs rework, but good enough for now
         private float Calculate(List<Cell> reachableCells, List<Unit> allEnemyUnits, List<Cell>[] enemyReachableCells, Cell reachableCell)
         {
+            var distanceWeight = 0.001f;
             var countOfEnemiesThatCanAttack = GetEnemiesCountThatCanReachCellForAttack(allEnemyUnits, enemyReachableCells, reachableCell);
             var (countOfEnemiesThatCanBeAttacked, averageDistanceToEnemies) = GetEnemiesCountThatCanBeAttacked(reachableCells, allEnemyUnits, reachableCell);
-            var distanceCoeficient = (_maxTravelDistanceForMap - averageDistanceToEnemies / _maxTravelDistanceForMap) * _weights.DistanceWeight;
+            var distanceCoeficient = (_maxTravelDistanceForMap - averageDistanceToEnemies / _maxTravelDistanceForMap) * distanceWeight;
 
             if (countOfEnemiesThatCanAttack == 0)
             {
@@ -76,7 +72,8 @@ namespace Battle.AI
 
             if (countOfEnemiesThatCanBeAttacked == 0)
             {
-                return distanceCoeficient - 100;
+                var noOneToAttackPenalty = 100;
+                return distanceCoeficient - noOneToAttackPenalty;
             }
             
             var attackableInRangeRatio = (countOfEnemiesThatCanBeAttacked / countOfEnemiesThatCanAttack);

@@ -1,17 +1,17 @@
 using Battle.StatsSystem;
 using Battle.Units;
 
-namespace Battle
+namespace Battle.DamageCalculation
 {
     public class DamageCalculator
     {
         public int CalculateDamage(Unit attackingUnit, Unit attackedUnit)
         {
             var rawDamage = attackingUnit.Attack.GetRawDamage();
-            return MultiplyRawDamage(attackingUnit, attackedUnit, rawDamage);
+            return MultiplyRawDamageByModifiers(attackingUnit, attackedUnit, rawDamage);
         }
 
-        public int MultiplyRawDamage(Unit attackingUnit, Unit attackedUnit, int rawDamage)
+        public int MultiplyRawDamageByModifiers(Unit attackingUnit, Unit attackedUnit, int rawDamage)
         {
             var attack = attackingUnit.StatsProvider.GetStatValue(StatType.Attack);
             var defence = attackedUnit.StatsProvider.GetStatValue(StatType.Defence);

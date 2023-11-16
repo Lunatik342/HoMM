@@ -7,7 +7,7 @@ using Battle.Units;
 namespace Algorithms
 {
    //Based on AStar (I just removed some code and added some code), very lazy implementation but it works
-   public class ReachableCellsFinder<TCell> where TCell : ICell
+   public class ReachableCellsFinder<TCell> where TCell : class, ICell
    {
       public static bool[] GetReachableCells( TCell source, IMap<TCell> map , Unit pathingAgent, int maxDistanceFormStart)
       {

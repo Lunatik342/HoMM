@@ -2,6 +2,7 @@ using Battle.StatsSystem;
 using Battle.Units.Components.Interfaces;
 using Battle.Units.StaticData.Components;
 using UnityEngine;
+using Utilities.UsefullClasses;
 
 namespace Battle.Units.Components
 {

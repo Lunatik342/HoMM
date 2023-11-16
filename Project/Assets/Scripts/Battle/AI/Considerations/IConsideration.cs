@@ -1,6 +1,6 @@
 using Battle.UnitCommands.Commands;
 
-namespace Battle.AI
+namespace Battle.AI.Considerations
 {
     public interface IConsideration
     {

@@ -58,7 +58,7 @@ namespace Battle.Units.Creation
             Container.BindInterfacesAndSelfTo<UnitHealth>().AsSingle().WithArguments(_staticData.DamageReceiverStaticData);
             Container.Bind<UnitStatsProvider>().AsSingle();
             Container.Bind<UnitSimpleActions>().AsSingle();
-            Container.BindInterfacesAndSelfTo<UnitTurnsHelper>().AsSingle().WithArguments(_staticData.ActingInTurnsQueueStaticData);
+            Container.BindInterfacesAndSelfTo<UnitTurnsNotificationsReceiver>().AsSingle().WithArguments(_staticData.ActingInTurnsQueueStaticData);
             Container.BindInterfacesAndSelfTo<UnitAttack>().AsSingle().WithArguments(_staticData.AttackDamageStaticData);
             Container.BindInterfacesAndSelfTo<UnitRetaliation>().AsSingle();
 

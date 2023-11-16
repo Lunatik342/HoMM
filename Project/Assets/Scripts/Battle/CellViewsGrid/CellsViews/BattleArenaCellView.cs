@@ -33,15 +33,15 @@ namespace Battle.CellViewsGrid.CellsViews
     public enum CellViewState
     {
         Empty = -1,
-        Default,
-        Walkable,
-        EnemyWalkable,
-        WalkableAndEnemyWalkableIntersection,
-        TargetableByRangedAbility,
-        CurrentUnit,
-        MoveTarget,
-        AoeSpellTarget,
-        MeleeAttackTarget
+        Default = 0,
+        Walkable = 1,
+        EnemyWalkable = 2,
+        WalkableAndEnemyWalkableIntersection = 3,
+        TargetableByRangedAbility = 4,
+        CurrentUnit = 5,
+        MoveTarget = 6,
+        AoeSpellTarget = 7,
+        MeleeAttackTarget = 8,
     }
 
     [Serializable]

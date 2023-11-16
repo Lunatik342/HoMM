@@ -1,7 +1,7 @@
 using Battle;
 using Infrastructure.SimpleStateMachine;
 
-namespace Infrastructure
+namespace Infrastructure.GlobalStateMachine
 {
     public class BattleState: IPaylodedState<BattleStartParameters>
     {

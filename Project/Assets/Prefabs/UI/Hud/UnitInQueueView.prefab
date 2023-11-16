@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 8715268076303354096}
   - component: {fileID: 5359105283002674159}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: UnitInQueueView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

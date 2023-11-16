@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Algorithms.RogueSharp;
-using Battle.AI.Settings;
+using Battle.AI.Considerations;
 using Battle.Arena.Map;
 using Battle.Units;
 using Battle.Units.Creation;
 
-namespace Battle.AI
+namespace Battle.AI.ConsiderationsFactories
 {
     public class MoveConsiderationsFactory
     {
@@ -23,7 +23,6 @@ namespace Battle.AI
         {
             var considerationsForPosition = new Dictionary<Cell, IConsideration>();
             
-            var weights = new MoveConsiderationWeights();
             var mapSize = _mapHolder.Map.Height * _mapHolder.Map.Width;
             
             var allEnemyUnits = _unitsHolder.GetAllAliveUnitsOfTeam(unit.Team.GetOppositeTeam());
@@ -31,8 +30,7 @@ namespace Battle.AI
 
             foreach (var targetCell in reachableCells)
             {
-                var consideration = new MoveConsideration(unit, targetCell, reachableCells, allEnemyUnits,
-                    enemyReachableCells, mapSize, weights);
+                var consideration = new MoveConsideration(unit, targetCell, reachableCells, allEnemyUnits, enemyReachableCells, mapSize);
                 
                 considerationsForPosition.Add(targetCell, consideration);
                 considerationsList.Add(consideration);

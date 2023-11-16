@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Battle.AI.Considerations;
 using Battle.Units;
 using Utilities;
 
-namespace Battle.AI
+namespace Battle.AI.ConsiderationsFactories
 {
     public class ConsiderationsFactory
     {

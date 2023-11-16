@@ -1,22 +1,20 @@
 using Battle.AI;
+using Battle.DamageCalculation;
 using Battle.Input;
-using UnityEngine;
+using Battle.Result;
 using Zenject;
 
 namespace Battle.BattleFlow.Installers
 {
     public class BattleFlowInstaller: MonoInstaller<BattleFlowInstaller>
     {
-        [SerializeField] private Camera _mainCamera;
-        
         public override void InstallBindings()
         {
-            Container.BindInstance(_mainCamera).AsSingle();
             Container.BindInterfacesAndSelfTo<BattleCellsInputService>().AsSingle();
             
             Container.Bind<UnitsQueueService>().AsSingle();
-            Container.Bind<BattleTurnsController>().AsSingle();
-            Container.Bind<GameResultEvaluator>().AsSingle();
+            Container.Bind<BattleFlowController>().AsSingle();
+            Container.Bind<BattleResultEvaluator>().AsSingle();
             
             Container.Bind<DamageCalculator>().AsSingle();
             Container.Bind<DamagePredictionService>().AsSingle();

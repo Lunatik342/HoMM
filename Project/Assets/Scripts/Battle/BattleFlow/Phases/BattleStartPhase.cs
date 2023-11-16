@@ -4,6 +4,7 @@ using Battle.Arena.Obstacles;
 using Battle.CellViewsGrid.CellsViews;
 using Battle.CellViewsGrid.GridViewStateMachine;
 using Battle.CellViewsGrid.GridViewStateMachine.States;
+using Battle.Result;
 using Battle.Units.Creation;
 using Cysharp.Threading.Tasks;
 using Infrastructure.SimpleStateMachine;
@@ -24,10 +25,10 @@ namespace Battle.BattleFlow.Phases
         private readonly IObstaclesGenerationStrategy.Factory _obstacleGenerationStrategyFactory;
         
         private readonly UnitsQueueService _unitsQueueService;
-        private readonly BattleTurnsController _battleTurnsController;
+        private readonly BattleFlowController _battleFlowController;
         private readonly GridViewStateMachine _gridViewStateMachine;
         private readonly StatesFactory _statesFactory;
-        private readonly GameResultEvaluator _gameResultEvaluator;
+        private readonly BattleResultEvaluator _battleResultEvaluator;
         private readonly BattlePhasesStateMachine _battlePhasesStateMachine;
         private readonly UIWindowsManager _uiWindowsManager;
 
@@ -38,10 +39,10 @@ namespace Battle.BattleFlow.Phases
             BattleArenaCellsViewsSpawner cellsViewsSpawner,
             IObstaclesGenerationStrategy.Factory obstacleGenerationStrategyFactory,
             UnitsQueueService unitsQueueService,
-            BattleTurnsController battleTurnsController,
+            BattleFlowController battleFlowController,
             GridViewStateMachine gridViewStateMachine,
             StatesFactory statesFactory,
-            GameResultEvaluator gameResultEvaluator,
+            BattleResultEvaluator battleResultEvaluator,
             BattlePhasesStateMachine battlePhasesStateMachine,
             UIWindowsManager uiWindowsManager)
         {
@@ -52,20 +53,20 @@ namespace Battle.BattleFlow.Phases
             _cellsViewsSpawner = cellsViewsSpawner;
             _obstacleGenerationStrategyFactory = obstacleGenerationStrategyFactory;
             _unitsQueueService = unitsQueueService;
-            _battleTurnsController = battleTurnsController;
+            _battleFlowController = battleFlowController;
             _gridViewStateMachine = gridViewStateMachine;
             _statesFactory = statesFactory;
-            _gameResultEvaluator = gameResultEvaluator;
+            _battleResultEvaluator = battleResultEvaluator;
             _battlePhasesStateMachine = battlePhasesStateMachine;
             _uiWindowsManager = uiWindowsManager;
         }
 
         public void Enter(BattleStartParameters battleStartParameters)
         {
-            InitializeBattleSystems(battleStartParameters).Forget();
+            InitializeBattleSystems(battleStartParameters).Forget(Debug.LogError);
         }
 
-        private async UniTaskVoid InitializeBattleSystems(BattleStartParameters battleStartParameters)
+        private async UniTask InitializeBattleSystems(BattleStartParameters battleStartParameters)
         {
             await CreateBattleField(battleStartParameters);
             await CreateArmies(battleStartParameters);
@@ -104,8 +105,8 @@ namespace Battle.BattleFlow.Phases
         {
             _unitsQueueService.AddAllAliveUnitsToQueue();
             _uiWindowsManager.OpenWindow<UnitsQueueWindow>(window => {window.PassParameters(_unitsQueueService);}).Forget(Debug.LogError);
-            _gameResultEvaluator.SetParticipatingTeams(battleStartParameters.StartingUnits);
-            _battleTurnsController.CreateCommandProviders(battleStartParameters.CommandProvidersForTeams);
+            _battleResultEvaluator.SetParticipatingTeams(battleStartParameters.StartingUnits);
+            _battleFlowController.CreateCommandProviders(battleStartParameters.CommandProvidersForTeams);
         }
 
         public void Exit()

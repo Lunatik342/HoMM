@@ -4,15 +4,16 @@ using System.Linq;
 using Battle.Units;
 using Battle.Units.Creation;
 using Battle.Units.StaticData;
+using Utilities.UsefullClasses;
 
-namespace Battle.BattleFlow
+namespace Battle.Result
 {
-    public class GameResultEvaluator
+    public class BattleResultEvaluator
     {
         private readonly IUnitsHolder _unitsHolder;
         private readonly List<Team> _participatingTeams = new();
 
-        public GameResultEvaluator(IUnitsHolder unitsHolder)
+        public BattleResultEvaluator(IUnitsHolder unitsHolder)
         {
             _unitsHolder = unitsHolder;
         }
@@ -108,18 +109,6 @@ namespace Battle.BattleFlow
             var aliveUnitsCount = unitsAfterBattle.Where(u => u.UnitId == currentUnitId).Sum(u => u.Health.AliveUnitsCount);
             var unitsDiesCount = startingUnitsCount - aliveUnitsCount;
             return unitsDiesCount;
-        }
-    }
-
-    public class UnitsCount
-    {
-        public UnitId UnitId { get; }
-        public int Count { get; }
-
-        public UnitsCount(UnitId unitId, int count)
-        {
-            UnitId = unitId;
-            Count = count;
         }
     }
 }

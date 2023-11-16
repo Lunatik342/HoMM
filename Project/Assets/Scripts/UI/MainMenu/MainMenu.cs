@@ -9,6 +9,7 @@ using Battle.UnitCommands.Providers;
 using Battle.Units.StaticData;
 using Cysharp.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.GlobalStateMachine;
 using UI.GenericUIComponents;
 using UI.LoadingScreen;
 using UISystem;

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Battle.Units;
 using Battle.Units.Creation;
 
@@ -8,20 +6,19 @@ namespace Battle.BattleFlow
     public class UnitsQueueService
     {
         private readonly IUnitsHolder _unitsHolder;
-        private readonly InitiativeSortedList _currentTurnQueue;
+        private readonly InitiativeSortedUnitsList _currentTurnQueue;
 
-        public InitiativeSortedList CurrentTurnQueue => _currentTurnQueue;
-        public int CurrentTurn = 1;
+        public InitiativeSortedUnitsList CurrentTurnQueue => _currentTurnQueue;
 
         public UnitsQueueService(IUnitsHolder unitsHolder)
         {
             _unitsHolder = unitsHolder;
-            _currentTurnQueue = new InitiativeSortedList();
+            _currentTurnQueue = new InitiativeSortedUnitsList();
         }
 
         public void AddAllAliveUnitsToQueue()
         {
-            var allUnits = _unitsHolder.GetAllUnits();
+            var allUnits = _unitsHolder.GetAllAliveUnits();
 
             foreach (var unit in allUnits)
             {
@@ -38,73 +35,31 @@ namespace Battle.BattleFlow
             return _currentTurnQueue.SourceList[0];
         }
 
+        public void RemoveUnitFromQueue(Unit diedUnit)
+        {
+            _currentTurnQueue.RemoveUnit(diedUnit);
+            diedUnit.Health.UnitDied -= RemoveUnitFromQueue;
+        }
+
         public bool StartNewTurnIfNeeded()
         {
             if (_currentTurnQueue.SourceList.Count == 0)
             {
                 AddAllAliveUnitsToQueue();
-
-                foreach (var unit in _currentTurnQueue.SourceList)
-                {
-                    unit.TurnsHelper.NotifyTurnEnd();
-                }
+                NotifyUnitsAboutTurnEnd();
                 
-                CurrentTurn++;
                 return true;
             }
 
             return false;
         }
 
-        public void RemoveUnitFromQueue(Unit diedUnit)
+        private void NotifyUnitsAboutTurnEnd()
         {
-            _currentTurnQueue.RemoveUnit(diedUnit);
-            diedUnit.Health.UnitDied -= RemoveUnitFromQueue;
-        }
-    }
-
-    public class InitiativeSortedList
-    {
-        private List<Unit> _unitsQueue = new List<Unit>();
-        
-        public IReadOnlyList<Unit> SourceList => _unitsQueue;
-        public event Action<Unit, int> UnitAdded; 
-        public event Action<Unit, int> UnitRemoved;
-
-        public void AddUnitToQueue(Unit unit)
-        {
-            var index = AddNewUnit(unit);
-            UnitAdded?.Invoke(unit, index);
-        }
-
-        public void RemoveUnit(Unit unit)
-        {
-            var index = _unitsQueue.IndexOf(unit);
-
-            if (index != -1)
+            foreach (var unit in _currentTurnQueue.SourceList)
             {
-                _unitsQueue.RemoveAt(index);
-                UnitRemoved?.Invoke(unit, index);
+                unit.TurnsNotificationsReceiver.NotifyTurnEnd();
             }
-        }
-
-        private int AddNewUnit(Unit unit)
-        {
-            var initiative = unit.TurnsHelper.InitiativeWithRandomSpread;
-
-            for (int i = 0; i < _unitsQueue.Count; i++)
-            {
-                var currentUnit = _unitsQueue[i];
-
-                if (initiative > currentUnit.TurnsHelper.InitiativeWithRandomSpread)
-                {
-                    _unitsQueue.Insert(i, unit);
-                    return i;
-                }
-            }
-            
-            _unitsQueue.Add(unit);
-            return _unitsQueue.Count - 1;
         }
     }
 }

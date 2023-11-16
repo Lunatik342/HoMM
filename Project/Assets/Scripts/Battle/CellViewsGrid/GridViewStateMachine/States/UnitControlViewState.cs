@@ -2,14 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Algorithms;
 using Algorithms.RogueSharp;
-using Battle.Arena.Misc;
 using Battle.CellViewsGrid.CellsViews;
 using Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler;
 using Battle.Input;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
 using Infrastructure.SimpleStateMachine;
-using Utilities;
 
 namespace Battle.CellViewsGrid.GridViewStateMachine.States
 {
@@ -70,12 +68,12 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.States
             if (CellHasEnemyForMeleeAttack(cell, out var canAttackFromCells))
             {
                 _currentCellHoverHandler = _meleeAttackCellHoverHandlerHandler;
-                _meleeAttackCellHoverHandlerHandler.Start(_taskCompletionSource, cell, Repaint, canAttackFromCells, _controlledUnit);
+                _meleeAttackCellHoverHandlerHandler.OnHover(_taskCompletionSource, cell, Repaint, canAttackFromCells, _controlledUnit);
                 return;
             }
             
             _currentCellHoverHandler = _emptyHoverHandler;
-            _emptyHoverHandler.Start(Repaint);
+            _emptyHoverHandler.OnHover(Repaint);
         }
 
         private bool CellIsEmpty(Cell cell) => cell?.PlacedUnit == null || cell.PlacedUnit == _controlledUnit;

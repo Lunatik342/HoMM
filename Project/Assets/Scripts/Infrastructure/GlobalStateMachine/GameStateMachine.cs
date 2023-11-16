@@ -1,6 +1,6 @@
 using Infrastructure.SimpleStateMachine;
 
-namespace Infrastructure
+namespace Infrastructure.GlobalStateMachine
 {
     public class GameStateMachine: BasicStateMachine
     {

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
 
 namespace Battle.Units.Creation
@@ -9,6 +8,7 @@ namespace Battle.Units.Creation
         private readonly UnitSpawner _unitSpawner;
 
         private Dictionary<Team, List<Unit>> _unitsOfTeam = new();
+        private Dictionary<Team, List<Unit>> _aliveUnitsOfTeam = new();
 
         public ArmySpawner(UnitSpawner unitSpawner)
         {
@@ -21,20 +21,21 @@ namespace Battle.Units.Creation
 
             foreach (var startingUnitsOfTeam in startingUnits)
             {
-                var createdUnitsOfTeam = new List<Unit>();
+                _unitsOfTeam[startingUnitsOfTeam.Key] = new List<Unit>();
+                _aliveUnitsOfTeam[startingUnitsOfTeam.Key] = new List<Unit>();
                 
                 foreach (var unitCreationParameter in startingUnitsOfTeam.Value)
                 {
-                    unitCreationTasks.Add(CreateUnit(unitCreationParameter, startingUnitsOfTeam.Key, createdUnitsOfTeam));
+                    unitCreationTasks.Add(CreateUnit(unitCreationParameter, startingUnitsOfTeam.Key));
                 }
-
-                _unitsOfTeam[startingUnitsOfTeam.Key] = createdUnitsOfTeam;
             }
 
             await UniTask.WhenAll(unitCreationTasks);
+
+            SubscribeToDeathEvent();
         }
 
-        public IEnumerable<Unit> GetAllUnits()
+        IEnumerable<Unit> IUnitsHolder.GetAllUnits()
         {
             foreach (var teamUnits in _unitsOfTeam)
             {
@@ -45,20 +46,46 @@ namespace Battle.Units.Creation
             }
         }
 
-        public List<Unit> GetAllUnitsOfTeam(Team team)
+        IEnumerable<Unit> IUnitsHolder.GetAllAliveUnits()
+        {
+            foreach (var teamUnits in _aliveUnitsOfTeam)
+            {
+                foreach (var unit in teamUnits.Value)
+                {
+                    yield return unit;
+                }
+            }
+        }
+
+        List<Unit> IUnitsHolder.GetAllUnitsOfTeam(Team team)
         {
             return _unitsOfTeam[team];
         }
 
-        public List<Unit> GetAllAliveUnitsOfTeam(Team team)
+        List<Unit> IUnitsHolder.GetAllAliveUnitsOfTeam(Team team)
         {
-            return _unitsOfTeam[team].Where(u => u.Health.IsAlive).ToList();
+            return _aliveUnitsOfTeam[team];
         }
 
-        private async UniTask CreateUnit(UnitCreationParameter unitCreationParameter, Team team, List<Unit> holder)
+        private async UniTask CreateUnit(UnitCreationParameter unitCreationParameter, Team team)
         {
             var unit = await _unitSpawner.Create(unitCreationParameter, team);
-            holder.Add(unit);
+            _aliveUnitsOfTeam[unit.Team].Add(unit);
+            _unitsOfTeam[unit.Team].Add(unit);
+        }
+
+        private void SubscribeToDeathEvent()
+        {
+            foreach (var unit in ((IUnitsHolder)this).GetAllUnits())
+            {
+                unit.Health.UnitDied += RemoveFromAliveList;
+            }
+        }
+
+        private void RemoveFromAliveList(Unit unit)
+        {
+            unit.Health.UnitDied -= RemoveFromAliveList;
+            _aliveUnitsOfTeam[unit.Team].Remove(unit);
         }
     }
 }

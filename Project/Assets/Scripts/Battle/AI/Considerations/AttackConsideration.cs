@@ -2,7 +2,7 @@ using Algorithms.RogueSharp;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
 
-namespace Battle.AI
+namespace Battle.AI.Considerations
 {
     public class AttackConsideration: IConsideration
     {
@@ -24,8 +24,9 @@ namespace Battle.AI
 
         public void Consider()
         {
+            var attackWeight = 1000f;
             CalculationComplete = true;
-            ConsiderationResult = 1000f + _moveConsiderationForCell.ConsiderationResult;
+            ConsiderationResult = attackWeight + _moveConsiderationForCell.ConsiderationResult;
         }
 
         public ICommand GetCommand()

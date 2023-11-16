@@ -7,7 +7,7 @@ using Utilities;
 
 namespace Battle.Units.Components
 {
-    public class UnitTurnsHelper: IStatsInitializer
+    public class UnitTurnsNotificationsReceiver: IStatsInitializer
     {
         private readonly ActingInTurnsQueueStaticData _staticData;
         private readonly UnitStatsProvider _statsProvider;
@@ -19,7 +19,7 @@ namespace Battle.Units.Components
         //To randomly place two units with the same initiative in queue
         public float InitiativeWithRandomSpread => _initiativeStat.Value + _randomSpread;
         
-        public UnitTurnsHelper(ActingInTurnsQueueStaticData staticData, UnitStatsProvider statsProvider, List<ITurnEndEventReceiver> turnEndEventReceivers)
+        public UnitTurnsNotificationsReceiver(ActingInTurnsQueueStaticData staticData, UnitStatsProvider statsProvider, List<ITurnEndEventReceiver> turnEndEventReceivers)
         {
             _staticData = staticData;
             _statsProvider = statsProvider;
@@ -33,8 +33,9 @@ namespace Battle.Units.Components
 
         void IStatsInitializer.ConfigureStats()
         {
+            var spread = 0.01f;
             _initiativeStat = _statsProvider.AddStat(StatType.Initiative, _staticData.Initiative);
-            _randomSpread = Random.Range(-0.01f, 0.01f);
+            _randomSpread = Random.Range(-spread, spread);
         }
     }
 }

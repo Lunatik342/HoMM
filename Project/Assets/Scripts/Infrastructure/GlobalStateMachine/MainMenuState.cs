@@ -5,7 +5,7 @@ using UI.MainMenu;
 using UISystem;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Infrastructure.GlobalStateMachine
 {
     public class MainMenuState: IState
     {

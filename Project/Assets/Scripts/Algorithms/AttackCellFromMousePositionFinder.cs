@@ -2,12 +2,13 @@ using Algorithms.RogueSharp;
 using Battle.Arena.Misc;
 using UnityEngine;
 using Utilities;
+using Utilities.UsefullClasses;
 
 namespace Algorithms
 {
     public class AttackCellFromMousePositionFinder
     {
-        public static Vector2Int FindPosition(Cell cellToAttack, Vector3 mouseWorldPosition)
+        public static Vector2Int Find(Cell cellToAttack, Vector3 mouseWorldPosition)
         {
             //Size that guarantees so they would always intersect (1.41 - diagonal cost - should be enough, but taking more just in case)
             int cellToMouseLineSize = 5;
@@ -60,18 +61,6 @@ namespace Algorithms
             var p2 = new Vector2Int(cell.X + p2XOffset, cell.Y + p2YOffset).ToBattleArenaWorldPosition().ToVector2XZ();
 
             return new Line(p1, p2);
-        }
-    }
-
-    public struct Line
-    {
-        public Vector2 Point1 { get; }
-        public Vector2 Point2 { get; }
-
-        public Line(Vector2 point1, Vector2 point2)
-        {
-            Point1 = point1;
-            Point2 = point2;
         }
     }
 }

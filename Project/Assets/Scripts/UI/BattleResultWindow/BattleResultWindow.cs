@@ -1,4 +1,5 @@
 using Battle.BattleFlow;
+using Battle.Result;
 using Cysharp.Threading.Tasks;
 using TMPro;
 using UISystem;

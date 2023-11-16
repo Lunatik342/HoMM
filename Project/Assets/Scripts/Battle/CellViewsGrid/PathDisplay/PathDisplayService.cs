@@ -34,7 +34,9 @@ namespace Battle.CellViewsGrid.PathDisplay
             var point1 = path[0].GetWorldPosition();
             var point2 = path[^1].GetWorldPosition();
 
-            for (float i = 0; i <= 1; i += 0.05f)
+            var step = 0.05f;
+            
+            for (float i = 0; i <= 1; i += step)
             {
                 arcPoints.Add(SampleParabola(point1, point2, 1, i));
             }

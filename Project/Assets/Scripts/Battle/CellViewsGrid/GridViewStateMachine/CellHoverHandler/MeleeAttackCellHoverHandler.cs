@@ -9,6 +9,7 @@ using Battle.Arena.Map;
 using Battle.Arena.Misc;
 using Battle.CellViewsGrid.CellsViews;
 using Battle.CellViewsGrid.PathDisplay;
+using Battle.DamageCalculation;
 using Battle.Input;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
@@ -23,7 +24,7 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
         private readonly PathDisplayService _pathDisplayService;
         private readonly BattleCellsInputService _cellsInputService;
         private readonly IMapHolder _mapHolder;
-        private readonly AttackInfoDisplayer _attackInfoDisplayer;
+        private readonly AttackPredictionInfoDisplayer _attackPredictionInfoDisplayer;
         private readonly DamagePredictionService _damagePredictionService;
 
         private Action _repaintCellsAction;
@@ -38,18 +39,18 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
             PathDisplayService pathDisplayService,
             BattleCellsInputService cellsInputService,
             IMapHolder mapHolder,
-            AttackInfoDisplayer attackInfoDisplayer,
+            AttackPredictionInfoDisplayer attackPredictionInfoDisplayer,
             DamagePredictionService damagePredictionService)
         {
             _cellsDisplayService = cellsDisplayService;
             _pathDisplayService = pathDisplayService;
             _cellsInputService = cellsInputService;
             _mapHolder = mapHolder;
-            _attackInfoDisplayer = attackInfoDisplayer;
+            _attackPredictionInfoDisplayer = attackPredictionInfoDisplayer;
             _damagePredictionService = damagePredictionService;
         }
 
-        public void Start(TaskCompletionSource<ICommand> commandCompletionSource, Cell mouseoverCell, 
+        public void OnHover(TaskCompletionSource<ICommand> commandCompletionSource, Cell mouseoverCell, 
             Action repaintCellsAction, List<Cell> cellsCanAttackFrom, Unit controlledUnit)
         {
             _commandCompletionSource = commandCompletionSource;
@@ -61,14 +62,14 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
             _cellsInputService.MousePositionChanged += MousePositionChanged;
             _cellsInputService.CellLeftClicked += OnCellClicked;
 
-            ShowDamagePredictionView(mouseoverCell, controlledUnit);
+            ShowAttackPredictionView(mouseoverCell, controlledUnit);
         }
 
-        private void ShowDamagePredictionView(Cell mouseoverCell, Unit controlledUnit)
+        private void ShowAttackPredictionView(Cell mouseoverCell, Unit controlledUnit)
         {
             var mouseoverUnit = mouseoverCell.PlacedUnit;
             var casualtiesPrediction = _damagePredictionService.PredictDamage(controlledUnit, mouseoverUnit);
-            _attackInfoDisplayer.ShowInfo(casualtiesPrediction, mouseoverUnit.Retaliation.CanRetaliate);
+            _attackPredictionInfoDisplayer.ShowInfo(casualtiesPrediction, mouseoverUnit.Retaliation.CanRetaliate);
         }
 
         private void OnCellClicked(Cell cell)
@@ -79,7 +80,7 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
 
         private void MousePositionChanged(Vector3 mouseWorldPosition)
         {
-            var attackCellCoordinate = AttackCellFromMousePositionFinder.FindPosition(_mouseoverCell, mouseWorldPosition);
+            var attackCellCoordinate = AttackCellFromMousePositionFinder.Find(_mouseoverCell, mouseWorldPosition);
             var cell = _mapHolder.Map.GetCell(attackCellCoordinate);
 
             Cell cellToAttackFrom;
@@ -117,7 +118,7 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
             _cellToAttackFrom = null;
             
             _pathDisplayService.StopDisplaying();
-            _attackInfoDisplayer.Hide();
+            _attackPredictionInfoDisplayer.Hide();
         }
     }
 }

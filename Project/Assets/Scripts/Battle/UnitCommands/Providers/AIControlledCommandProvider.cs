@@ -1,10 +1,11 @@
 using Battle.AI;
+using Battle.AI.Considerations;
+using Battle.AI.ConsiderationsFactories;
 using Battle.CellViewsGrid.GridViewStateMachine;
 using Battle.CellViewsGrid.GridViewStateMachine.States;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
 using Cysharp.Threading.Tasks;
-using Utilities;
 using Zenject;
 
 namespace Battle.UnitCommands.Providers
@@ -13,6 +14,8 @@ namespace Battle.UnitCommands.Providers
     {
         private readonly GridViewStateMachine _gridViewStateMachine;
         private readonly ConsiderationsFactory _considerationsFactory;
+
+        private int _aiThinkingFakeDelay = 500;
 
         public AIControlledCommandProvider(GridViewStateMachine gridViewStateMachine, ConsiderationsFactory considerationsFactory)
         {
@@ -23,7 +26,7 @@ namespace Battle.UnitCommands.Providers
         public async UniTask<ICommand> WaitForCommand(Unit unit)
         {
             _gridViewStateMachine.Enter<WaitingForEnemyTurnViewState>();
-            await UniTask.Delay(500);
+            await UniTask.Delay(_aiThinkingFakeDelay);
             var considerations = _considerationsFactory.Create(unit);
 
             IConsideration considerationWithMaxResult = null;
@@ -41,7 +44,7 @@ namespace Battle.UnitCommands.Providers
                 }
             }
 
-            return considerationWithMaxResult.GetCommand();
+            return considerationWithMaxResult == null ? new EmptyCommand() : considerationWithMaxResult.GetCommand();
         }
         
         public class Factory: PlaceholderFactory<AIControlledCommandProvider>

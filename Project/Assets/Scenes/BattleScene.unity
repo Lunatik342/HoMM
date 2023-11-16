@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 99073694}
   - component: {fileID: 99073693}
   m_Layer: 5
-  m_Name: AttackInfoDisplayer
+  m_Name: AttackPredictionInfoDisplayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -543,7 +543,7 @@ GameObject:
   - component: {fileID: 668890152}
   - component: {fileID: 668890151}
   m_Layer: 0
-  m_Name: UIInstaller
+  m_Name: BattleSceneObjectsInstaller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,7 +561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8648f887295214ebaa7ce9c180022c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackInfoDisplayer: {fileID: 99073693}
+  _attackPredictionInfoDisplayer: {fileID: 99073693}
+  _mainCamera: {fileID: 330585545}
 --- !u!4 &668890152
 Transform:
   m_ObjectHideFlags: 0
@@ -946,7 +947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbdb5b3649e84ef592182ed74e50264a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 330585545}
 --- !u!1 &1417147657
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +960,7 @@ GameObject:
   - component: {fileID: 1417147659}
   - component: {fileID: 1417147658}
   m_Layer: 5
-  m_Name: AttackInfoCanvas
+  m_Name: AttackPredictionInfoCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

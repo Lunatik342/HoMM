@@ -4,7 +4,7 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
 {
     public class EmptyCellHoverHandler: ICellHoverHandler
     {
-        public void Start(Action repaintAction)
+        public void OnHover(Action repaintAction)
         {
             repaintAction();
         }

@@ -5,7 +5,7 @@ using Utilities;
 
 namespace Algorithms
 {
-    public class FlyingUnitReachableCellsFinder<TCell> where TCell : ICell
+    public class FlyingUnitReachableCellsFinder<TCell> where TCell : class, ICell
     {
         public static List<Cell> GetReachableCells(TCell source, IMap<TCell> map, Unit pathingAgent, int maxDistanceFormStart)
         {

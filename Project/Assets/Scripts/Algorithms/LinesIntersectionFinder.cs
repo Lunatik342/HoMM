@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utilities.UsefullClasses;
 
 namespace Algorithms
 {

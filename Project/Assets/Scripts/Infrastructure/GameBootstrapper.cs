@@ -1,26 +1,29 @@
-using Infrastructure;
+using Infrastructure.GlobalStateMachine;
 using Infrastructure.SimpleStateMachine;
 using UnityEngine;
 using Zenject;
 
-public class GameBootstrapper : MonoBehaviour
+namespace Infrastructure
 {
-    private GameStateMachine _gameStateMachine;
-    private StatesFactory _statesFactory;
-    
-    [Inject]
-    public void Construct(GameStateMachine gameStateMachine, StatesFactory statesFactory)
+    public class GameBootstrapper : MonoBehaviour
     {
-        _gameStateMachine = gameStateMachine;
-        _statesFactory = statesFactory;
-    }
+        private GameStateMachine _gameStateMachine;
+        private StatesFactory _statesFactory;
     
-    public void Start()
-    {
-        _gameStateMachine.RegisterState(_statesFactory.Create<BootstrapState>());
-        _gameStateMachine.RegisterState(_statesFactory.Create<MainMenuState>());
-        _gameStateMachine.RegisterState(_statesFactory.Create<BattleState>());
+        [Inject]
+        public void Construct(GameStateMachine gameStateMachine, StatesFactory statesFactory)
+        {
+            _gameStateMachine = gameStateMachine;
+            _statesFactory = statesFactory;
+        }
+    
+        public void Start()
+        {
+            _gameStateMachine.RegisterState(_statesFactory.Create<BootstrapState>());
+            _gameStateMachine.RegisterState(_statesFactory.Create<MainMenuState>());
+            _gameStateMachine.RegisterState(_statesFactory.Create<BattleState>());
         
-        _gameStateMachine.Enter<BootstrapState>();
+            _gameStateMachine.Enter<BootstrapState>();
+        }
     }
 }

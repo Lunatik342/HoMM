@@ -220,6 +220,6 @@ MonoBehaviour:
   _eventsReceivers: []
   _openAnimation: {fileID: 0}
   _closeAnimation: {fileID: 0}
-  _slotPrefab: {fileID: 5359105283002674159, guid: bb21e77935c96ab4e8aed4fd64c41267,
+  _unitInQueueViewPrefab: {fileID: 5359105283002674159, guid: bb21e77935c96ab4e8aed4fd64c41267,
     type: 3}
-  _slotsParent: {fileID: 8334127464795047787}
+  _unitsViewsParent: {fileID: 8334127464795047787}

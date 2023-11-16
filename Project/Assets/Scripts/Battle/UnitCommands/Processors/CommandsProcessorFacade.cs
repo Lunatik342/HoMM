@@ -25,5 +25,10 @@ namespace Battle.UnitCommands.Processors
         {
             await _meleeAttackCommandProcessor.Process(attackCommand.Unit, attackCommand.TargetUnit, attackCommand.FromPosition);
         }
+
+        public UniTask ProcessEmptyCommand(EmptyCommand doNothingCommand)
+        {
+            return UniTask.CompletedTask;
+        }
     }
 }

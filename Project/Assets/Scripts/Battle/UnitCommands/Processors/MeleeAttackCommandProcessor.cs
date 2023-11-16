@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Battle.Arena.Misc;
+using Battle.DamageCalculation;
 using Battle.Units;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -37,19 +38,8 @@ namespace Battle.UnitCommands.Processors
                 }
             }
 
-            var attackedUnitRotationTask = UniTask.CompletedTask;
-
-            if (attackedUnit.Health.IsAlive)
-            {
-                attackedUnitRotationTask = attackedUnit.RotationController.SmoothLookAtEnemySide();
-            }
-            
-            var attackingUnitRotationTask = UniTask.CompletedTask;
-
-            if (attackingUnit.Health.IsAlive)
-            {
-                attackingUnitRotationTask = attackingUnit.RotationController.SmoothLookAtEnemySide();
-            }
+            var attackedUnitRotationTask = TurnUnitToEnemySideIfAlive(attackedUnit);
+            var attackingUnitRotationTask = TurnUnitToEnemySideIfAlive(attackingUnit);
 
             await UniTask.WhenAll(attackedUnitRotationTask, attackingUnitRotationTask);
         }
@@ -63,6 +53,18 @@ namespace Battle.UnitCommands.Processors
             var takeDamageAnimationTask = attackedUnit.UnitSimpleActions.TakeDamage(damage);
 
             await UniTask.WhenAll(fullAnimationTask, takeDamageAnimationTask);
+        }
+
+        private static UniTask TurnUnitToEnemySideIfAlive(Unit attackedUnit)
+        {
+            var attackedUnitRotationTask = UniTask.CompletedTask;
+
+            if (attackedUnit.Health.IsAlive)
+            {
+                attackedUnitRotationTask = attackedUnit.RotationController.SmoothLookAtEnemySide();
+            }
+
+            return attackedUnitRotationTask;
         }
     }
 }

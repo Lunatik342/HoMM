@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using Battle.Result;
 using Cysharp.Threading.Tasks;
 using Infrastructure;
+using Infrastructure.GlobalStateMachine;
 using Infrastructure.SimpleStateMachine;
 using UI.BattleResultWindow;
 using UI.Hud;
@@ -13,17 +15,17 @@ namespace Battle.BattleFlow.Phases
 {
     public class BattleEndPhase: IState
     {
-        private readonly GameResultEvaluator _gameResultEvaluator;
+        private readonly BattleResultEvaluator _battleResultEvaluator;
         private readonly BattleStartParameters _battleStartParameters;
         private readonly UIWindowsManager _uiWindowsManager;
         private readonly GameStateMachine _gameStateMachine;
 
-        public BattleEndPhase(GameResultEvaluator gameResultEvaluator, 
+        public BattleEndPhase(BattleResultEvaluator battleResultEvaluator, 
             BattleStartParameters battleStartParameters,
             UIWindowsManager uiWindowsManager,
             GameStateMachine gameStateMachine)
         {
-            _gameResultEvaluator = gameResultEvaluator;
+            _battleResultEvaluator = battleResultEvaluator;
             _battleStartParameters = battleStartParameters;
             _uiWindowsManager = uiWindowsManager;
             _gameStateMachine = gameStateMachine;
@@ -36,7 +38,7 @@ namespace Battle.BattleFlow.Phases
 
         private async UniTask HandleBattleEnd()
         {
-            var battleResultData = _gameResultEvaluator.CalculateBattleResultData(_battleStartParameters);
+            var battleResultData = _battleResultEvaluator.CalculateBattleResultData(_battleStartParameters);
             var nextStep = await ShowBattleResultScreen(battleResultData);
             await LoadNextGameState(nextStep);
         }

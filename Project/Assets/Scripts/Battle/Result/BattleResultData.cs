@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using Utilities.UsefullClasses;
 
-namespace Battle.BattleFlow
+namespace Battle.Result
 {
     public class BattleResultData
     {

@@ -4,7 +4,7 @@ using UI.LoadingScreen;
 using UISystem;
 using UnityEngine;
 
-namespace Infrastructure
+namespace Infrastructure.GlobalStateMachine
 {
     public class BootstrapState: IState
     {

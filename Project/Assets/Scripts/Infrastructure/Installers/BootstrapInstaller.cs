@@ -1,4 +1,5 @@
 using Infrastructure.AssetManagement;
+using Infrastructure.GlobalStateMachine;
 using Infrastructure.SimpleStateMachine;
 using UISystem;
 using UnityEngine;
@@ -19,7 +20,6 @@ namespace Infrastructure.Installers
             Container.BindInstance(_uiWindowsCollection).AsSingle();
             Container.Bind<UIWindowsFactory>().AsSingle();
             Container.Bind<UIWindowsManager>().FromComponentInNewPrefab(_windowsManagerPrefab).AsSingle();
-            
             
             Container.Bind<GameStateMachine>().AsSingle();
             Container.Bind<StatesFactory>().AsSingle();

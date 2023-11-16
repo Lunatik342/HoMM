@@ -4,16 +4,16 @@ namespace Battle.BattleFlow.Phases
 {
     public class BattleProgressPhase: IState
     {
-        private readonly BattleTurnsController _battleTurnsController;
+        private readonly BattleFlowController _battleFlowController;
 
-        public BattleProgressPhase(BattleTurnsController battleTurnsController)
+        public BattleProgressPhase(BattleFlowController battleFlowController)
         {
-            _battleTurnsController = battleTurnsController;
+            _battleFlowController = battleFlowController;
         }
         
         public void Enter()
         {
-            _battleTurnsController.StartTurns();
+            _battleFlowController.StartBattleFlow();
         }
 
         public void Exit()

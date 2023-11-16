@@ -1,4 +1,4 @@
-namespace Battle.Units.Components
+namespace Utilities.UsefullClasses
 {
     public readonly struct MinMaxValue
     {
