@@ -32,9 +32,14 @@ namespace Battle.Units.Components
 
         public int GetRawDamage()
         {
+            var damage = GetMinMaxRawDamageForUnitPack();
+            return Random.Range(damage.Min, damage.Max + 1);
+        }
+
+        public MinMaxValue GetMinMaxRawDamageForUnitPack()
+        {
             var unitsCount = _health.AliveUnitsCount;
-            var damageFromOneUnit = Random.Range(_damageMinStat.Value, _damageMaxStat.Value + 1);
-            return damageFromOneUnit * unitsCount;
+            return new MinMaxValue(_damageMinStat.Value * unitsCount, _damageMaxStat.Value * unitsCount);
         }
     }
 }

@@ -43,6 +43,12 @@ namespace Battle.BattleFlow
             if (_currentTurnQueue.SourceList.Count == 0)
             {
                 AddAllAliveUnitsToQueue();
+
+                foreach (var unit in _currentTurnQueue.SourceList)
+                {
+                    unit.TurnsHelper.NotifyTurnEnd();
+                }
+                
                 CurrentTurn++;
                 return true;
             }

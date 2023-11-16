@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Algorithms;
 using Algorithms.RogueSharp;
+using Battle.AI;
 using Battle.Arena.Map;
 using Battle.Arena.Misc;
 using Battle.CellViewsGrid.CellsViews;
@@ -11,6 +12,7 @@ using Battle.CellViewsGrid.PathDisplay;
 using Battle.Input;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
+using UI.AttackInfoDisplayer;
 using UnityEngine;
 
 namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
@@ -21,6 +23,8 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
         private readonly PathDisplayService _pathDisplayService;
         private readonly BattleCellsInputService _cellsInputService;
         private readonly IMapHolder _mapHolder;
+        private readonly AttackInfoDisplayer _attackInfoDisplayer;
+        private readonly DamagePredictionService _damagePredictionService;
 
         private Action _repaintCellsAction;
         private Cell _mouseoverCell;
@@ -33,12 +37,16 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
         public MeleeAttackCellHoverHandler(BattleArenaCellsDisplayService cellsDisplayService,
             PathDisplayService pathDisplayService,
             BattleCellsInputService cellsInputService,
-            IMapHolder mapHolder)
+            IMapHolder mapHolder,
+            AttackInfoDisplayer attackInfoDisplayer,
+            DamagePredictionService damagePredictionService)
         {
             _cellsDisplayService = cellsDisplayService;
             _pathDisplayService = pathDisplayService;
             _cellsInputService = cellsInputService;
             _mapHolder = mapHolder;
+            _attackInfoDisplayer = attackInfoDisplayer;
+            _damagePredictionService = damagePredictionService;
         }
 
         public void Start(TaskCompletionSource<ICommand> commandCompletionSource, Cell mouseoverCell, 
@@ -52,6 +60,15 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
             
             _cellsInputService.MousePositionChanged += MousePositionChanged;
             _cellsInputService.CellLeftClicked += OnCellClicked;
+
+            ShowDamagePredictionView(mouseoverCell, controlledUnit);
+        }
+
+        private void ShowDamagePredictionView(Cell mouseoverCell, Unit controlledUnit)
+        {
+            var mouseoverUnit = mouseoverCell.PlacedUnit;
+            var casualtiesPrediction = _damagePredictionService.PredictDamage(controlledUnit, mouseoverUnit);
+            _attackInfoDisplayer.ShowInfo(casualtiesPrediction, mouseoverUnit.Retaliation.CanRetaliate);
         }
 
         private void OnCellClicked(Cell cell)
@@ -98,7 +115,9 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.CellHoverHandler
             _cellsInputService.MousePositionChanged -= MousePositionChanged;
             _cellsInputService.CellLeftClicked -= OnCellClicked;
             _cellToAttackFrom = null;
+            
             _pathDisplayService.StopDisplaying();
+            _attackInfoDisplayer.Hide();
         }
     }
 }

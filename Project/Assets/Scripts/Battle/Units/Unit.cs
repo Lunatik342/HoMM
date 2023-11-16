@@ -15,9 +15,11 @@ namespace Battle.Units
         public RotationController RotationController { get; private set; }
         public UnitSimpleActions UnitSimpleActions { get; private set; }
         public UnitTurnsHelper TurnsHelper { get; private set; }
+        public UnitRetaliation Retaliation { get; private set; }
         
         public IUnitPositionProvider PositionProvider { get; private set; }
         public IHealthInfoProvider Health { get; private set; }
+        public UnitAttack Attack { get; private set; }
 
         public UnitStatsProvider StatsProvider { get; private set; }
         public Team Team { get; private set; }
@@ -28,6 +30,7 @@ namespace Battle.Units
         public Unit(UnitStatsProvider statsProvider, 
             RotationController rotationController,
             UnitTurnsHelper unitTurnsHelper,
+            UnitRetaliation unitRetaliation,
             Team team,
             UnitId unitId)
         {
@@ -36,6 +39,7 @@ namespace Battle.Units
             TurnsHelper = unitTurnsHelper;
             Team = team;
             UnitId = unitId;
+            Retaliation = unitRetaliation;
         }
 
         [Inject] //TODO remove circular dependencies
@@ -43,13 +47,15 @@ namespace Battle.Units
             IUnitPositionProvider unitPositionProvider,
             UnitInitializer unitInitializer,
             IHealthInfoProvider healthInfoProvider,
-            UnitSimpleActions unitSimpleActions)
+            UnitSimpleActions unitSimpleActions,
+            UnitAttack unitAttack)
         {
             MovementController = unitMovementController;
             _unitInitializer = unitInitializer;
             PositionProvider = unitPositionProvider;
             Health = healthInfoProvider;
             UnitSimpleActions = unitSimpleActions;
+            Attack = unitAttack;
         }
 
         public void Initialize(Cell cell, int count)

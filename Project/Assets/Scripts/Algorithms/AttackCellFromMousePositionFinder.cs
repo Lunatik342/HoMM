@@ -63,7 +63,7 @@ namespace Algorithms
         }
     }
 
-    public class Line
+    public struct Line
     {
         public Vector2 Point1 { get; }
         public Vector2 Point2 { get; }

@@ -1,3 +1,4 @@
+using Battle.AI;
 using Battle.Input;
 using UnityEngine;
 using Zenject;
@@ -16,6 +17,9 @@ namespace Battle.BattleFlow.Installers
             Container.Bind<UnitsQueueService>().AsSingle();
             Container.Bind<BattleTurnsController>().AsSingle();
             Container.Bind<GameResultEvaluator>().AsSingle();
+            
+            Container.Bind<DamageCalculator>().AsSingle();
+            Container.Bind<DamagePredictionService>().AsSingle();
         }
     }
 }

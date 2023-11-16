@@ -92,8 +92,9 @@ namespace Battle.AI
             for (int i = 0; i < allEnemyUnits.Count; i++)
             {
                 var reachableForEnemy = enemyReachableCells[i];
+                var enemyUnitCell = allEnemyUnits[i].PositionProvider.OccupiedCell;
 
-                if (ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(reachableCell, reachableForEnemy))
+                if (ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(reachableCell, enemyUnitCell, reachableForEnemy))
                 {
                     canBeAttackedByEnemiesCount++;
                 }
@@ -114,7 +115,7 @@ namespace Battle.AI
             {
                 var enemyUnitCell = enemyUnit.PositionProvider.OccupiedCell;
 
-                if (ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(enemyUnitCell, reachableCells))
+                if (ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(enemyUnitCell, _unit.PositionProvider.OccupiedCell, reachableCells))
                 {
                     canAttackEnemiesCount++;
                 }

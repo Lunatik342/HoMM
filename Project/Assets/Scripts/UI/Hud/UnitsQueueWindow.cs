@@ -47,13 +47,10 @@ namespace UI.Hud
             var targetSlot = _unitsSlots[index];
             _unitsSlots.RemoveAt(index);
 
+            //TODO Terrible for perfomance but looks nice, fine for the demo
             DOTween.Sequence()
-                .Append(targetSlot.transform.DOScale(0, 0.5f).SetEase(Ease.InOutSine))
-                .OnUpdate(() =>
-                {
-                    //Terrible for perfomance but looks nice, fine for now
-                    LayoutRebuilder.ForceRebuildLayoutImmediate(_slotsParent.GetComponent<RectTransform>());
-                })
+                .Append(targetSlot.transform.DOScale(0, 0.4f).SetEase(Ease.InOutSine))
+                .OnUpdate(() => { LayoutRebuilder.ForceRebuildLayoutImmediate(_slotsParent.GetComponent<RectTransform>());})
                 .AppendCallback(() => Destroy(targetSlot.gameObject));
         }
 

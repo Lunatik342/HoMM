@@ -60,6 +60,7 @@ namespace Battle.Units.Creation
             Container.Bind<UnitSimpleActions>().AsSingle();
             Container.BindInterfacesAndSelfTo<UnitTurnsHelper>().AsSingle().WithArguments(_staticData.ActingInTurnsQueueStaticData);
             Container.BindInterfacesAndSelfTo<UnitAttack>().AsSingle().WithArguments(_staticData.AttackDamageStaticData);
+            Container.BindInterfacesAndSelfTo<UnitRetaliation>().AsSingle();
 
             _staticData.MovementStaticData.BindRelatedComponentToContainer(Container);
         }

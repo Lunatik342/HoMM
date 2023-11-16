@@ -25,8 +25,8 @@ public class AttackConsiderationsFactory
 
         foreach (var enemyUnit in allEnemyUnits)
         {
-            if (ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(enemyUnit.PositionProvider.OccupiedCell, reachableCells, 
-                    out var canAttackFromCells))
+            if (ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(enemyUnit.PositionProvider.OccupiedCell, 
+                    unit.PositionProvider.OccupiedCell, reachableCells, out var canAttackFromCells))
             {
                 foreach (var attackFromCell in canAttackFromCells)
                 {

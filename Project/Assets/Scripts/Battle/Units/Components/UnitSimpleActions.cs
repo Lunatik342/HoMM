@@ -4,24 +4,18 @@ namespace Battle.Units.Components
 {
     public class UnitSimpleActions
     {
-        private readonly UnitAttack _unitAttack;
         private readonly UnitHealth _unitHealth;
         private readonly UnitAnimator _unitAnimator;
 
-        public UnitSimpleActions(UnitAttack unitAttack, UnitHealth unitHealth, UnitAnimator unitAnimator)
+        public UnitSimpleActions(UnitHealth unitHealth, UnitAnimator unitAnimator)
         {
-            _unitAttack = unitAttack;
             _unitHealth = unitHealth;
             _unitAnimator = unitAnimator;
         }
 
-        public async UniTask MakeAttack(UniTaskCompletionSource<int> damageCalculationCompletionSource)
+        public (UniTask, UniTask) MakeAttack()
         {
-            var animationTimings = _unitAnimator.PlayAttackAnimation();
-
-            await animationTimings.damageDealTiming;
-            damageCalculationCompletionSource.TrySetResult(_unitAttack.GetRawDamage());
-            await animationTimings.fullAnimationDuration;
+            return _unitAnimator.PlayAttackAnimation();
         }
 
         public async UniTask TakeDamage(int damage)

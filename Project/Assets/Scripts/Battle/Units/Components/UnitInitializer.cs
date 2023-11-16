@@ -41,7 +41,7 @@ namespace Battle.Units.Components
             _rotationController.LookAtEnemySide();
             
             _statsInitializers.ForEach(s => s.ConfigureStats());
-            _unitHealth.SetUnitsCount(count);
+            _unitHealth.Setup(count);
             _unitHealthView.Initialize();
             _unitDeathHandler.Initialize();
         }

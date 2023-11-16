@@ -80,12 +80,13 @@ namespace Battle.CellViewsGrid.GridViewStateMachine.States
 
         private bool CellIsEmpty(Cell cell) => cell?.PlacedUnit == null || cell.PlacedUnit == _controlledUnit;
         private bool CellIsReachable(Cell cell) => cell != null && _controlledUnitReachableCells.Contains(cell);
-        private bool CellHasEnemyForMeleeAttack(Cell cell, out List<Cell> canAttackFromCells)
+        private bool CellHasEnemyForMeleeAttack(Cell cell, out List<Cell> cellsToMakeMeleeAttackFrom)
         {
-            canAttackFromCells = null;
+            cellsToMakeMeleeAttackFrom = null;
             return cell?.PlacedUnit != null && 
                    cell.PlacedUnit.Team != _controlledUnit.Team &&
-                   ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(cell, _controlledUnitReachableCells, out canAttackFromCells);
+                   ReachableForAttackCellsFinder.CanReachCellForMeleeAttack(cell, _controlledUnit.PositionProvider.OccupiedCell,
+                       _controlledUnitReachableCells, out cellsToMakeMeleeAttackFrom);
         }
 
         private void Repaint()

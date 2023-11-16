@@ -73,6 +73,13 @@ namespace Battle.BattleFlow
                     _battlePhasesStateMachine.Enter<BattleEndPhase>();
                     break;
                 }
+                
+                var newTurnStarted = _unitsQueueService.StartNewTurnIfNeeded();
+
+                if (newTurnStarted)
+                {
+                    //await UniTask.Delay(2000);
+                }
             }
         }
         
@@ -86,14 +93,6 @@ namespace Battle.BattleFlow
             
             _unitsQueueService.RemoveUnitFromQueue(targetUnit);
             await UniTask.Delay(_betweenTurnsDelay);
-
-            var newTurnStarted = _unitsQueueService.StartNewTurnIfNeeded();
-
-            if (newTurnStarted)
-            {
-                Debug.LogError("New turn");
-                await UniTask.Delay(2000);
-            }
         }
     }
 }

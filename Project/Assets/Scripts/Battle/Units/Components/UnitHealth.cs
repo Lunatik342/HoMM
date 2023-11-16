@@ -37,7 +37,7 @@ namespace Battle.Units.Components
             _maxHealthStat.ValueChanged += AdjustCurrentMaxHealth;
         }
 
-        public void SetUnitsCount(int count)
+        public void Setup(int count)
         {
             AliveUnitsCount = count;
             CurrenHealth = _statsProvider.GetStatValue(StatType.MaxHealth);
@@ -45,26 +45,11 @@ namespace Battle.Units.Components
 
         public void TakeDamage(int damage)
         {
-            var maxHealth = _maxHealthStat.Value;
-            
-            var healthDamage = damage % maxHealth;
-            var unitsDied = damage / maxHealth;
+            var damageReceiveData = GetCasualtiesCountForDamage(damage);
 
-            AliveUnitsCount -= unitsDied;
-            CurrenHealth -= healthDamage;
-
-            if (CurrenHealth <= 0)
-            {
-                AliveUnitsCount -= 1;
-                CurrenHealth = maxHealth + CurrenHealth;
-            }
-
-            if (AliveUnitsCount < 1)
-            {
-                AliveUnitsCount = 0;
-                CurrenHealth = 0;
-            }
-            
+            AliveUnitsCount -= damageReceiveData.unitsDied;
+            CurrenHealth -= damageReceiveData.healthDamageReceived;
+                
             HealthChanged?.Invoke(CurrenHealth, AliveUnitsCount);
 
             if (AliveUnitsCount == 0 && CurrenHealth == 0)
@@ -76,6 +61,33 @@ namespace Battle.Units.Components
         public float GetHealthPercentage()
         {
             return (float)CurrenHealth / _maxHealthStat.Value;
+        }
+
+        public (int healthDamageReceived, int unitsDied) GetCasualtiesCountForDamage(int damage)
+        {
+            var aliveUnitsCount = AliveUnitsCount;
+            var currentHealth = CurrenHealth;
+            
+            var maxHealth = _maxHealthStat.Value;
+            var healthDamage = damage % maxHealth;
+            var unitsDied = damage / maxHealth;
+
+            aliveUnitsCount -= unitsDied;
+            currentHealth -= healthDamage;
+
+            if (currentHealth <= 0)
+            {
+                aliveUnitsCount -= 1;
+                currentHealth = maxHealth + currentHealth;
+            }
+
+            if (aliveUnitsCount < 1)
+            {
+                aliveUnitsCount = 0;
+                currentHealth = 0;
+            }
+
+            return (CurrenHealth - currentHealth, AliveUnitsCount - aliveUnitsCount);
         }
 
         private void AdjustCurrentMaxHealth(int previousMaxHealth, int currentMaxHealth)
