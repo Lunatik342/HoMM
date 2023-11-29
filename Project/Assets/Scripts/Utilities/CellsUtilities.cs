@@ -14,7 +14,7 @@ namespace Utilities
             int dMin = Math.Min(dx, dy);
             int dMax = Math.Max(dx, dy);
 
-            return (dMin * BattleArenaConstants.DiagonalMovementCost) + (dMax - dMin);
+            return dMin + (dMax - dMin) * BattleArenaConstants.DiagonalMovementCost;
         }
     }
 }

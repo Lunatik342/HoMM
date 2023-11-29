@@ -3,6 +3,7 @@ using Algorithms;
 using Algorithms.RogueSharp;
 using Battle.UnitCommands.Commands;
 using Battle.Units;
+using UnityEngine;
 using Utilities;
 
 namespace Battle.AI.Considerations
@@ -56,7 +57,7 @@ namespace Battle.AI.Considerations
             var distanceWeight = 0.001f;
             var countOfEnemiesThatCanAttack = GetEnemiesCountThatCanReachCellForAttack(allEnemyUnits, enemyReachableCells, reachableCell);
             var (countOfEnemiesThatCanBeAttacked, averageDistanceToEnemies) = GetEnemiesCountThatCanBeAttacked(reachableCells, allEnemyUnits, reachableCell);
-            var distanceCoeficient = (_maxTravelDistanceForMap - averageDistanceToEnemies / _maxTravelDistanceForMap) * distanceWeight;
+            var distanceCoeficient = (1f - (averageDistanceToEnemies / _maxTravelDistanceForMap)) * distanceWeight;
 
             if (countOfEnemiesThatCanAttack == 0)
             {
@@ -79,7 +80,8 @@ namespace Battle.AI.Considerations
             var attackableInRangeRatio = (countOfEnemiesThatCanBeAttacked / countOfEnemiesThatCanAttack);
             var cannotBeAttackedByRatio = (allEnemyUnits.Count - countOfEnemiesThatCanAttack) / allEnemyUnits.Count;
 
-            return attackableInRangeRatio * cannotBeAttackedByRatio + distanceCoeficient;
+            /*return attackableInRangeRatio * cannotBeAttackedByRatio + distanceCoeficient;*/
+            return distanceCoeficient;
         }
 
         private int GetEnemiesCountThatCanReachCellForAttack(List<Unit> allEnemyUnits, List<Cell>[] enemyReachableCells, Cell reachableCell)

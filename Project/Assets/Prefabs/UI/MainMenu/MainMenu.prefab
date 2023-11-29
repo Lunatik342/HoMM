@@ -457,7 +457,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fe101dd34aac8c5499de9b1a81c7e416, type: 3}
   - {fileID: 21300000, guid: 9ea99f3ce71fdc04b850b6cf4fac3c3c, type: 3}
   _delaysBetweenSpriteSwapInMilliSecs: 7000
-  _startGameButton: {fileID: 6133382298410907463}
+  _startGameFun: {fileID: 6133382298410907463}
+  _startGameNormal: {fileID: 5322660835554634580}
+  _startGameHard: {fileID: 2067463969870018371}
 --- !u!1 &7130777013262049329
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,12 +546,17 @@ PrefabInstance:
     - target: {fileID: 770310012493779070, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
       propertyPath: m_text
-      value: Just a button
+      value: Quick game [Test2]
+      objectReference: {fileID: 0}
+    - target: {fileID: 770310012493779070, guid: f4ea6bff820b8544ab5fa980304b84e8,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5111534873942766859, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
       propertyPath: m_Name
-      value: EmptyButton2
+      value: StartHardGame
       objectReference: {fileID: 0}
     - target: {fileID: 7432993947850111699, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
@@ -656,6 +663,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4ea6bff820b8544ab5fa980304b84e8, type: 3}
+--- !u!114 &2067463969870018371 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4315279084932776258, guid: f4ea6bff820b8544ab5fa980304b84e8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2833864708876023297}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4644517904139275474 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7432993947850111699, guid: f4ea6bff820b8544ab5fa980304b84e8,
@@ -799,10 +818,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8828169730333128390}
     m_Modifications:
+    - target: {fileID: 770310012493779070, guid: f4ea6bff820b8544ab5fa980304b84e8,
+        type: 3}
+      propertyPath: m_text
+      value: Quick game [Fun]
+      objectReference: {fileID: 0}
+    - target: {fileID: 770310012493779070, guid: f4ea6bff820b8544ab5fa980304b84e8,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 43.65
+      objectReference: {fileID: 0}
     - target: {fileID: 5111534873942766859, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
       propertyPath: m_Name
-      value: StartGameButton
+      value: StartFunGameButton
       objectReference: {fileID: 0}
     - target: {fileID: 7432993947850111699, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
@@ -938,12 +967,17 @@ PrefabInstance:
     - target: {fileID: 770310012493779070, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
       propertyPath: m_text
-      value: Do nothing
+      value: Quick game [Test1]
+      objectReference: {fileID: 0}
+    - target: {fileID: 770310012493779070, guid: f4ea6bff820b8544ab5fa980304b84e8,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40.85
       objectReference: {fileID: 0}
     - target: {fileID: 5111534873942766859, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
       propertyPath: m_Name
-      value: EmptyButton1
+      value: StartNormalGameBattle
       objectReference: {fileID: 0}
     - target: {fileID: 7432993947850111699, guid: f4ea6bff820b8544ab5fa980304b84e8,
         type: 3}
@@ -1056,3 +1090,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8232316934763932182}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5322660835554634580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4315279084932776258, guid: f4ea6bff820b8544ab5fa980304b84e8,
+    type: 3}
+  m_PrefabInstance: {fileID: 8232316934763932182}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -10,6 +10,7 @@ namespace Algorithms.RogueSharp
    {
       int X { get; set; }
       int Y { get; set; }
+      public Vector2Int GridPosition { get; }
 
       bool IsWalkableByUnit(Unit placeableEntity);
       public bool CanPlaceUnit(Unit placeableEntity);

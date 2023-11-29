@@ -1,6 +1,7 @@
 using Infrastructure.AssetManagement;
 using Infrastructure.GlobalStateMachine;
 using Infrastructure.SimpleStateMachine;
+using UI.MainMenu;
 using UISystem;
 using UnityEngine;
 using Zenject;
@@ -23,6 +24,8 @@ namespace Infrastructure.Installers
             
             Container.Bind<GameStateMachine>().AsSingle();
             Container.Bind<StatesFactory>().AsSingle();
+            
+            Container.Bind<BattleStartParametersProvider>().AsSingle();
         }
     }
 }

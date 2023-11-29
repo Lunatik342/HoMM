@@ -17,8 +17,8 @@ namespace Battle.DamageCalculation
             var rawDamage = attackingUnit.Attack.GetMinMaxRawDamageForUnitPack();
 
             var finalDamage = new MinMaxValue(
-                _damageCalculator.MultiplyRawDamageByModifiers(attackedUnit, attackedUnit, rawDamage.Min),
-                _damageCalculator.MultiplyRawDamageByModifiers(attackedUnit, attackedUnit, rawDamage.Max));
+                _damageCalculator.MultiplyRawDamageByModifiers(attackingUnit, attackedUnit, rawDamage.Min),
+                _damageCalculator.MultiplyRawDamageByModifiers(attackingUnit, attackedUnit, rawDamage.Max));
             
             var (_, unitsDiedMin) = attackedUnit.Health.GetCasualtiesCountForDamage(finalDamage.Min);
             var (_, unitsDiedMax) = attackedUnit.Health.GetCasualtiesCountForDamage(finalDamage.Max);
