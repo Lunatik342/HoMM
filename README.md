@@ -1,4 +1,5 @@
 Heroes of Might and Magic inspired game on Unity. For now, it has only basic mechanics like moving on the grid, attacking in melee, stats, retaliation, etc.
+This project was created to test new ideas, architectural approaches and libraries.
 
 Gameplay video: https://www.youtube.com/watch?v=e-j9Gy0D7dU
 
